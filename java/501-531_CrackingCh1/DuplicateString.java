@@ -109,7 +109,7 @@ class DuplicateString{
 	{
 		String[] a={"abcd","aaa", "a", null, "", "aaabbbcccd", "abccbaicbaabcd"};
 		String b="";
-		for(int i=0;i<50;i++)
+		for(int i=0;i<150;i++)
 			b+="abccbaicbaabcd";
 		
 		for(String item: a)
