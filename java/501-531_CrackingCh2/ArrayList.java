@@ -1,6 +1,16 @@
+/**
+ * 线性数组List的实现
+ *
+ * @author xmtsui
+ * @version v1.0
+ */
 import java.util.Arrays;
 class ArrayList<E> extends AbstractList<E> implements List<E>{
+	
+	//List元素存储缓存，大小为其容量
 	private transient Object[] elementData;
+	
+	//List元素个数
 	private int size;
 
     /**
@@ -30,59 +40,32 @@ class ArrayList<E> extends AbstractList<E> implements List<E>{
 	/**
      * Constructs an empty list with an initial capacity of ten.
      */
-    public ArrayList() {
-        this(10);
-    }
+	public ArrayList() {
+		this(10);
+	}
 
+
+	//Query operations
+	
 	public int size(){
 		return size;
 	}
-
-	//inherit from AbstractCollection
+	
+	//AbstractCollection中实现
+	//boolean isEmpty();
+	
 	public boolean contains(Object o){
 		return indexOf(o) >= 0;
 	}
+    //Iterator<E> iterator();
+    //Object[] toArray();
 
-	E elementData(int index){
-		return (E) elementData[index];
-	}
 
-    private void rangeCheck(int index) {
-        if (index > size || index < 0)
-            throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
-    }
-
-    private void ensureCapacityInternal(int minCapacity){
-    	if(minCapacity - elementData.length > 0)
-    		elementData = Arrays.copyOf(elementData, minCapacity);
-    }
-
-    private void grow(int minCapacity){
-    	int oldCapacity = elementData.length;
-    	int newCapacity = oldCapacity + (oldCapacity>>1);
-    	if(newCapacity - minCapacity < 0)
-    		newCapacity = minCapacity;
-    	if(newCapacity - MAX_ARRAY_SIZE > 0)
-    		newCapacity = hugeCapacity(minCapacity);
-    	// minCapacity is usually close to size, so this is a win:
-        elementData = Arrays.copyOf(elementData, newCapacity);
-    }
-
-    private static int hugeCapacity(int minCapacity) {
-        if (minCapacity < 0) // overflow
-            throw new OutOfMemoryError();
-        return (minCapacity > MAX_ARRAY_SIZE) ?
-            Integer.MAX_VALUE :
-            MAX_ARRAY_SIZE;
-    }
-
-    //collection oper
-	// public boolean add(E e){
-	// 	ensureCapacityInternal(size+1);
-	// 	elementData[size++] = e;
-	// 	return true;
-	// }
-
+	//Modification Operations
+	
+	//AbstractList中实现
+	//public boolean add(E e)
+	
 	public boolean remove(Object o){
 		if(o == null){
 			for(int index=0; index<size; index++)
@@ -90,22 +73,27 @@ class ArrayList<E> extends AbstractList<E> implements List<E>{
 					fastRemove(index);
 					return true;
 				}
-		}
-		else {
-			for(int index=0; index<size; index++)
-				if(o.equals(elementData[index])){
-					fastRemove(index);
-					return true;
+			}
+			else {
+				for(int index=0; index<size; index++)
+					if(o.equals(elementData[index])){
+						fastRemove(index);
+						return true;
+					}
 				}
-		}
-		return false;
-	}
+				return false;
+			}
 
-	public void fastRemove(int index){
-		System.arraycopy(elementData, index+1, elementData, index, size-index-1);
+			private void fastRemove(int index){
+				System.arraycopy(elementData, index+1, elementData, index, size-index-1);
 		elementData[--size] = null;//let gc works
 	}
 
+ 	//Bulk operations
+    //boolean containsAll(Collection<?> c);
+    //boolean addAll(Collection<? extends E> c);
+    //boolean removeAll(Collection<?> c);
+    //boolean retainAll(Collection<?> c);
 	public void clear(){
 		for(int i=0; i<size; i++)
 		{
@@ -114,61 +102,107 @@ class ArrayList<E> extends AbstractList<E> implements List<E>{
 		size = 0;
 	}
 
-	//List oper
-	public void add(int index, E element){
-		rangeCheck(index);
-		ensureCapacityInternal(size+1);
-		System.arraycopy(elementData, index, elementData, index+1, size-index);
-		elementData[index] = element;
-		size++;
+	//Compare and hashing
+
+    //boolean equals(Object o);
+    //int hashCode();
+
+
+	//implements from List
+
+	//private use
+	private E elementData(int index){
+		return (E) elementData[index];
 	}
 
-	public E remove(int index){
-		rangeCheck(index);
-		E oldValue = elementData(index);
-		System.arraycopy(elementData, index+1, elementData, index, size-index-1);
-		elementData[--size] = null;
-		return oldValue;
+	private void rangeCheck(int index) {
+		if (index > size || index < 0)
+			throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
 	}
 
+	private void ensureCapacityInternal(int minCapacity){
+		if(minCapacity - elementData.length > 0)
+			elementData = Arrays.copyOf(elementData, minCapacity);
+	}
+
+	private void grow(int minCapacity){
+		int oldCapacity = elementData.length;
+		int newCapacity = oldCapacity + (oldCapacity>>1);
+		if(newCapacity - minCapacity < 0)
+			newCapacity = minCapacity;
+		if(newCapacity - MAX_ARRAY_SIZE > 0)
+			newCapacity = hugeCapacity(minCapacity);
+    	// minCapacity is usually close to size, so this is a win:
+		elementData = Arrays.copyOf(elementData, newCapacity);
+	}
+
+    //why static ?? private static int hugeCapacity(int minCapacity)
+	private int hugeCapacity(int minCapacity) {
+        if (minCapacity < 0) // overflow
+        throw new OutOfMemoryError();
+        return (minCapacity > MAX_ARRAY_SIZE) ?
+        Integer.MAX_VALUE :
+        MAX_ARRAY_SIZE;
+    }
+
+	//Positional Access Operations
 	public E get(int index){
-		rangeCheck(index);
-		return elementData(index);
-	}
-	public E set(int index, E element){
-		rangeCheck(index);
-		E oldValue = elementData(index);
-		elementData[index] = element;
-		return oldValue;
-	}
-	public int indexOf(Object o){
-		if(o==null){
-			for(int i=0; i<size; i++){
-				if(elementData[i] == null)
-					return i;
-			}
-		}
-		else{
-			for(int i=0; i<size; i++){
-				if(o.equals(elementData[i]))
-					return i;
-			}
-		}
-		return -1;
-	}
-	public int lastIndexOf(Object o){
-		if(o==null){
-			for(int i=size-1; i>=0; i--){
-				if(elementData[i] == null)
-					return i;
-			}
-		}
-		else{
-			for(int i=size-1; i>=0; i--){
-				if(o.equals(elementData[i]))
-					return i;
-			}
-		}
-		return -1;
-	}
+    	rangeCheck(index);
+    	return elementData(index);
+    }
+    
+    public E set(int index, E element){
+    	rangeCheck(index);
+    	E oldValue = elementData(index);
+    	elementData[index] = element;
+    	return oldValue;
+    }
+    
+    public void add(int index, E element){
+    	rangeCheck(index);
+    	ensureCapacityInternal(size+1);
+    	System.arraycopy(elementData, index, elementData, index+1, size-index);
+    	elementData[index] = element;
+    	size++;
+    }
+
+    public E remove(int index){
+    	rangeCheck(index);
+    	E oldValue = elementData(index);
+    	System.arraycopy(elementData, index+1, elementData, index, size-index-1);
+    	elementData[--size] = null;
+    	return oldValue;
+    }
+ 
+ 	//Search Operations
+    public int indexOf(Object o){
+    	if(o==null){
+    		for(int i=0; i<size; i++){
+    			if(elementData[i] == null)
+    				return i;
+    		}
+    	}
+    	else{
+    		for(int i=0; i<size; i++){
+    			if(o.equals(elementData[i]))
+    				return i;
+    		}
+    	}
+    	return -1;
+    }
+    public int lastIndexOf(Object o){
+    	if(o==null){
+    		for(int i=size-1; i>=0; i--){
+    			if(elementData[i] == null)
+    				return i;
+    		}
+    	}
+    	else{
+    		for(int i=size-1; i>=0; i--){
+    			if(o.equals(elementData[i]))
+    				return i;
+    		}
+    	}
+    	return -1;
+    }
 }

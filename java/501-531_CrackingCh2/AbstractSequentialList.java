@@ -1,10 +1,10 @@
 /**
- * List接口的大概实现框架
+ *
  * @author xmtsui
  * @version v1.0
  */
-abstract class AbstractList<E> extends AbstractCollection<E> implements List<E>{
-	protected AbstractList(){
+abstract class AbstractSequentialList<E> extends AbstractList<E> implements List<E>{
+	protected AbstractSequentialList(){
 	}
 
 	//Query operations
@@ -18,11 +18,7 @@ abstract class AbstractList<E> extends AbstractCollection<E> implements List<E>{
 	
     //Modification Operations
 	
-	public boolean add(E e)
-	{
-		add(size(), e);
-		return true;
-	}
+	public abstract boolean add(E e);
 	public abstract boolean remove(Object o);
 
     //Bulk operations
@@ -109,4 +105,5 @@ abstract class AbstractList<E> extends AbstractCollection<E> implements List<E>{
      *         this list, or -1 if this list does not contain the element
      */
     public abstract int lastIndexOf(Object o);
+
 }
