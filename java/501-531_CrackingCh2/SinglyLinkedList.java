@@ -14,8 +14,15 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 	public SinglyLinkedList(){
 	}
 
+	public SinglyLinkedList(E[] element)
+	{
+		int num = element.length;
+		for(int i=0; i<num; ++i)
+		{
+			add(element[i]);
+		}
+	}
 	//Query operations
-	
 	public int size(){
 		return size;
 	}
@@ -125,7 +132,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
      */
     public E get(int index){
     	if(index<0 || index>=size)//可以是0到size-1
-    	throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
+    		throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
     	Node<E> n = head;
     	for(int i=0; i<index; i++)
     	{
@@ -240,7 +247,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
     }
 
 	//结点定义,注意分析static的意义，区分内部类，嵌套类
-    private static class Node<E> {
+    static class Node<E> {
     	E item;
     	Node<E> next;
 
