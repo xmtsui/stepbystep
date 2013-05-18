@@ -63,6 +63,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 
 	/**
 	 * Removes the first occurrence of the specified element from this list
+	 * 注意考虑首尾节点的特殊处理
 	 * @param  o
 	 * @return true if removed
 	 */
@@ -76,7 +77,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 				size--;
 				return true;
 			}
-			for(Node<E> n=head; n!=null; n=n.next){
+			for(Node<E> n=head; n.next!=null; n=n.next){
 				if(n.next.item == null){
 					n.next = n.next.next;
 					size--;
@@ -91,7 +92,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 				size--;
 				return true;
 			}
-			for(Node<E> n=head; n!=null; n=n.next){
+			for(Node<E> n=head; n.next!=null; n=n.next){
 				if(o.equals(n.next.item)){
 					n.next = n.next.next;
 					size--;
