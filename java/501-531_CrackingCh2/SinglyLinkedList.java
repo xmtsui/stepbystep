@@ -246,6 +246,19 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
     	return -2;
     }
 
+    /**
+     * 临时代替iterator来遍历
+     */
+    public void doTraverse(){
+		int len = size();
+		System.out.print("The SinglyLinkedList is: [ ");
+		for(int i=0; i<len; ++i)
+		{
+			System.out.print(get(i) + " ");
+		}
+		System.out.print("]\n");
+	}
+
 	//结点定义,注意分析static的意义，区分内部类，嵌套类
     static class Node<E> {
     	E item;
