@@ -9,5 +9,5 @@
  * @version v1.0
  */
 class _2.3_DeleteANode{
-
+	
 }
