@@ -8,7 +8,7 @@
  * @version v1.0
  */
 import java.util.HashMap;
-class DuplicateObjsInString{
+class _2.1_DuplicateObjsInList{
 
 	/**
 	 * For simplicity, assume char set is ASCII

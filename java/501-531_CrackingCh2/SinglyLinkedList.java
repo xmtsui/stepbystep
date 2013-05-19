@@ -22,6 +22,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 			add(element[i]);
 		}
 	}
+	
 	//Query operations
 	public int size(){
 		return size;
@@ -42,11 +43,15 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 	
     //Modification Operations
 
-	//insert behind last
-	public boolean add(E e){
+	/**
+	 * 根据元素新建一个node，再插入
+	 * @param  element [description]
+	 * @return true if added
+	 */
+	public boolean add(E element){
 		if(head == null)
 		{
-			head = new Node<E>(e, null);
+			head = new Node<E>(element, null);
 			size++;
 		}
 		else
@@ -54,7 +59,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 			Node<E> tmp = head;
 			while(tmp.next != null)
 				tmp=tmp.next;
-			Node<E> newNode = new Node<E>(e, null);
+			Node<E> newNode = new Node<E>(element, null);
 			tmp.next = newNode;//插在最后
 			size++;
 		}
@@ -63,7 +68,9 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 
 	/**
 	 * Removes the first occurrence of the specified element from this list
+	 * 根据node的元素内容来删除
 	 * 注意考虑首尾节点的特殊处理
+	 * for循环里面注意尾节点判断n.next!=null，而不是n
 	 * @param  o
 	 * @return true if removed
 	 */
@@ -125,15 +132,15 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
     //boolean equals(Object o);
     //int hashCode();
 	
-	//implements from List
+	//implements from interface List
 	//Positional Access Operations
 
     /**
      * 获取index位置的值
      */
     public E get(int index){
-    	if(index<0 || index>=size)//可以是0到size-1
-    		throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
+    	if(index<0 || index>=size)//可以是0到size-1，>=0 || <size可以
+    	throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
     	Node<E> n = head;
     	for(int i=0; i<index; i++)
     	{
@@ -146,7 +153,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
      * 改变Index位置的值，并返回之前的值
      */
     public E set(int index, E element){
-    	if(index<0 || index>=size)//可以是0到size-1
+    	if(index<0 || index>=size)//可以是0到size-1，>=0 || <size可以
     	throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
     	Node<E> n = head;
     	for(int i=0; i<index; i++)
@@ -160,10 +167,11 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 
     /**
      * 在index前插入新结点
+     * 如果是0,需要对head单独处理
      */
     public void add(int index, E element){
-    	if(index<0 || index>size)
-    		throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
+    	if(index<0 || index>size)//可以是0到size,唯一一个可以以size作为index的。>=0 || <=size可以
+    	throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
     	Node<E> n = head;
     	if(head == null)//第一个结点
     	{
@@ -172,7 +180,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
     	}
     	else
     	{
-    		if(index == 0)
+    		if(index == 0)//头节点单独处理
     		{
     			Node<E> newNode = new Node<E>(element, n);
     			head = newNode;
@@ -180,7 +188,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
     		}
     		else
     		{
-    			for(int i=0; i<index; i++)
+    			for(int i=0; i<index-1; i++)
     			{
     				n = n.next;
     			}
@@ -195,20 +203,38 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
      * 删除index处的结点
      */
 	public E remove(int index){
-		if(index<0 || index>size)
-			throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
+		if(index<0 || index>=size)//可以是0到size-1，>=0 || <size可以
+		throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
 		if(head == null)
 			return null;
-		//定位到index-1
-		Node<E> tmp = head;
-		for(int i=0; i<index-1; i++)
+		//定位到index,所有的index都从0开始
+		Node<E> pre = head;
+		Node<E> current = head;
+
+		//后来添加的，注意remove头节点的单独处理
+		if(index == 0)
 		{
-			tmp = tmp.next;
+			head = head.next;
+			E oldValue = pre.item;
+			pre.item = null;
+			pre.next = null;
+			size--;
+			return oldValue;
 		}
-		E oldValue = tmp.item;
-		tmp.next = tmp.next.next;
-		size--;
-		return oldValue;
+		else
+		{
+			for(int i=0; i<index; i++)
+			{
+				pre = current;
+				current = current.next;
+			}
+			E oldValue = current.item;
+			pre.next = current.next;
+			current.item=null;
+			current.next=null;
+			size--;
+			return oldValue;
+		}
 	}
 
 	//Search Operations
@@ -247,20 +273,8 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
     	return -2;
     }
 
-    /**
-     * 临时代替iterator来遍历
-     */
-    public void doTraverse(){
-		int len = size();
-		System.out.print("The SinglyLinkedList is: [ ");
-		for(int i=0; i<len; ++i)
-		{
-			System.out.print(get(i) + " ");
-		}
-		System.out.print("]\n");
-	}
-
 	//结点定义,注意分析static的意义，区分内部类，嵌套类
+	//private static class Node<E>
     static class Node<E> {
     	E item;
     	Node<E> next;
@@ -270,4 +284,34 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
     		this.next = next;
     	}
     }
+    
+    //自己新加的方法，方便测试
+    
+    /**
+     * 临时代替iterator来遍历
+     */
+    public void doTraverse(){
+    	int len = size();
+    	System.out.print("The list is: { ");
+    	for(int i=0; i<len; ++i)
+    	{
+    		System.out.print(+ i + "[" + get(i) + "] ");
+    	}
+    	System.out.print("}\n");
+    }
+
+	/**
+	 * 获取某个index的节点
+	 */
+	public Node<E> getNode(int index)
+	{
+		if(index<0 || index>size)
+			throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
+		Node<E> runner = head;
+		for(int i=0; i<index; ++i)
+		{
+			runner = runner.next;
+		}
+		return runner;
+	}
 }
