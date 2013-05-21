@@ -4,7 +4,7 @@
  * @author xmtsui
  * @version v1.0
  */
-class _2.2_TheNth2Last{
+class _2_2_TheNth2Last{
 	static void doFind(SinglyLinkedList s, int theNth)
 	{
 		if(s == null)

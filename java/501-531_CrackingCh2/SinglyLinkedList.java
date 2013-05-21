@@ -86,7 +86,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 			}
 			for(Node<E> n=head; n.next!=null; n=n.next){
 				if(n.next.item == null){
-					n.next = n.next.next;
+					n.next = n.next.next;//跳过一个节点
 					size--;
 					return true;
 				}
@@ -101,7 +101,7 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 			}
 			for(Node<E> n=head; n.next!=null; n=n.next){
 				if(o.equals(n.next.item)){
-					n.next = n.next.next;
+					n.next = n.next.next;//跳过一个节点
 					size--;
 					return true;
 				}
