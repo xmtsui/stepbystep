@@ -11,7 +11,7 @@
  * @author tsui
  *
  */
-class DuplicateString{
+class DuplicateCharsInString{
 
 	/**
 	 * Assume all ascii
@@ -28,7 +28,7 @@ class DuplicateString{
 		for(int i=0; i<len; i++)
 		{
 			int tmp = str.charAt(i) - 'A';
-			if(i>=1 && (checker & (1<<tmp)) > 0)
+			if(i>=1 && (checker & (1l<<tmp)) > 0)
 			{
 				//str = str.replace(str.charAt(i), '\0'); //this is wrong, replace all
 				//str = str.substring(0,i-1)+str.substring(i+1, len);//substring is from begin to end-1
@@ -36,7 +36,7 @@ class DuplicateString{
 				len = str.length();
 			    i--;//redo from present index;
 			}
-			checker |= (1<<tmp);
+			checker |= (1l<<tmp);
 		}
 		return str;
 	}
@@ -92,11 +92,11 @@ class DuplicateString{
 		for(int i=0; i<len; i++)
 		{
 			int tmp = ch[i] - 'A';
-			if((checker & (1<<tmp))>0)
+			if((checker & (1l<<tmp))>0)
 			{
 				ch[i]=0;
 			}
-			checker |= (1<<tmp);
+			checker |= (1l<<tmp);
 		}
 		return new String(ch);
 	}
