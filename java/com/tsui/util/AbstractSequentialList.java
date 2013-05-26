@@ -1,3 +1,4 @@
+package com.tsui.util;
 /**
  *
  * @author xmtsui

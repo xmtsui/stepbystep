@@ -8,8 +8,9 @@
  * @author xmtsui
  * @version v1.0
  */
+import com.tsui.util.SinglyLinkedList;
 class _2_3_DeleteANode{
-	static boolean doDelete(SinglyLinkedList list,SinglyLinkedList.Node<Character> node)
+	static boolean doDelete(SinglyLinkedList list, SinglyLinkedList.Node<Character> node)
 	{
 		if(node == null)
 		{
@@ -18,13 +19,13 @@ class _2_3_DeleteANode{
 		if(node.next == null)
 		{
 			node = null;
-			list.size--;
+			list.decreaseSize(); 
 			return true;
 		}
 		SinglyLinkedList.Node<Character> tmp = node.next;
 		node.item = tmp.item;
 		node.next = tmp.next;
-		list.size--;
+		list.decreaseSize(); 
 		return true;
 	}
 
@@ -34,12 +35,13 @@ class _2_3_DeleteANode{
 		Character[] ch = {'A','B','C','D','E',null,null,'A'};
 		SinglyLinkedList<Character> list = new SinglyLinkedList<Character>(ch);
 		SinglyLinkedList.Node<Character> node = list.getNode(6);
-		// System.out.println(node.item + node.next.item); // not work
-		System.out.println(node.item);// work
-		System.out.println(node.next.item);// work
 		list.doTraverse();
 		doDelete(list,node);
 		list.doTraverse();
+		
+		// System.out.println(node.item + node.next.item); // not work
+		System.out.println(node.item);// work
+		System.out.println(node.next.item);// work
 	}
 	
 }

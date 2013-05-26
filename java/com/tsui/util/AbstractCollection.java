@@ -1,3 +1,4 @@
+package com.tsui.util;
 /**
  * 集合抽象类
  * @author xmtsui

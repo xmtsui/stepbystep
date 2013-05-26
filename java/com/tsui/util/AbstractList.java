@@ -1,3 +1,4 @@
+package com.tsui.util;
 /**
  * List接口的大概实现框架
  * @author xmtsui

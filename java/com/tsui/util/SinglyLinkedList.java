@@ -1,15 +1,16 @@
+package com.tsui.util;
 /**
  * 单链表 带头结点 基本功能实现
  * @author xmtsui
  * @version v1.0
  */
-class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
+public class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 
 	//元素个数
-	transient int size = 0;
+	private transient int size = 0;
 	
 	//头结点
-	transient Node<E> head;
+	private transient Node<E> head;
 
 	public SinglyLinkedList(){
 	}
@@ -275,11 +276,11 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 
 	//结点定义,注意分析static的意义，区分内部类，嵌套类
 	//private static class Node<E>
-    static class Node<E> {
-    	E item;
-    	Node<E> next;
+    public static class Node<E> {
+    	public E item;
+    	public Node<E> next;
 
-    	Node(E element, Node<E> next) {
+    	public Node(E element, Node<E> next) {
     		this.item = element;
     		this.next = next;
     	}
@@ -313,5 +314,19 @@ class SinglyLinkedList<E> extends AbstractSequentialList<E> implements List<E>{
 			runner = runner.next;
 		}
 		return runner;
+	}
+
+	/**
+	 * 删除节点后，size-1
+	 */
+	public void decreaseSize()
+	{
+		if(size>0)
+			size--;
+	}
+
+	public Node<E> getHead()
+	{
+		return head;
 	}
 }

@@ -1,3 +1,4 @@
+package com.tsui.util;
 /**
  * 定义List的标准操作
  * @author xmtsui

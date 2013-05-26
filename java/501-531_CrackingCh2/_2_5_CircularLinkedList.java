@@ -12,7 +12,8 @@
  * @author xmtsui
  * @version v1.0
  */
-class CircularLinkedList{
+import com.tsui.util.SinglyLinkedList;
+class _2_5_CircularLinkedList{
 	static SinglyLinkedList.Node<Character> doFind(SinglyLinkedList<Character> l)
 	{
 		return null;

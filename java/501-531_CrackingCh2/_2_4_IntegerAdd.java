@@ -11,15 +11,16 @@
  * @author xmtsui
  * @version v1.0
  */
+import com.tsui.util.SinglyLinkedList;
 class _2_4_IntegerAdd{
 	static SinglyLinkedList<Integer> doAdd(SinglyLinkedList<Integer> l1, 
 		SinglyLinkedList<Integer> l2)
 	{
 		int len = l1.size()>l2.size()?l1.size():l2.size();
 		SinglyLinkedList<Integer> sum = new SinglyLinkedList<Integer>(new Integer[len]);
-		SinglyLinkedList.Node<Integer> runner1 = l1.head;
-		SinglyLinkedList.Node<Integer> runner2 = l2.head;
-		SinglyLinkedList.Node<Integer> runner_sum = sum.head;
+		SinglyLinkedList.Node<Integer> runner1 = l1.getHead();
+		SinglyLinkedList.Node<Integer> runner2 = l2.getHead();
+		SinglyLinkedList.Node<Integer> runner_sum = sum.getHead();
 		boolean flag=false;
 		int c = 0;
 		while(runner1 != null && runner2 != null)
@@ -128,7 +129,7 @@ class _2_4_IntegerAdd{
 		SinglyLinkedList<Integer> l1 = new SinglyLinkedList<Integer>(it1);
 		SinglyLinkedList<Integer> l2 = new SinglyLinkedList<Integer>(it2);
 		SinglyLinkedList<Integer> sum = doAdd(l1, l2);
-		SinglyLinkedList.Node<Integer> sum1 = doAdd1(l1.head, l2.head, 0);
+		SinglyLinkedList.Node<Integer> sum1 = doAdd1(l1.getHead(), l2.getHead(), 0);
 		l1.doTraverse();
 		l2.doTraverse();
 		sum.doTraverse();
@@ -153,7 +154,7 @@ class _2_4_IntegerAdd{
 		long time1=end1-start1;
 
 		long start2=System.currentTimeMillis();
-		doAdd1(l.head,l.head,0);
+		doAdd1(l.getHead(),l.getHead(),0);
 		long end2=System.currentTimeMillis();
 		long time2=end2-start2;
 

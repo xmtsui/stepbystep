@@ -1,3 +1,4 @@
+package com.tsui.util;
 /**
  * 集合接口
  * @author xmtsui

@@ -1,3 +1,4 @@
+package com.tsui.util;
 /**
  * 线性数组List的实现
  *
@@ -111,6 +112,7 @@ class ArrayList<E> extends AbstractList<E> implements List<E>{
 	//implements from List
 
 	//private use
+	@SuppressWarnings("unchecked")
 	private E elementData(int index){
 		return (E) elementData[index];
 	}

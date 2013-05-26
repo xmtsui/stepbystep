@@ -8,6 +8,7 @@
  * @version v1.0
  */
 import java.util.HashMap;
+import com.tsui.util.SinglyLinkedList;
 class _2_1_DuplicateObjsInList{
 
 	/**
@@ -23,7 +24,7 @@ class _2_1_DuplicateObjsInList{
 		boolean[] check = new boolean[256];
 
 		SinglyLinkedList.Node<Character> pre = null;
-		SinglyLinkedList.Node<Character> node = s.head;
+		SinglyLinkedList.Node<Character> node = s.getHead();
 		while(node!=null)
 		{
 			if(node.item == null)
@@ -34,7 +35,7 @@ class _2_1_DuplicateObjsInList{
 			if(check[node.item])
 			{
 				pre.next = node.next;
-				s.size--; 
+				s.decreaseSize(); 
 			}
 			else//else 可以节省运算次数
 			check[node.item] = true;
@@ -50,13 +51,13 @@ class _2_1_DuplicateObjsInList{
 	{
 		HashMap<Character,Boolean> map = new HashMap<Character,Boolean>();
 		SinglyLinkedList.Node<Character> pre = null;
-		SinglyLinkedList.Node<Character> node = s.head;
+		SinglyLinkedList.Node<Character> node = s.getHead();
 		while(node!=null)
 		{
 			if(map.containsKey(node.item))
 			{
 				pre.next = node.next;
-				s.size--;
+				s.decreaseSize(); 
 			}
 			else
 			{
@@ -75,18 +76,18 @@ class _2_1_DuplicateObjsInList{
 		SinglyLinkedList.Node<Character> pre = null;
 		SinglyLinkedList.Node<Character> current = null;
 		SinglyLinkedList.Node<Character> runner = null;
-		pre = s.head;
-		current = s.head.next;
+		pre = s.getHead();
+		current = pre.next;
 		while(current != null)
 		{	
-			runner = s.head;
+			runner = s.getHead();
 			while(runner != current)
 			{
 				if(runner.item == current.item)
 				{
 					pre.next = current.next;
 					current = current.next;
-					s.size--;
+					s.decreaseSize(); 
 					break;
 				}
 				runner = runner.next;

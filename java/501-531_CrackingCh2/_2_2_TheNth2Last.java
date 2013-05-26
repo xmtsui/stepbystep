@@ -4,6 +4,7 @@
  * @author xmtsui
  * @version v1.0
  */
+import com.tsui.util.SinglyLinkedList;
 class _2_2_TheNth2Last{
 	static void doFind(SinglyLinkedList s, int theNth)
 	{
@@ -17,8 +18,8 @@ class _2_2_TheNth2Last{
 			System.out.println("Error2: Index outofbounds!");
 			return;
 		}
-		SinglyLinkedList.Node runner1 = s.head;
-		SinglyLinkedList.Node runner2 = s.head;
+		SinglyLinkedList.Node runner1 = s.getHead();
+		SinglyLinkedList.Node runner2 = s.getHead();
 		for(int i=0; i<theNth; ++i)
 		{
 			runner2 = runner2.next;
