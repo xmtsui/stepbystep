@@ -1,6 +1,7 @@
 package com.tsui.util;
 /**
- *
+ * 用于List接口的最大程度实现
+ * 减少实现顺序访问数据存储结构（比如链表）的工作量
  * @author xmtsui
  * @version v1.0
  */
