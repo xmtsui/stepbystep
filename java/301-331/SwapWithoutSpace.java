@@ -2,9 +2,9 @@ class SwapWithoutSpace{
 	public static void main(String[] args)
 	{
 		char a = 'a';
-		char b = 'b';
+		char b = 'a';
 		System.out.println("a: " + a + " | b: " + b);
-		//异或方法
+		//异或方法，不能交换自身
 		// a ^= b;
 		// b ^= a;
 		// a ^= b;
