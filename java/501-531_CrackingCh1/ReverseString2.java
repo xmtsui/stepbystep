@@ -40,6 +40,6 @@ class ReverseString2{
 		char[] t_ch = tt.toCharArray();
 		doReverse(t_ch);
 		System.out.println(new String(t_ch));
-		// System.out.println(doReverse1(t_ch));
+		//System.out.println(doReverse1(t_ch));
 	}
 }
