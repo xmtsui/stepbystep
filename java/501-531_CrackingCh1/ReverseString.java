@@ -55,7 +55,7 @@ class ReverseString{
 
 	public static void main(String[] args)
 	{
-		String a = "abcdefg";
+		String a = "abcdefg你好电子科技大学";
 		System.out.println("String '" + a + "' reverse to be: " + doReverse(a));
 		// System.out.println("String '" + a + "' reverse to be: " + doReverse1(a));
 		// System.out.println("String '" + a + "' reverse to be: " + doReverse2(a));
