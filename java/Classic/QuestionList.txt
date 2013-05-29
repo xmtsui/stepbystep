@@ -1,0 +1,6 @@
+1: Towers of Hanoi
+2: Three color flag三色旗
+3: Dynamic programming: 背包
+4: 求质数Eratosthenes Sieve Method
+5: 闰年
+6: 星期几计算
