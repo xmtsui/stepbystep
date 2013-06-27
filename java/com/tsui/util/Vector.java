@@ -6,7 +6,13 @@ package com.tsui.util;
  * @version v1.0
  */
 public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess {
-	protected Vector(){
+
+    /**
+     * 存储结构
+     */
+    protected Object[] elementData;
+	
+    protected Vector(){
 	}
 
 	//Query operations
