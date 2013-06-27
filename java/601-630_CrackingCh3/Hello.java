@@ -1,4 +1,5 @@
 /**
+ * 测试跨包编译
  * 先编译好库
  * 再跨包编译
  * javac -cp [directory/jar/zip] xx.java

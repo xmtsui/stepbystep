@@ -25,6 +25,8 @@ class String2Int{
 		{
 			str = str.replace("+", "");
 			str = str.trim();
+			//str变化之后，matcher1没有变，需要重新生成一个matcher
+			//注意此处不能使用matcher1
 			Matcher matcher2 = p1.matcher(str);
 			matcher2.find();
 			int start = matcher2.start();

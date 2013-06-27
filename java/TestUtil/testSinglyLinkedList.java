@@ -1,5 +1,10 @@
-package com.tsui.util;
-public class Main{
+import com.tsui.util.SinglyLinkedList;
+/**
+ * 测试单链表
+ * @author xmtsui
+ * @version v1.0
+ */
+public class testSinglyLinkedList{
 	public static void main(String[] args)
 	{
 		// ArrayList<String> al = new ArrayList();

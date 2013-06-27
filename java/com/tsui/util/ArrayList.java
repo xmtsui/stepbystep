@@ -66,7 +66,6 @@ class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<E>{
 	
 	//AbstractList中实现
 	//public boolean add(E e)
-	
 	public boolean remove(Object o){
 		if(o == null){
 			for(int index=0; index<size; index++)
@@ -85,8 +84,10 @@ class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<E>{
 				return false;
 			}
 
-			private void fastRemove(int index){
-				System.arraycopy(elementData, index+1, elementData, index, size-index-1);
+	private void fastRemove(int index){
+		int numMoved = size - index - 1;
+        if (numMoved > 0)
+			System.arraycopy(elementData, index+1, elementData, index, size-index-1);
 		elementData[--size] = null;//let gc works
 	}
 
@@ -138,7 +139,8 @@ class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<E>{
 		elementData = Arrays.copyOf(elementData, newCapacity);
 	}
 
-    //why static ?? private static int hugeCapacity(int minCapacity)
+    //why static ?? 
+    //private static int hugeCapacity(int minCapacity)
 	private int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) // overflow
         throw new OutOfMemoryError();
@@ -171,7 +173,10 @@ class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<E>{
     public E remove(int index){
     	rangeCheck(index);
     	E oldValue = elementData(index);
-    	System.arraycopy(elementData, index+1, elementData, index, size-index-1);
+    	
+    	int numMoved = size - index - 1;
+        if (numMoved > 0)
+    		System.arraycopy(elementData, index+1, elementData, index, size-index-1);
     	elementData[--size] = null;
     	return oldValue;
     }

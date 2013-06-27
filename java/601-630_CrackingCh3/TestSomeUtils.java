@@ -20,7 +20,7 @@ class TestSomeUtils{
 		Vector<Integer> v = new Vector<Integer>();
 		for(int i=0; i<1; i++)
 			v.addElement(0);
-
+		
 		Iterator itr1 = v.iterator();
 		while(itr1.hasNext())
 			System.out.println(itr1.next());
