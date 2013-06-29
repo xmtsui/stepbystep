@@ -6,8 +6,8 @@ package com.tsui.util;
  * @version v1.0
  */
 import java.util.EmptyStackException;
-public class Stack<E> extends Vector<E>{
-	public Stack()
+public class ArrayStack<E> extends Vector<E>{
+	public ArrayStack()
 	{
 
 	}

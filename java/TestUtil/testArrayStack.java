@@ -1,13 +1,13 @@
-import com.tsui.util.Stack;
+import com.tsui.util.ArrayStack;
 /**
  * 测试线性结构实现的Stack
  * @author xmtsui
  * @version v1.0
  */
-class testStack{
+class testArrayStack{
 	public static void main(String[] args)
 	{
-		Stack<String> s = new Stack<String>();
+		ArrayStack<String> s = new ArrayStack<String>();
 		s.push("a");
 		s.push("b");
 		s.push("c");
@@ -19,7 +19,5 @@ class testStack{
 		System.out.println(s.isEmpty());
 		s.clear();
 		System.out.println(s.isEmpty());
-
-
 	}
 }
