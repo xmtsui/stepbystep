@@ -61,7 +61,7 @@ public class LinkedQueue<E>{
 
 		//若出队后栈空，则特殊处理尾指针
 		if(size==0)
-			last = first;
+			last = first = null;
 		E oldValue = oldFirst.element;
 		
 		oldFirst.element = null;
@@ -90,8 +90,11 @@ public class LinkedQueue<E>{
 
 	/**
 	 * 入队
+	 * 若队列为空，特殊处理头节点
+	 * 
 	 * @param  element [description]
-	 * @return         [description]
+	 * @return         入队成功返回 true
+	 * 
 	 */
 	public boolean offer(E element)
 	{
@@ -108,19 +111,28 @@ public class LinkedQueue<E>{
 
 	/**
 	 * 出队
-	 * @return [description]
+	 * 考虑队首是否为空
+	 * 若删除后为空，特殊处理头尾节点
+	 * 删除已删除节点的引用，调用内存回收
+	 * @return 若为空返回null，不为空返回旧节点的值
 	 */
 	public E poll()
 	{
+		if(first == null)
+			return null;
+
 		Node<E> oldFirst = first;
 		first = first.next;
 		E oldValue = oldFirst.element;
+
+		size--;
+		if(size == 0)
+			first = last = null;
 
 		oldFirst.element = null;
 		oldFirst.next = null;
 		oldFirst = null;
 
-		size--;
 		return oldValue;
 	}
 
