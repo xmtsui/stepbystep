@@ -113,7 +113,7 @@ class _2_1_DuplicateObjsInList{
 	public static void main(String[] args)
 	{
 		// SinglyLinkedList<String> l = new SinglyLinkedList<String>();	
-		Character[] ch_obj = {'A','A','A','A','A','B','C','D',null,null,'A','B','A','B','C','D'};
+		Character[] ch_obj = {'A','B','C','A','A','A','A','B','C','D',null,null,'A','B','A','B','C','D'};
 		SinglyLinkedList<Character> l = new SinglyLinkedList<Character>(ch_obj);
 		SinglyLinkedList<Character> l1 = new SinglyLinkedList<Character>(ch_obj);
 		SinglyLinkedList<Character> l2 = new SinglyLinkedList<Character>(ch_obj);
