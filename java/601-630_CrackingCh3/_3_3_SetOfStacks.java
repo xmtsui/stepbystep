@@ -23,7 +23,7 @@ class _3_3_SetOfStacks{
 
 	/**
 	 * 超过某一个stack最大容量就新建另外一个stack
-	 * @return [description]
+	 * @return 操作成功返回true
 	 */
 	public boolean push(int element)
 	{
@@ -37,6 +37,11 @@ class _3_3_SetOfStacks{
 		return true;
 	}
 
+	/**
+	 * 弹出栈顶值，对用户来说只有一个栈，实现透明
+	 * 
+	 * @return [description]
+	 */
 	public int pop()
 	{
 		int oldValue = getLast().pop();
@@ -64,6 +69,9 @@ class _3_3_SetOfStacks{
 		}
 	}
 
+	/**
+	 * 测试用遍历
+	 */
 	public void printString()
 	{
 		for(int i=al.size()-1; i>=0; --i)
@@ -72,6 +80,30 @@ class _3_3_SetOfStacks{
 		}
 	}
 
+	/**
+	 * 
+	 */
+	public int popAt(int index)
+	{
+		leftShift(index, true);
+	}
+
+	/**
+	 * [leftShift description]
+	 * @param  index     [description]
+	 * @param  removeTop [description]
+	 * @return           [description]
+	 */
+	private int leftShift(int index, boolean removeTop)
+	{
+
+	}
+	
+	/**
+	 * 测试主函数
+	 * @param  args [description]
+	 * @return      [description]
+	 */
 	public static void main(String[] args)
 	{
 		_3_3_SetOfStacks s = new _3_3_SetOfStacks();
