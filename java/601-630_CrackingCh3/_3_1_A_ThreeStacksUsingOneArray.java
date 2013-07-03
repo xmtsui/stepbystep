@@ -1,11 +1,11 @@
 /**
  * Implement three stacks using one and only one array
- * 有限空间
+ * 在array一定的情况下，每个栈指定了有限空间，不能超过该限制
  * 为了方便测试，只支持int
  * @author xmtsui
  * @version v1.0
  */
-class _3_1_ThreeStacksUsingOneArray{
+class _3_1_A_ThreeStacksUsingOneArray{
 
 	private final static int MAXSIZE = 30;
 	private int[] stack = new int[MAXSIZE * 3];
@@ -94,7 +94,7 @@ class _3_1_ThreeStacksUsingOneArray{
 		System.out.println();
 	}
 	/**
-	 * 测试用遍历函数，更具长度打印
+	 * 测试用遍历函数，根据长度打印
 	 * @param  stack_num [description]
 	 * @return           [description]
 	 */
@@ -124,7 +124,7 @@ class _3_1_ThreeStacksUsingOneArray{
 
 	public static void main(String[] args)
 	{
-		_3_1_ThreeStacksUsingOneArray s = new _3_1_ThreeStacksUsingOneArray();
+		_3_1_A_ThreeStacksUsingOneArray s = new _3_1_A_ThreeStacksUsingOneArray();
 		s.push(0,1);
 		s.push(0,2);
 		s.push(0,3);

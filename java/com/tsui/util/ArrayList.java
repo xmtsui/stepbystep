@@ -6,7 +6,7 @@ package com.tsui.util;
  * @version v1.0
  */
 import java.util.Arrays;
-class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<E>{
+public class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<E>{
 	
 	//List元素存储缓存，大小为其容量
 	private transient Object[] elementData;
