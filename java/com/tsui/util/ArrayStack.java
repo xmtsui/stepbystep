@@ -71,7 +71,7 @@ public class ArrayStack<E> extends Vector<E>{
 	 */
 	public void printString()
 	{
-		System.out.println("Stack: ");
+		System.out.print("Stack: ");
 		for(int i=size()-1; i>=0; --i)
 		{
 			if(i!=0)
