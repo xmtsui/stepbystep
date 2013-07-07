@@ -4,7 +4,7 @@ package com.tsui.util;
  * @author xmtsui
  * @version v1.0
  */
-interface List<E> extends Collection<E> {
+public interface List<E> extends Collection<E> {
      //Query operations
 
      int size();

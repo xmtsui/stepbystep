@@ -1,9 +1,18 @@
+/**
+ * 用于针对“范型数组”这个话题的测试
+ * 重要的结论：java中不能使用范型数组（尽管可以定义成功）
+ * 具体原因后面分析
+ *
+ * @author xmtsui
+ * @version v1.0
+ * 
+ */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collection;
-class RawTypeArrayTest{
+class TestRawTypeArray{
 	public static void main(String[] args)
 	{	
 		/*可以以这种方式声明,编译的时候有警告*/

@@ -1,7 +1,9 @@
 package com.tsui.util;
 /**
  * 线性数组List的实现
- *
+ * bug list: 
+ *  1)无iterator
+ *  2)不能使用foreach来遍历
  * @author xmtsui
  * @version v1.0
  */
