@@ -1,6 +1,5 @@
 /**
- * 测试int[] i = new int[0];
- *
+ * 测试
  * @author xmtsui
  * @version v1.0
  */

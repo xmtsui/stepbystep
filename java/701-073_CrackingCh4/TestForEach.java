@@ -5,7 +5,7 @@
  * @version v1.0
  */
 import java.util.ArrayList;
-class TestNewForFunction{
+class TestForEach{
 	public static void main(String[] args)
 	{
 		ArrayList<String> al = new ArrayList<String>();

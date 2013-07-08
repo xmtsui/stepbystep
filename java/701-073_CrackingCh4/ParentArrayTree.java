@@ -1,50 +1,48 @@
 /**
- * 线性存储结构实现的能对双亲进行o(1)操作的树
+ * 双亲表示法实现的树
+ * 采用线性存储结构
  * 
+ * 除了双亲，还增加了长子与右兄弟。
+ * 可以进行o(1)操作获取某一节点的如下结构：
+ * 双亲，最左孩子（长子），右兄弟
+ * 规定:
+ * 根的parent为-1
+ * 无儿子节点为-1
+ * 无右兄弟为-1
  * @author xmtsui
- * @version v1.0l
+ * @version v1.0
  */
 import java.util.List;
 import java.util.ArrayList;
 class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
-	private PTNode root;
+	private Node<E> root;
 	private int count;
-	// private PTNode<E>[] nodes;
-	// 此种定义方式错误，因为java不支持范型数组
-	// 本类的实现暂时没有实现范型编程
+	// private static final int MAX_TREE_SIZE = 30;
+	// private Node<E>[] nodes = new Node<E>[MAX_TREE_SIZE];//不可以编译通过
+	// private Node<E>[] nodes = new Node[MAX_TREE_SIZE];//可以编译通过
+	// 但此种定义方式错误，因为java不支持范型数组，容易造成不安全的访问
 	// 有一种解决思路是定义成List,如：
-	private List<PTNode<E>> nodes;
-	// private PTNode[] nodes;
+	private List<Node<E>> nodes;
 
 	/**
-	 * 构造函数：构造空树
+	 * 构造函数
+	 * 创建一棵树并创建根结点
 	 */
-	ParentArrayTree(){}
-
-	/**
-	 * 构造带有根结点的树
-	 * 根的parent为-1
-	 * 无儿子节点为-1
-	 * 无右兄弟，兄弟列表为null
-	 */
-	ParentArrayTree(E element)
-	{
+	ParentArrayTree(E element){
 		initTree();
-		if(nodes != null)
-			nodes.add(new PTNode<E>(element, -1));
+		addNode(element, null);
 	}
 
 	/*Tree接口实现*/
 
 	/**
 	 * 构造空树
-	 * @param t [description]
 	 */
 	public void initTree()
 	{
 		root = null;
 		count = 0;
-		nodes = new ArrayList<PTNode<E>>();
+		nodes = new ArrayList<Node<E>>();
 	}
 
 	/**
@@ -57,11 +55,8 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 		count = 0;
 		if(nodes != null)
 		{
-			for(PTNode<E> node : nodes)
-			{
-				node.rightSib = null;
+			for(Node<E> node : nodes)
 				node = null;
-			}
 		}
 		nodes = null;
 	}
@@ -76,11 +71,8 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 		count = 0;
 		if(nodes != null)
 		{
-			for(PTNode<E> node : nodes)
-			{
-				node.rightSib = null;
+			for(Node<E> node : nodes)
 				node = null;
-			}
 		}
 	}
 
@@ -94,91 +86,25 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	}
 
 	/**
-	 * 把树的节点按照树的层次编号,从0开始
-	 * 对某一个节点增加左儿子
-	 * @param  index   [description]
-	 * @param  element [description]
-	 * @return         成功返回true,失败返回false
-	 */
-	public boolean addLeftChild(int index, E element)
-	{
-		if(getNode(index) == null)
-			return false;
-		PTNode<E> node = new PTNode<E>(element, index);
-		nodes.add(index+1, node);
-		getNode(index).setLeftChild(index+1);
-		return true;
-	}
-
-	/**
-	 * 把树的节点按照树的层次编号,从0开始
-	 * 对该节点增加右兄弟
-	 * 该节点必须为其双亲节点的第一个儿子
-	 * @param  index    [description]
-	 * @param  elements [description]
-	 * @return          成功返回true,失败返回false
-	 */
-	public boolean addRightSibling(int index, List<E> elements)
-	{
-		//若节点空，则失败
-		if(getNode(index) == null)
-			return false;
-		
-		//若为根结点，不能添加右兄弟
-		if(getNode(index).getParent() == -1)
-			return false;
-
-		//对第一个儿子添加右兄弟
-		int number = elements.size();
-		int[] siblings = new int[number];
-		for(int i=0; i<number; ++i)
-		{
-			siblings[i] = index + 1 + i;
-		}
-		getNode(index).setRightSib(siblings);
-
-		//依次对新添加的右兄弟，添加右兄弟
-		for(int i=0; i<number; ++i)
-		{
-			siblings = null;
-			int sibling_num = number - i - 1;
-			//注意区分
-			//int[] a = null;
-			//以及
-			//int[] a = new int[0];
-			if(sibling_num != 0)
-				siblings = new int[sibling_num];
-			for(int j=0; j<sibling_num; ++j)
-			{
-				//计算右兄弟的右兄弟
-				siblings[j] = index + 1 + (i+1) + j;
-			}
-			//因为本函数只能操作第一个儿子，所以以下两种计算父节点的方式一样
-			PTNode<E> node = new PTNode<E>(elements.get(i), getParent(index), -1, siblings);
-			// PTNode<E> node = new PTNode<E>(elements.get(i), index-1, -1, siblings);
-			nodes.add(node);
-		}
-		return true;
-	}
-
-	/**
-	 * 获取某一个节点的双亲节点编号
-	 * @param  index [description]
-	 * @return       [description]
-	 */
-	public int getParent(int index)
-	{
-		return getNode(index).getParent();
-	}
-
-
-	/**
 	 * 获取树的高度(深度)
 	 * @return [description]
 	 */
 	public int getTreeDepth()
 	{
-		return 0;
+		int depth = 0;
+		for(int i=0; i<count && node(i)!=null; ++i)
+		{
+			int tmpdepth = 0;
+			int runner=i;
+			while(runner != -1 && node(runner) != null)
+			{
+				runner = node(runner).getParent();
+				tmpdepth++;
+			}
+			if(tmpdepth>depth)
+				depth = tmpdepth;
+		}
+		return depth;
 	}
 
 	/**
@@ -187,27 +113,121 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	public void doTranverse(){
 		if(nodes != null)
 		{
-			for(PTNode<E> node : nodes)
+			for(Node<E> node : nodes)
 			{
 				System.out.print("value: " + node.getValue());
 				System.out.print(" | parent: " + node.getParent());
 				System.out.print(" | leftchild: " + node.getLeftChild());
-				System.out.print(" | rightSib: ");
-				int[] sibs = node.getRightSib();
-				if(sibs == null)
-				{
-					System.out.print("null");
-				}
-				else
-				{
-					for(int item : node.getRightSib())
-						System.out.print(item + " ");
-				}
+				System.out.print(" | rightSib: " + node.getRightSibling());
 				System.out.println();
 			}
 		}
 		else
 			System.out.println("NULL TREE");
+	}
+
+	/* Array Tree 定义*/
+
+	/**
+	 * 增加一个节点
+	 * @param element   [description]
+	 * @param parent    [description]
+	 * @return 			返回创建的节点
+	 */
+	public Node<E> addNode(E element, Node<E> parent)
+	{
+		Node<E> node = new Node<E>(element, nodeIndex(parent));
+		if(parent == null)
+		{
+			root = node;
+			root.setRightSibling(-1);
+		}
+		nodes.add(node);
+		count++;
+		return node;
+	}
+
+	/**
+	 * 获取根结点
+	 * @return [description]
+	 */
+	public Node<E> getRoot()
+	{
+		return node(0);
+	}
+
+	/**
+	 * 获取某一个节点的双亲节点
+	 * @param  index [description]
+	 * @return       [description]
+	 */
+	public Node<E> getParent(Node<E> node)
+	{
+		return node(node.getParent());
+	}
+
+	/**
+	 * 设置某个节点的最左儿子
+	 * @param a [description]
+	 * @param b [description]
+	 */
+	public void setLeftChild(Node<E> a, Node<E> b)
+	{
+		a.setLeftChild(nodeIndex(b));
+	}
+
+	/**
+	 * 获取最左儿子节点
+	 * @param  index [description]
+	 * @return       [description]
+	 */
+	public Node<E> getLeftChild(Node<E> node)
+	{
+		return node(node.getLeftChild());
+	}
+
+	/**
+	 * 设置节点的右兄弟
+	 * @param a [description]
+	 * @param b [description]
+	 */
+	public void setRightSibling(Node<E> a, Node<E> b)
+	{
+		a.setRightSibling(nodeIndex(b));
+	}
+
+	/**
+	 * 若右兄弟存在，则返回该节点
+	 * 不存在则返回-1
+	 * @param  index [description]
+	 * @return       [description]
+	 */
+	public Node<E> getRightSibling(Node<E> node)
+	{
+		return node(node.getRightSibling());
+	}
+
+	/**
+	 * 指定一个节点parentNode，增加一个子树childNode
+	 * 子树的位置由index指定
+	 * @param  parentNode [description]
+	 * @param  childNode  [description]
+	 * @param  index      [description]
+	 * @return            [description]
+	 */
+	public boolean insertChild(Node<E> parentNode, Node<E> childNode, int index)
+	{
+		return true;
+	}
+
+	/**
+	 * 删除一颗子树
+	 * @param  node [description]
+	 * @return      [description]
+	 */
+	public boolean deleteChild(Node<E> node)
+	{
+		return true;
 	}
 
 	/*自定义操作*/
@@ -217,138 +237,76 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param  index [description]
 	 * @return       [description]
 	 */
-	private PTNode<E> getNode(int index)
+	private Node<E> node(int index)
 	{
+		if(index<0 || index >= count)
+			return null;
 		return nodes.get(index);
 	}
 
 	/**
-	 * 节点定义
-	 * 可根据需要增加和删除左儿子，右兄弟
+	 * 获取某个节点的index
+	 * @param  node [description]
+	 * @return      [description]
 	 */
-	private static class PTNode<E>{
-		private E value;
-		private int parent, leftChild;
-		private int[] rightSib;
-		
-		/**
-		 * 构造一个叶子节点
-		 * 当parent=-1时，为根结点
-		 */
-		PTNode(E value, int parent)
+	private int nodeIndex(Node<E> node)
+	{
+		if(node == null)
+			return -1;
+		for(int i=0; i<count; ++i)
 		{
-			this.value = value;
-			this.parent = parent;
-			this.leftChild = -1;
-			this.rightSib = null;
+			if(node == node(i))
+				return i;
 		}
-
-		/**
-		 * 构造一个中间节点
-		 */
-		PTNode(E value, int parent, int leftChild,  int[] rightSib)
-		{
-			this.value = value;
-			this.parent = parent;
-			this.leftChild = leftChild;
-			this.rightSib = rightSib;
-		}
-
-		/**
-		 * 设置当前节点的值
-		 * @param value [description]
-		 * @return      旧的节点值
-		 */
-		E setValue(E value)
-		{
-			E oldValue = this.value;
-			this.value = value;
-			return oldValue;
-		}
-
-		/**
-		 * 获取当前节点值
-		 */
-		E getValue()
-		{
-			return this.value;
-		}
-
-		/**
-		 * 设置当前节点的父节点
-		 * @param  parent [description]
-		 * @return        返回旧的父节点index
-		 */
-		int setParent(int parent)
-		{
-			int oldParent = this.parent;
-			this.parent = parent;
-			return oldParent;
-		}
-
-		/**
-		 * 获取当前节点的父节点
-		 * @return [description]
-		 */
-		int getParent()
-		{
-			return this.parent;
-		}
-
-		/**
-		 * 设置当前节点的左儿子
-		 * @param  leftChild [description]
-		 * @return           返回旧的左儿子节点index
-		 */
-		int setLeftChild(int leftChild)
-		{
-			int oldLeftChild = this.leftChild;
-			this.leftChild = leftChild;
-			return oldLeftChild;
-		}
-
-		/**
-		 * 获取当前节点的左儿子
-		 * @return [description]
-		 */
-		int getLeftChild()
-		{
-			return this.leftChild;
-		}
-
-		/**
-		 * 设置当前节点的右兄弟
-		 * @param  leftChild [description]
-		 * @return           返回所有旧的右兄弟节点index
-		 */
-		int[] setRightSib(int[] rightSib)
-		{
-			int[] oldSib = this.rightSib;
-			this.rightSib = rightSib;
-			return oldSib;
-		}
-
-		/**
-		 * 获取当前节点的右兄弟
-		 */
-		int[] getRightSib()
-		{
-			return this.rightSib;
-		}
+		return -1;
 	}
+
+
+	/**
+	 * 测试主函数
+	 * @param  args [description]
+	 * @return      [description]
+	 */
 	public static void main(String[] args)
 	{
-		ParentArrayTree<String> pat = new ParentArrayTree<String>("HelloTree");
-		System.out.println(pat.isTreeEmpty());
+		ParentArrayTree<String> pat = new ParentArrayTree<String>("A");
+		Node<String> A = pat.getRoot();
+		Node<String> B = pat.addNode("B",A);
+		Node<String> C = pat.addNode("C",A);
+		Node<String> D = pat.addNode("D",B);
+		Node<String> E = pat.addNode("E",C);
+		Node<String> F = pat.addNode("F",C);
+		Node<String> G = pat.addNode("G",D);
+		Node<String> H = pat.addNode("H",D);
+		Node<String> I = pat.addNode("I",D);
+		Node<String> J = pat.addNode("J",E);
+		
+		pat.setLeftChild(A,B);
+		pat.setLeftChild(B,D);
+		pat.setLeftChild(C,E);
+		pat.setLeftChild(D,G);
+		pat.setLeftChild(E,J);
+		pat.setLeftChild(F,null);
+		pat.setLeftChild(G,null);
+		pat.setLeftChild(H,null);
+		pat.setLeftChild(I,null);
+		pat.setLeftChild(J,null);
+
+		pat.setRightSibling(B,C);
+		pat.setRightSibling(C,null);
+		pat.setRightSibling(D,null);
+		pat.setRightSibling(E,F);
+		pat.setRightSibling(F,null);
+		pat.setRightSibling(G,H);
+		pat.setRightSibling(H,I);
+		pat.setRightSibling(I,null);
+		pat.setRightSibling(J,null);
+
 		pat.doTranverse();
-		pat.addLeftChild(0,"left child");
-		pat.doTranverse();
-		List<String> siblings = new ArrayList<String>();
-		siblings.add("sib0");
-		siblings.add("sib1");
-		siblings.add("sib2");
-		System.out.println(pat.addRightSibling(0, siblings));
-		System.out.println(pat.addRightSibling(1, siblings));
-		pat.doTranverse();
+		Node<String> tmp = pat.getLeftChild(B);
+		if(tmp != null)
+			System.out.println(tmp.getValue());
+
+		System.out.println(pat.getTreeDepth());
 	}
 }
