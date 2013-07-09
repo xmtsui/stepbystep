@@ -423,4 +423,18 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess 
         }
         return -1;
     }
+
+    /**
+     * 临时代替iterator来遍历
+     */
+    public void doTraverse()
+    {
+        int len = size();
+        System.out.print("The list is: { ");
+        for(int i=0; i<len; ++i)
+        {
+            System.out.print(+ i + "[" + get(i) + "] ");
+        }
+        System.out.print("}\n");
+    }
 }

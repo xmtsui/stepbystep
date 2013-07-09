@@ -1,13 +1,15 @@
-import com.tsui.util.Vector;
+import com.tsui.util.List;
+import com.tsui.util.ArrayList;
 /**
- * 测试Vector
+ * 测试数组List
+ * 
  * @author xmtsui
  * @version v1.0
  */
-public class testVector{
+public class testArrayList{
 	public static void main(String[] args)
 	{
-		Vector<String> al = new Vector<String>();
+		List<String> al = new ArrayList<String>();
 		al.add("test");
 		al.add("123");
 		al.doTraverse();
@@ -17,10 +19,5 @@ public class testVector{
 		System.out.println(al.indexOf("test"));
 		System.out.println(al.set(1,"234"));
 		System.out.println(al.getClass());
-		System.out.println(al.remove("test"));
-		System.out.println(al.size()==1);
-		al.clear();
-		System.out.println(al.size()==0);
-
 	}
 }

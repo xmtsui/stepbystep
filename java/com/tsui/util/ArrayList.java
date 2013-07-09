@@ -86,10 +86,10 @@ public class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<
 				return false;
 			}
 
-	private void fastRemove(int index){
-		int numMoved = size - index - 1;
-        if (numMoved > 0)
-			System.arraycopy(elementData, index+1, elementData, index, size-index-1);
+			private void fastRemove(int index){
+				int numMoved = size - index - 1;
+				if (numMoved > 0)
+					System.arraycopy(elementData, index+1, elementData, index, size-index-1);
 		elementData[--size] = null;//let gc works
 	}
 
@@ -152,7 +152,7 @@ public class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<
     }
 
 	//Positional Access Operations
-	public E get(int index){
+    public E get(int index){
     	rangeCheck(index);
     	return elementData(index);
     }
@@ -177,12 +177,12 @@ public class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<
     	E oldValue = elementData(index);
     	
     	int numMoved = size - index - 1;
-        if (numMoved > 0)
+    	if (numMoved > 0)
     		System.arraycopy(elementData, index+1, elementData, index, size-index-1);
     	elementData[--size] = null;
     	return oldValue;
     }
- 
+
  	//Search Operations
     public int indexOf(Object o){
     	if(o==null){
@@ -214,4 +214,15 @@ public class ArrayList<E> extends AbstractList<E> implements RandomAccess, List<
     	}
     	return -1;
     }
+    public void doTraverse()
+    {
+    	System.out.print("List is: ");
+        for(int i=0; i<size; i++)
+        {
+           System.out.print( i + " [ ");
+           System.out.print(elementData[i]);
+           System.out.print(" ] ");
+       }
+       System.out.println();
+   }
 }

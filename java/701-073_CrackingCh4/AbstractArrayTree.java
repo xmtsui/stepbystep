@@ -1,7 +1,11 @@
 /**
- * 线性存储结构实现Tree
+ * 线性存储结构Tree抽象类
  * 
- * 双亲表示实现(ParentArrayTree.java)
+ * 最大限度实现
+ * 包括抽象方法定义
+ * 节点定义
+ * 
+ * 其双亲表示实现(ParentArrayTree.java)
  * 	快速获取某一个节点的父亲节点
  * 双亲加最左孩子，以及最左孩子的右兄弟实现
  * 	快速获取某一节点的父亲节点以及孩子节点
@@ -103,68 +107,7 @@ abstract class AbstractArrayTree<E> implements Tree<E>{
 	 */
 	public abstract boolean deleteChild(Node<E> node);
 	
-	/**
-	 * 节点定义
-	 * 可根据需要增加和删除左儿子，右兄弟
-	 */
-	public static class Node<E>{
-		private E value;
-		private int parent, leftChild, rightSib;
+	public interface ArrayTreeNode<E>{
 		
-		/**
-		 * 构造一个新的节点
-		 */
-		Node(E value, int parent)
-		{
-			this.value = value;
-			this.parent = parent;
-		}
-
-		/**
-		 * 设置当前节点的值
-		 * @param value [description]
-		 */
-		void setValue(E value)
-		{
-			this.value = value;
-		}
-
-		/**
-		 * 获取当前节点值
-		 */
-		E getValue()
-		{
-			return this.value;
-		}
-
-		void setParent(int parent)
-		{
-			this.parent = parent;
-		} 
-
-		int getParent()
-		{
-			return parent;
-		}
-
-		void setLeftChild(int leftChild)
-		{
-			this.leftChild = leftChild;
-		}
-
-		int getLeftChild()
-		{
-			return leftChild;
-		}
-
-		void setRightSibling(int rightSib)
-		{
-			this.rightSib = rightSib;
-		}
-
-		int getRightSibling()
-		{
-			return rightSib;
-		}
 	}
 }

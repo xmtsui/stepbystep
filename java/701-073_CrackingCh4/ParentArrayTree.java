@@ -1,10 +1,11 @@
 /**
- * 双亲表示法实现的树
+ * 双亲表示法实现的树 
  * 采用线性存储结构
  * 
  * 除了双亲，还增加了长子与右兄弟。
- * 可以进行o(1)操作获取某一节点的如下结构：
- * 双亲，最左孩子（长子），右兄弟
+ * 优点：可以进行o(1)操作获取某一节点的如下结构－双亲，最左孩子（长子），右兄弟
+ * 缺点：构造麻烦，添加／删除麻烦
+ * 
  * 规定:
  * 根的parent为-1
  * 无儿子节点为-1
@@ -208,6 +209,26 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	}
 
 	/**
+	 * 获取某一个节点的所有子节点
+	 * @param  node [description]
+	 * @return      [description]
+	 */
+	public List<Node<E>> getAllChildren(Node<E> node)
+	{
+		List<Node<E>> list = new ArrayList<Node<E>>();
+		if(node == null)
+			return null;
+		for(int i=0; i<count; ++i)
+		{
+			Node<E> runnerNode = node(i);
+			Node<E> parent = node(runnerNode.getParent());
+			if(parent != null && parent == node)
+				list.add(runnerNode);
+		}
+		return list;
+	}
+	/**
+	 * ！！！
 	 * 指定一个节点parentNode，增加一个子树childNode
 	 * 子树的位置由index指定
 	 * @param  parentNode [description]
@@ -221,6 +242,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	}
 
 	/**
+	 * ！！！
 	 * 删除一颗子树
 	 * @param  node [description]
 	 * @return      [description]
@@ -260,7 +282,71 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 		}
 		return -1;
 	}
+	
+	/**
+	 * 节点定义
+	 * 可根据需要增加和删除左儿子，右兄弟
+	 */
+	public static class Node<E>{
+		private E value;
+		private int parent, leftChild, rightSib;
+		
+		/**
+		 * 构造一个新的节点
+		 */
+		Node(E value, int parent)
+		{
+			this.value = value;
+			this.parent = parent;
+		}
 
+		/**
+		 * 设置当前节点的值
+		 * @param value [description]
+		 */
+		void setValue(E value)
+		{
+			this.value = value;
+		}
+
+		/**
+		 * 获取当前节点值
+		 */
+		E getValue()
+		{
+			return this.value;
+		}
+
+		void setParent(int parent)
+		{
+			this.parent = parent;
+		} 
+
+		int getParent()
+		{
+			return parent;
+		}
+
+		void setLeftChild(int leftChild)
+		{
+			this.leftChild = leftChild;
+		}
+
+		int getLeftChild()
+		{
+			return leftChild;
+		}
+
+		void setRightSibling(int rightSib)
+		{
+			this.rightSib = rightSib;
+		}
+
+		int getRightSibling()
+		{
+			return rightSib;
+		}
+	}
 
 	/**
 	 * 测试主函数
@@ -308,5 +394,10 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 			System.out.println(tmp.getValue());
 
 		System.out.println(pat.getTreeDepth());
+
+		List<Node<String>> list = pat.getAllChildren(D);
+		for(Node<String> item : list)
+			System.out.print(item.getValue());
+		System.out.println();
 	}
 }

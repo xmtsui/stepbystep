@@ -1,3 +1,4 @@
+import com.tsui.util.List;
 import com.tsui.util.SinglyLinkedList;
 /**
  * 测试单链表
@@ -20,7 +21,7 @@ public class testSinglyLinkedList{
 		Character[] ch = {'A','B','C','D','E',null,null,'A'};
 		
 		//test: public SinglyLinkedList(E[] element)
-		SinglyLinkedList<Character> list = new SinglyLinkedList<Character>(ch);
+		List<Character> list = new SinglyLinkedList<Character>(ch);
 		list.doTraverse();
 		//test: Query Operations
 		//public int size()
@@ -85,6 +86,7 @@ public class testSinglyLinkedList{
 		System.out.println("\ntest 10.2 \nremove(1): ");
 		list.doTraverse();
 		System.out.println(list.remove(1));
+		list.add('A');
 		list.doTraverse();
 
 		//test: Search Operations
@@ -101,6 +103,5 @@ public class testSinglyLinkedList{
 		list.doTraverse();
 		list.clear();
 		list.doTraverse();
-
 	}
 }

@@ -5,12 +5,11 @@ package com.tsui.util;
  * @author xmtsui
  * @version v1.0
  */
-abstract class AbstractSequentialList<E> extends AbstractList<E> implements List<E>{
+public abstract class AbstractSequentialList<E> extends AbstractList<E> implements List<E>{
 	protected AbstractSequentialList(){
 	}
-
+   
 	//Query operations
-	
 	//int size();
 	//boolean isEmpty();
 	//boolean contains(Object o);
@@ -107,5 +106,8 @@ abstract class AbstractSequentialList<E> extends AbstractList<E> implements List
      *         this list, or -1 if this list does not contain the element
      */
     public abstract int lastIndexOf(Object o);
-
+    /**
+     * 临时代替iterator来遍历
+     */
+    public abstract void doTraverse();
 }

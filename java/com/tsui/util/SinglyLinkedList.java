@@ -8,13 +8,14 @@ public class SinglyLinkedList<E> extends AbstractSequentialList<E> implements Li
 
 	//元素个数
 	private transient int size = 0;
-	
 	//头结点
 	private transient Node<E> head;
 
 	public SinglyLinkedList(){
+		
 	}
 
+	//这样的写法不推荐，尽量避免范型数组
 	public SinglyLinkedList(E[] element)
 	{
 		int num = element.length;
@@ -268,10 +269,35 @@ public class SinglyLinkedList<E> extends AbstractSequentialList<E> implements Li
 
     /**
      * 查找倒数第一次出现某个元素的index，没有返回－1
-     * 无尾巴节点的情况下无法实现
+     * 全部遍历完
+     * 注意判断对象内容相等的方法，曾犯过错误
+     * 不是o == n.item
+     * 而是o.equals(n.item)
      */
     public int lastIndexOf(Object o){
-    	return -2;
+    	int index=0;
+    	int result=-1;
+    	if(head == null)
+    		return -1;
+    	if(o == null)
+    	{
+    		for(Node<E> n=head; n!=null; n=n.next)
+    		{
+    			if(n.item == null)
+    				result = index;
+    			index++;
+    		}
+    	}
+    	else
+    	{
+    		for(Node<E> n=head; n!=null; n=n.next)
+    		{
+    			if(o.equals(n.item))
+    				result = index;
+    			index++;
+    		}
+    	}
+    	return result;
     }
 
 	//结点定义,注意分析static的意义，区分内部类，嵌套类
@@ -286,8 +312,6 @@ public class SinglyLinkedList<E> extends AbstractSequentialList<E> implements Li
     	}
     }
     
-    //自己新加的方法，方便测试
-    
     /**
      * 临时代替iterator来遍历
      */
@@ -301,6 +325,8 @@ public class SinglyLinkedList<E> extends AbstractSequentialList<E> implements Li
     	System.out.print("}\n");
     }
 
+    //自己新加的方法
+    //
 	/**
 	 * 获取某个index的节点
 	 */
