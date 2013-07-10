@@ -36,13 +36,13 @@ abstract class AbstractArrayTree<E> implements Tree<E>{
 
 	/**
 	 * 判断树是否为空
-	 * @return boolean
+	 * @return 空的话返回true
 	 */
 	public abstract boolean isTreeEmpty();
 
 	/**
 	 * 获取树的深度（高度）
-	 * @return [description]
+	 * @return 空的话返回0
 	 */
 	public abstract int getTreeDepth();
 
@@ -59,27 +59,34 @@ abstract class AbstractArrayTree<E> implements Tree<E>{
 	 * @param parent    [description]
 	 * @return 			返回创建的节点
 	 */
-	public abstract Node<E> addNode(E element, Node<E> parent);
+	public abstract ArrayTreeNode<E> addNode(E element, ArrayTreeNode<E> parent);
 
 	/**
 	 * 获取根结点
 	 * @return [description]
 	 */
-	public abstract Node<E> getRoot();
+	public abstract ArrayTreeNode<E> getRoot();
 
 	/**
 	 * 获取某一个节点的双亲节点
 	 * @param  node [description]
 	 * @return       [description]
 	 */
-	public abstract Node<E> getParent(Node<E> node);
+	public abstract ArrayTreeNode<E> getParent(ArrayTreeNode<E> node);
 
 	/**
 	 * 获取某一个节点的最左儿子节点
 	 * @param  node [description]
 	 * @return       [description]
 	 */
-	public abstract Node<E> getLeftChild(Node<E> node);
+	public abstract ArrayTreeNode<E> getLeftChild(ArrayTreeNode<E> node);
+
+	/**
+	 * 设置某个节点的最左儿子
+	 * @param a [description]
+	 * @param b [description]
+	 */
+	public abstract void setLeftChild(ArrayTreeNode<E> a, ArrayTreeNode<E> b);
 
 	/**
 	 * 若右兄弟存在，则返回该节点
@@ -87,8 +94,21 @@ abstract class AbstractArrayTree<E> implements Tree<E>{
 	 * @param  node [description]
 	 * @return       [description]
 	 */
-	public abstract Node<E> getRightSibling(Node<E> node);
+	public abstract ArrayTreeNode<E> getRightSibling(ArrayTreeNode<E> node);
 
+	/**
+	 * 设置节点的右兄弟
+	 * @param a [description]
+	 * @param b [description]
+	 */
+	public abstract void setRightSibling(ArrayTreeNode<E> a, ArrayTreeNode<E> b);
+
+	/**
+	 * 获取某一个节点的所有子节点
+	 * @param  node [description]
+	 * @return      [description]
+	 */
+	public abstract List<ArrayTreeNode<E>> getAllChildren(ArrayTreeNode<E> node);
 
 	/**
 	 * 指定一个节点parentNode，增加一个子树childNode
@@ -98,16 +118,23 @@ abstract class AbstractArrayTree<E> implements Tree<E>{
 	 * @param  index      [description]
 	 * @return            [description]
 	 */
-	public abstract boolean insertChild(Node<E> parentNode, Node<E> childNode, int index);
+	public abstract boolean insertChild(ArrayTreeNode<E> parentNode, ArrayTreeNode<E> childNode, int index);
 
 	/**
 	 * 删除一颗子树
 	 * @param  node [description]
 	 * @return      [description]
 	 */
-	public abstract boolean deleteChild(Node<E> node);
-	
-	public interface ArrayTreeNode<E>{
-		
+	public abstract boolean deleteChild(ArrayTreeNode<E> node);
+
+	protected interface ArrayTreeNode<E>{
+		void setValue(E value);
+		E getValue();
+		void setParent(int parent); 
+		int getParent();
+		void setLeftChild(int leftChild);
+		int getLeftChild();
+		void setRightSibling(int rightSib);
+		int getRightSibling();
 	}
 }

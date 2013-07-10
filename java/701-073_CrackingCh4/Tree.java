@@ -5,7 +5,6 @@
  * @author xmtsui
  * @version v1.0
  */
-import java.util.List;
 interface Tree<E>{
 	/**
 	 * 构造空树
@@ -24,13 +23,13 @@ interface Tree<E>{
 
 	/**
 	 * 判断树是否为空
-	 * @return boolean
+	 * @return 空的话返回true
 	 */
 	boolean isTreeEmpty();
 
 	/**
 	 * 获取树的深度（高度）
-	 * @return 
+	 * @return 空的话返回0
 	 */
 	int getTreeDepth();
 	

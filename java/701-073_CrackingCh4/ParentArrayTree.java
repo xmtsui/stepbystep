@@ -14,20 +14,31 @@
  * @version v1.0
  */
 import java.util.List;
+import java.util.Deque;
 import java.util.ArrayList;
-class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
-	private Node<E> root;
+import java.util.LinkedList;
+class ParentArrayTree<E> implements Tree<E>{
+	private TreeNode<E> root;
 	private int count;
 	// private static final int MAX_TREE_SIZE = 30;
-	// private Node<E>[] nodes = new Node<E>[MAX_TREE_SIZE];//不可以编译通过
-	// private Node<E>[] nodes = new Node[MAX_TREE_SIZE];//可以编译通过
+	// private TreeNode<E>[] nodes = new TreeNode<E>[MAX_TREE_SIZE];//不可以编译通过
+	// private TreeNode<E>[] nodes = new TreeNode[MAX_TREE_SIZE];//可以编译通过
 	// 但此种定义方式错误，因为java不支持范型数组，容易造成不安全的访问
 	// 有一种解决思路是定义成List,如：
-	private List<Node<E>> nodes;
+	private List<TreeNode<E>> nodes;
+
+	/**
+	 * 空的构造函数
+	 * 创建一棵空树
+	 */
+	ParentArrayTree(){
+		initTree();
+	}
 
 	/**
 	 * 构造函数
-	 * 创建一棵树并创建根结点
+	 * 创建一棵空树
+	 * 然后创建根结点
 	 */
 	ParentArrayTree(E element){
 		initTree();
@@ -39,26 +50,23 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	/**
 	 * 构造空树
 	 */
+	
+	@Override
 	public void initTree()
 	{
 		root = null;
 		count = 0;
-		nodes = new ArrayList<Node<E>>();
+		nodes = new ArrayList<TreeNode<E>>();
 	}
 
 	/**
 	 * 销毁树
 	 * @param t [description]
 	 */
+	@Override
 	public void destroyTree()
 	{
-		root = null;
-		count = 0;
-		if(nodes != null)
-		{
-			for(Node<E> node : nodes)
-				node = null;
-		}
+		clearTree();
 		nodes = null;
 	}
 	
@@ -66,14 +74,16 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * 若树存在，则清空
 	 * @param t [description]
 	 */
+	@Override
 	public void clearTree()
 	{
 		root = null;
 		count = 0;
 		if(nodes != null)
 		{
-			for(Node<E> node : nodes)
+			for(TreeNode<E> node : nodes)
 				node = null;
+			nodes.clear();
 		}
 	}
 
@@ -81,6 +91,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * 判断树是否为空
 	 * @return [description]
 	 */
+	@Override
 	public boolean isTreeEmpty(){
 		return root == null;
 		//return count == 0;
@@ -90,13 +101,14 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * 获取树的高度(深度)
 	 * @return [description]
 	 */
+	@Override
 	public int getTreeDepth()
 	{
 		int depth = 0;
 		for(int i=0; i<count && node(i)!=null; ++i)
 		{
 			int tmpdepth = 0;
-			int runner=i;
+			int runner=node(i).parent;
 			while(runner != -1 && node(runner) != null)
 			{
 				runner = node(runner).getParent();
@@ -105,40 +117,244 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 			if(tmpdepth>depth)
 				depth = tmpdepth;
 		}
-		return depth;
+		return depth+1;
 	}
 
 	/**
-	 * 遍历树
+	 * 根据内存结构遍历树
 	 */
+	@Override
 	public void doTranverse(){
 		if(nodes != null)
 		{
-			for(Node<E> node : nodes)
+			if(nodes.size() == 0)
+				System.out.println("EMPTY TREE");
+			else
 			{
-				System.out.print("value: " + node.getValue());
-				System.out.print(" | parent: " + node.getParent());
-				System.out.print(" | leftchild: " + node.getLeftChild());
-				System.out.print(" | rightSib: " + node.getRightSibling());
-				System.out.println();
+				for(TreeNode<E> node : nodes)
+				{
+					System.out.print("value: " + node.getValue());
+					System.out.print(" | parent: " + node.getParent());
+					System.out.print(" | leftChild: " + node.getLeftChild());
+					System.out.print(" | rightSib: " + node.getRightSibling());
+					System.out.println();
+				}
 			}
 		}
 		else
 			System.out.println("NULL TREE");
 	}
 
+	/**
+	 * 递归实现前序遍历
+	 * @param node [description]
+	 */
+	private void preTrav(TreeNode<E> node)
+	{
+		if(node != null)
+			System.out.print(node.getValue());
+		int leftChild = node.getLeftChild();
+		if(leftChild != -1)
+			preTrav(node(leftChild));
+		List<TreeNode<E>> list = getAllRightChildren(node);
+		if(list.size() != 0)
+		{
+			for(TreeNode<E> item:list)
+			{
+				preTrav(item);
+			}
+		}
+	}
+
+	/**
+	 * 选择是否使用递归的方式前序遍历
+	 * @param node      [description]
+	 * @param recursive [description]
+	 */
+	public void preTrav(TreeNode<E> node, boolean recursive)
+	{
+		if(recursive)
+			preTrav(node);
+		else
+		{
+			Deque<TreeNode<E>> stack = new LinkedList<TreeNode<E>>();
+			if(node != null)
+				stack.push(node);
+			while(!stack.isEmpty())
+			{
+				System.out.print(stack.peek().getValue());
+				TreeNode<E> tmpnode = stack.pop();
+				//右边先进栈
+				//注意所有右儿子的顺序
+				List<TreeNode<E>> list = getAllRightChildren(tmpnode);
+				int size = list.size();
+				if(size != 0)
+				{
+
+					for(int i=size-1; i>=0; --i)
+					{
+						stack.push(list.get(i));
+					}
+				}
+				
+				int leftChinldIndex = tmpnode.getLeftChild();
+				if(leftChinldIndex != -1)
+				{
+					stack.push(node(leftChinldIndex));
+				}
+			}
+		}
+	}
+
+	/**
+	 * 中序遍历
+	 * @param node [description]
+	 */
+	public void inTrav(TreeNode<E> node)
+	{
+		int leftChild = node.getLeftChild();
+		if(leftChild != -1)
+			inTrav(node(leftChild));
+		if(node != null)
+			System.out.print(node.getValue());
+		List<TreeNode<E>> list = getAllRightChildren(node);
+		if(list.size() != 0)
+		{
+			for(TreeNode<E> item:list)
+			{
+				inTrav(item);
+			}
+		}
+	}
+
+	/**
+	 * 选择是否使用递归的方式中序遍历
+	 * @param node      [description]
+	 * @param recursive [description]
+	 */
+	public void inTrav(TreeNode<E> node, boolean recursive)
+	{
+		if(recursive)
+			inTrav(node);
+		else
+		{
+			Deque<TreeNode<E>> stack = new LinkedList<TreeNode<E>>();
+			while(node != null)
+			{
+				while(node != null)
+				{
+					List<TreeNode<E>> list = getAllRightChildren(node);
+					int size = list.size();
+					for(int i=size-1; i>=0; --i)
+						stack.push(list.get(i));
+					stack.push(node);
+					int leftChinldIndex = node.getLeftChild();
+					if(leftChinldIndex != -1)
+						node = node(leftChinldIndex);
+					else
+						node = null;
+				}
+				node = stack.pop();
+				while(!stack.isEmpty() && getAllRightChildren(node).size() == 0)
+				{
+					System.out.print(node.getValue());
+					node = stack.pop();
+				}
+				System.out.print(node.getValue());
+				if(!stack.isEmpty())
+				{
+					node = stack.pop();
+				}
+				else
+					node = null;
+			}
+		}
+	}
+
+	/**
+	 * 后序遍历
+	 * @param node [description]
+	 */
+	public void postTrav(TreeNode<E> node)
+	{
+		int leftChild = node.getLeftChild();
+		if(leftChild != -1)
+			postTrav(node(leftChild));
+		List<TreeNode<E>> list = getAllRightChildren(node);
+		if(list.size() != 0)
+		{
+			for(TreeNode<E> item:list)
+			{
+				postTrav(item);
+			}
+		}	
+		if(node != null)
+			System.out.print(node.getValue());
+	}
+
+	/**
+	 * 选择是否使用递归的方式后序遍历
+	 * @param node      [description]
+	 * @param recursive [description]
+	 */
+	public void postTrav(TreeNode<E> node, boolean recursive)
+	{
+		if(recursive)
+			postTrav(node);
+		else
+		{
+			postTrav(node);
+		}
+	}
+	/**
+	 * 层序遍历
+	 */
+	public void layerTrav(TreeNode<E> root)
+	{
+		Deque<TreeNode<E>> queue = new LinkedList<TreeNode<E>>();
+		if(root != null)
+			queue.offer(root);
+		while(!queue.isEmpty())
+		{
+			System.out.print(queue.peek().getValue());
+			TreeNode<E> tmpnode = queue.poll();
+			List<TreeNode<E>> list = getAllChildren(tmpnode);
+			if(list.size() != 0)
+			{
+				for(TreeNode<E> item : list)
+					queue.offer(item);
+			}
+		}
+	}
+
 	/* Array Tree 定义*/
 
 	/**
-	 * 增加一个节点
+	 * 
+	 */
+	public TreeNode<E> addNode(E element)
+	{
+		TreeNode<E> node = new TreeNode<E>(element);
+		if(root == null)
+		{
+			root = node;
+			root.setRightSibling(-1);
+		}
+		nodes.add(node);
+		count++;
+		return node;
+	}
+
+	/**
+	 * 增加一个节点，并指定父节点
 	 * @param element   [description]
 	 * @param parent    [description]
 	 * @return 			返回创建的节点
 	 */
-	public Node<E> addNode(E element, Node<E> parent)
+	public TreeNode<E> addNode(E element, TreeNode<E> parent)
 	{
-		Node<E> node = new Node<E>(element, nodeIndex(parent));
-		if(parent == null)
+		TreeNode<E> node = new TreeNode<E>(element, nodeIndex(parent));
+		if(root == null)
 		{
 			root = node;
 			root.setRightSibling(-1);
@@ -152,7 +368,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * 获取根结点
 	 * @return [description]
 	 */
-	public Node<E> getRoot()
+	public TreeNode<E> getRoot()
 	{
 		return node(0);
 	}
@@ -162,7 +378,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param  index [description]
 	 * @return       [description]
 	 */
-	public Node<E> getParent(Node<E> node)
+	public TreeNode<E> getParent(TreeNode<E> node)
 	{
 		return node(node.getParent());
 	}
@@ -172,7 +388,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param a [description]
 	 * @param b [description]
 	 */
-	public void setLeftChild(Node<E> a, Node<E> b)
+	public void setLeftChild(TreeNode<E> a, TreeNode<E> b)
 	{
 		a.setLeftChild(nodeIndex(b));
 	}
@@ -182,7 +398,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param  index [description]
 	 * @return       [description]
 	 */
-	public Node<E> getLeftChild(Node<E> node)
+	public TreeNode<E> getLeftChild(TreeNode<E> node)
 	{
 		return node(node.getLeftChild());
 	}
@@ -192,7 +408,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param a [description]
 	 * @param b [description]
 	 */
-	public void setRightSibling(Node<E> a, Node<E> b)
+	public void setRightSibling(TreeNode<E> a, TreeNode<E> b)
 	{
 		a.setRightSibling(nodeIndex(b));
 	}
@@ -203,7 +419,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param  index [description]
 	 * @return       [description]
 	 */
-	public Node<E> getRightSibling(Node<E> node)
+	public TreeNode<E> getRightSibling(TreeNode<E> node)
 	{
 		return node(node.getRightSibling());
 	}
@@ -213,22 +429,40 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param  node [description]
 	 * @return      [description]
 	 */
-	public List<Node<E>> getAllChildren(Node<E> node)
+	public List<TreeNode<E>> getAllChildren(TreeNode<E> node)
 	{
-		List<Node<E>> list = new ArrayList<Node<E>>();
+		List<TreeNode<E>> list = new ArrayList<TreeNode<E>>();
 		if(node == null)
 			return null;
 		for(int i=0; i<count; ++i)
 		{
-			Node<E> runnerNode = node(i);
-			Node<E> parent = node(runnerNode.getParent());
+			TreeNode<E> runnerNode = node(i);
+			TreeNode<E> parent = node(runnerNode.getParent());
 			if(parent != null && parent == node)
 				list.add(runnerNode);
 		}
 		return list;
 	}
+
+	public List<TreeNode<E>> getAllRightChildren(TreeNode<E> node)
+	{
+		List<TreeNode<E>> list = new ArrayList<TreeNode<E>>();
+		int leftChildIndex = node.getLeftChild();
+		if(node == null)
+			return null;
+		for(int i=0; i<count; ++i)
+		{
+			if(leftChildIndex == i)
+				continue;
+			TreeNode<E> runnerNode = node(i);
+			TreeNode<E> parent = node(runnerNode.getParent());
+			if(parent != null && parent == node)
+				list.add(runnerNode);
+		}
+		return list;	
+	}
 	/**
-	 * ！！！
+	 * ！！！尚未实现
 	 * 指定一个节点parentNode，增加一个子树childNode
 	 * 子树的位置由index指定
 	 * @param  parentNode [description]
@@ -236,18 +470,67 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param  index      [description]
 	 * @return            [description]
 	 */
-	public boolean insertChild(Node<E> parentNode, Node<E> childNode, int index)
+	//public boolean insertChild(TreeNode<E> parentNode, TreeNode<E> childNode, int index)
+	/**
+	 * 指定一个节点parentNode，增加一个子节点childNode
+	 * @param  parentNode [description]
+	 * @param  childNode  [description]
+	 * @param  index      [description]
+	 * @return            [description]
+	 */
+	public boolean insertChild(TreeNode<E> parentNode, E element)
 	{
+		//获取父亲节点的位置
+		int parentNodeIndex = nodeIndex(parentNode);
+		//创建新节点
+		TreeNode<E> childNode = new TreeNode<E>(element, parentNodeIndex);
+		//在存储结构中增加该节点
+		if(childNode != null)
+		{
+			nodes.add(childNode);
+			count++;
+		}
+		else
+			return false;
+		//获取要插入节点的位置
+		int childNodeIndex = nodeIndex(childNode);
+		//若被插入的节点没有孩子，则直接插入
+		//若被插入的节点有孩子，则在最后一个孩子之后的位置插入
+		if(parentNode.getLeftChild() == -1)
+		{
+			parentNode.setLeftChild(childNodeIndex);
+			childNode.setParent(parentNodeIndex);
+			return true;
+		}
+		else
+		{
+
+			TreeNode<E> leftChild = node(parentNode.getLeftChild());
+			//若被插入的节点的左孩子没有右兄弟，则直接插入
+			//若有，则找到最后一个孩子
+			if(leftChild.getRightSibling() == -1)
+			{
+				leftChild.setRightSibling(childNodeIndex);
+				childNode.setParent(parentNodeIndex);
+			}
+			else
+			{
+				TreeNode<E> rightRunner = node(leftChild.getRightSibling());
+				while(rightRunner.getRightSibling() != -1 && rightRunner != null)
+					rightRunner = node(rightRunner.getRightSibling());
+				rightRunner.setRightSibling(childNodeIndex);
+			}
+		}
 		return true;
 	}
 
 	/**
-	 * ！！！
+	 * ！！！尚未实现
 	 * 删除一颗子树
 	 * @param  node [description]
 	 * @return      [description]
 	 */
-	public boolean deleteChild(Node<E> node)
+	public boolean deleteChild(TreeNode<E> node)
 	{
 		return true;
 	}
@@ -259,7 +542,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param  index [description]
 	 * @return       [description]
 	 */
-	private Node<E> node(int index)
+	private TreeNode<E> node(int index)
 	{
 		if(index<0 || index >= count)
 			return null;
@@ -271,7 +554,7 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * @param  node [description]
 	 * @return      [description]
 	 */
-	private int nodeIndex(Node<E> node)
+	private int nodeIndex(TreeNode<E> node)
 	{
 		if(node == null)
 			return -1;
@@ -287,24 +570,33 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	 * 节点定义
 	 * 可根据需要增加和删除左儿子，右兄弟
 	 */
-	public static class Node<E>{
+	public static class TreeNode<E>{
 		private E value;
 		private int parent, leftChild, rightSib;
 		
+		TreeNode(E value)
+		{
+			this.value = value;
+			this.parent = -1;
+			this.leftChild = -1;
+			this.rightSib = -1;
+		}
 		/**
-		 * 构造一个新的节点
+		 * 构造一个指定了父节点的新节点
 		 */
-		Node(E value, int parent)
+		TreeNode(E value, int parent)
 		{
 			this.value = value;
 			this.parent = parent;
+			this.leftChild = -1;
+			this.rightSib = -1;
 		}
 
 		/**
 		 * 设置当前节点的值
 		 * @param value [description]
 		 */
-		void setValue(E value)
+		public void setValue(E value)
 		{
 			this.value = value;
 		}
@@ -312,37 +604,37 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 		/**
 		 * 获取当前节点值
 		 */
-		E getValue()
+		public E getValue()
 		{
 			return this.value;
 		}
 
-		void setParent(int parent)
+		public void setParent(int parent)
 		{
 			this.parent = parent;
 		} 
 
-		int getParent()
+		public int getParent()
 		{
 			return parent;
 		}
 
-		void setLeftChild(int leftChild)
+		public void setLeftChild(int leftChild)
 		{
 			this.leftChild = leftChild;
 		}
 
-		int getLeftChild()
+		public int getLeftChild()
 		{
 			return leftChild;
 		}
 
-		void setRightSibling(int rightSib)
+		public void setRightSibling(int rightSib)
 		{
 			this.rightSib = rightSib;
 		}
 
-		int getRightSibling()
+		public int getRightSibling()
 		{
 			return rightSib;
 		}
@@ -356,48 +648,77 @@ class ParentArrayTree<E> extends AbstractArrayTree<E> implements Tree<E>{
 	public static void main(String[] args)
 	{
 		ParentArrayTree<String> pat = new ParentArrayTree<String>("A");
-		Node<String> A = pat.getRoot();
-		Node<String> B = pat.addNode("B",A);
-		Node<String> C = pat.addNode("C",A);
-		Node<String> D = pat.addNode("D",B);
-		Node<String> E = pat.addNode("E",C);
-		Node<String> F = pat.addNode("F",C);
-		Node<String> G = pat.addNode("G",D);
-		Node<String> H = pat.addNode("H",D);
-		Node<String> I = pat.addNode("I",D);
-		Node<String> J = pat.addNode("J",E);
-		
+		TreeNode<String> A = pat.getRoot();
+		TreeNode<String> B = pat.addNode("B",A);
+		TreeNode<String> C = pat.addNode("C",A);
+		TreeNode<String> D = pat.addNode("D",B);
+		TreeNode<String> E = pat.addNode("E",C);
+		TreeNode<String> F = pat.addNode("F",C);
+		TreeNode<String> G = pat.addNode("G",D);
+		TreeNode<String> H = pat.addNode("H",D);
+		TreeNode<String> I = pat.addNode("I",D);
+		TreeNode<String> J = pat.addNode("J",E);
+
 		pat.setLeftChild(A,B);
 		pat.setLeftChild(B,D);
-		pat.setLeftChild(C,E);
-		pat.setLeftChild(D,G);
-		pat.setLeftChild(E,J);
-		pat.setLeftChild(F,null);
-		pat.setLeftChild(G,null);
-		pat.setLeftChild(H,null);
-		pat.setLeftChild(I,null);
-		pat.setLeftChild(J,null);
-
 		pat.setRightSibling(B,C);
 		pat.setRightSibling(C,null);
+		pat.setLeftChild(C,E);
 		pat.setRightSibling(D,null);
+		pat.setLeftChild(D,G);
+		pat.setLeftChild(E,J);
 		pat.setRightSibling(E,F);
+		pat.setLeftChild(F,null);
 		pat.setRightSibling(F,null);
+		pat.setLeftChild(G,null);
 		pat.setRightSibling(G,H);
+		pat.setLeftChild(H,null);
 		pat.setRightSibling(H,I);
+		pat.setLeftChild(I,null);
 		pat.setRightSibling(I,null);
+		pat.setLeftChild(J,null);
 		pat.setRightSibling(J,null);
 
+		pat.insertChild(D, "Z");
+
 		pat.doTranverse();
-		Node<String> tmp = pat.getLeftChild(B);
+		TreeNode<String> tmp = pat.getLeftChild(B);
 		if(tmp != null)
 			System.out.println(tmp.getValue());
 
 		System.out.println(pat.getTreeDepth());
 
-		List<Node<String>> list = pat.getAllChildren(D);
-		for(Node<String> item : list)
+		List<TreeNode<String>> list = pat.getAllChildren(D);
+		// List<TreeNode<String>> list = pat.getAllRightChildren(D);
+		for(TreeNode<String> item : list)
 			System.out.print(item.getValue());
 		System.out.println();
+
+		System.out.print("pre order T: ");
+		pat.preTrav(A,true);
+		System.out.print("\npre order F: ");
+		pat.preTrav(A,false);
+		System.out.println();
+
+		System.out.print("in order T: ");
+		pat.inTrav(A,true);
+		System.out.print("\nin order F: ");
+		pat.inTrav(A,false);
+		System.out.println();
+
+		System.out.print("post order T: ");
+		pat.postTrav(A,true);
+		System.out.print("\npost order F: ");
+		pat.postTrav(A,false);
+		System.out.println();
+
+		System.out.print("layer order: ");
+		pat.layerTrav(A);
+		System.out.println();
+
+		pat.clearTree();
+		pat.doTranverse();
+		pat.destroyTree();
+		pat.doTranverse();
 	}
 }
