@@ -1,23 +1,21 @@
 /**
- * 孩子兄弟表示法实现的树
- * 链式存储结构
- *
- * @author xmtsui
+ * 线性存储结构实现的二叉树
+ * 
+ * @author xmtusi
  * @version v1.0
  */
-public class ChildSibLinkedTree<E> implements Tree<E>{
-	private TreeNode<E> root;
-	private int count;
-	public ChildSibLinkedTree(){
-		initTree();
+class ArrayBinaryTree<E> implements Tree<E>{
+
+	ArrayBinaryTree()
+	{
 	}
+
 	/**
 	 * 构造空树
 	 */
 	public void initTree()
 	{
-		count = 0;
-		root = null;
+
 	}
 
 	/**
@@ -25,6 +23,7 @@ public class ChildSibLinkedTree<E> implements Tree<E>{
 	 */
 	public void destroyTree()
 	{
+
 	}
 	
 	/**
@@ -60,8 +59,5 @@ public class ChildSibLinkedTree<E> implements Tree<E>{
 	{
 
 	}
-	public static class TreeNode<E>{
-		E value;
-		TreeNode<E> firstChild, rightSib;
-	}
+
 }
