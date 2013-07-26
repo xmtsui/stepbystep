@@ -1,13 +1,17 @@
 /**
- * 线性存储结构实现的二叉树
+ * 链式存储结构实现的二叉树
  * 
  * @author xmtusi
  * @version v1.0
  */
-class ArrayBinaryTree<E> implements Tree<E>{
+class LinkedBinaryTree<E> implements Tree<E>{
 
-	ArrayBinaryTree()
+	private BTNode<E> root;
+	private int count;
+
+	LinkedBinaryTree()
 	{
+		initTree();
 	}
 
 	/**
@@ -15,7 +19,8 @@ class ArrayBinaryTree<E> implements Tree<E>{
 	 */
 	public void initTree()
 	{
-
+		root = null;
+		count = 0;
 	}
 
 	/**
@@ -23,7 +28,7 @@ class ArrayBinaryTree<E> implements Tree<E>{
 	 */
 	public void destroyTree()
 	{
-
+		
 	}
 	
 	/**
@@ -60,4 +65,18 @@ class ArrayBinaryTree<E> implements Tree<E>{
 
 	}
 
+	/**
+	 * 二叉树节点定义
+	 */
+	private static class BTNode<E>{
+		E value;
+		BTNode<E> leftChild, rightChild;
+		
+		BTNode(E value, BTNode<E> leftChild, BTNode<E> rightChild)
+		{
+			this.value = value;
+			this.leftChild = leftChild;
+			this.rightChild = rightChild;
+		}
+	}
 }

@@ -117,7 +117,7 @@ class ArrayTree2<E> implements Tree<E>{
 	 * 遍历树
 	 */
 	@Override
-	public void doTranverse()
+	public void doTraverse()
 	{
 		if(nodes != null)
 		{
@@ -365,7 +365,7 @@ class ArrayTree2<E> implements Tree<E>{
 		cat.setSons(H,sons);
 		cat.setSons(I,sons);
 		cat.setSons(J,sons);
-		cat.doTranverse();
+		cat.doTraverse();
 		System.out.println(cat.getTreeDepth());
 		System.out.println(cat.isTreeEmpty());
 		List<TreeNode<String>> list = cat.getSons(D);
@@ -375,8 +375,8 @@ class ArrayTree2<E> implements Tree<E>{
 		}
 		System.out.println();
 		cat.clearTree();
-		cat.doTranverse();
+		cat.doTraverse();
 		cat.destroyTree();
-		cat.doTranverse();
+		cat.doTraverse();
 	}
 }

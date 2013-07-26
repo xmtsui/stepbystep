@@ -124,7 +124,9 @@ class ArrayTree1<E> implements Tree<E>{
 	 * 根据内存结构遍历树
 	 */
 	@Override
-	public void doTranverse(){
+	public void doTraverse(){
+		System.out.println("----start trav-----");
+		System.out.print("norm trav: ");
 		if(nodes != null)
 		{
 			if(nodes.size() == 0)
@@ -143,6 +145,29 @@ class ArrayTree1<E> implements Tree<E>{
 		}
 		else
 			System.out.println("NULL TREE");
+
+		System.out.print("pre   order T: ");
+		preTrav(root,true);
+		System.out.print("\npre   order F: ");
+		preTrav(root,false);
+		System.out.println();
+
+		System.out.print("in    order T: ");
+		inTrav(root,true);
+		System.out.print("\nin    order F: ");
+		inTrav(root,false);
+		System.out.println();
+
+		System.out.print("post  order T: ");
+		postTrav(root,true);
+		System.out.print("\npost  order F: ");
+		postTrav(root,false);
+		System.out.println();
+
+		System.out.print("layer order  : ");
+		layerTrav(root);
+		System.out.println();
+		System.out.println("----end trav-----");
 	}
 
 	/**
@@ -151,6 +176,8 @@ class ArrayTree1<E> implements Tree<E>{
 	 */
 	private void preTrav(TreeNode<E> node)
 	{
+		if(node==null)
+			return;
 		if(node != null)
 			System.out.print(node.getValue());
 		int leftChild = node.getLeftChild();
@@ -178,6 +205,8 @@ class ArrayTree1<E> implements Tree<E>{
 		else
 		{
 			Deque<TreeNode<E>> stack = new LinkedList<TreeNode<E>>();
+			if(node==null)
+				return;
 			if(node != null)
 				stack.push(node);
 			while(!stack.isEmpty())
@@ -212,6 +241,8 @@ class ArrayTree1<E> implements Tree<E>{
 	 */
 	public void inTrav(TreeNode<E> node)
 	{
+		if(node==null)
+			return;
 		int leftChild = node.getLeftChild();
 		if(leftChild != -1)
 			inTrav(node(leftChild));
@@ -239,6 +270,8 @@ class ArrayTree1<E> implements Tree<E>{
 		else
 		{
 			Deque<TreeNode<E>> stack = new LinkedList<TreeNode<E>>();
+			if(node==null)
+				return;
 			while(node != null)
 			{
 				while(node != null)
@@ -277,6 +310,8 @@ class ArrayTree1<E> implements Tree<E>{
 	 */
 	public void postTrav(TreeNode<E> node)
 	{
+		if(node==null)
+			return;
 		int leftChild = node.getLeftChild();
 		if(leftChild != -1)
 			postTrav(node(leftChild));
@@ -370,6 +405,8 @@ class ArrayTree1<E> implements Tree<E>{
 	 */
 	public TreeNode<E> getRoot()
 	{
+		if(root == null)
+			return null;
 		return node(0);
 	}
 
@@ -681,7 +718,6 @@ class ArrayTree1<E> implements Tree<E>{
 
 		pat.insertChild(D, "Z");
 
-		pat.doTranverse();
 		TreeNode<String> tmp = pat.getLeftChild(B);
 		if(tmp != null)
 			System.out.println(tmp.getValue());
@@ -694,31 +730,11 @@ class ArrayTree1<E> implements Tree<E>{
 			System.out.print(item.getValue());
 		System.out.println();
 
-		System.out.print("pre order T: ");
-		pat.preTrav(A,true);
-		System.out.print("\npre order F: ");
-		pat.preTrav(A,false);
-		System.out.println();
-
-		System.out.print("in order T: ");
-		pat.inTrav(A,true);
-		System.out.print("\nin order F: ");
-		pat.inTrav(A,false);
-		System.out.println();
-
-		System.out.print("post order T: ");
-		pat.postTrav(A,true);
-		System.out.print("\npost order F: ");
-		pat.postTrav(A,false);
-		System.out.println();
-
-		System.out.print("layer order: ");
-		pat.layerTrav(A);
-		System.out.println();
+		pat.doTraverse();
 
 		pat.clearTree();
-		pat.doTranverse();
+		pat.doTraverse();
 		pat.destroyTree();
-		pat.doTranverse();
+		pat.doTraverse();
 	}
 }

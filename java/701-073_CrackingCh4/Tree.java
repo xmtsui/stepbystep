@@ -36,5 +36,5 @@ interface Tree<E>{
 	/**
 	 * 遍历树
 	 */
-	void doTranverse();
+	void doTraverse();
 }
