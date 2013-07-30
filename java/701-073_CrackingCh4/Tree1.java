@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Deque;
 import java.util.ArrayList;
 import java.util.LinkedList;
-class ArrayTree1<E> implements Tree<E>{
+class Tree1<E> implements Tree<E>{
 	private TreeNode<E> root;
 	private int count;
 	// private static final int MAX_TREE_SIZE = 30;
@@ -31,7 +31,7 @@ class ArrayTree1<E> implements Tree<E>{
 	 * 空的构造函数
 	 * 创建一棵空树
 	 */
-	ArrayTree1(){
+	Tree1(){
 		initTree();
 	}
 
@@ -40,7 +40,7 @@ class ArrayTree1<E> implements Tree<E>{
 	 * 创建一棵空树
 	 * 然后创建根结点
 	 */
-	ArrayTree1(E element){
+	Tree1(E element){
 		initTree();
 		addNode(element, null);
 	}
@@ -684,7 +684,7 @@ class ArrayTree1<E> implements Tree<E>{
 	 */
 	public static void main(String[] args)
 	{
-		ArrayTree1<String> pat = new ArrayTree1<String>("A");
+		Tree1<String> pat = new Tree1<String>("A");
 		TreeNode<String> A = pat.getRoot();
 		TreeNode<String> B = pat.addNode("B",A);
 		TreeNode<String> C = pat.addNode("C",A);

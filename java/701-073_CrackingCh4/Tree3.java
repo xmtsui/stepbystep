@@ -6,10 +6,10 @@
  * @author xmtsui
  * @version v1.0
  */
-public class LinkedTree<E> implements Tree<E>{
+public class Tree3<E> implements Tree<E>{
 	private TreeNode<E> root;
 	private int count;
-	public LinkedTree(){
+	public Tree3(){
 		initTree();
 	}
 	/**
@@ -57,7 +57,7 @@ public class LinkedTree<E> implements Tree<E>{
 	/**
 	 * 遍历树
 	 */
-	public void doTranverse()
+	public void doTraverse()
 	{
 
 	}

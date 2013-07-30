@@ -8,7 +8,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
-class ArrayTree2<E> implements Tree<E>{
+class Tree2<E> implements Tree<E>{
 	private TreeNode<E> root;
 	private List<TreeNode<E>> nodes;
 	private int count;
@@ -16,7 +16,7 @@ class ArrayTree2<E> implements Tree<E>{
 	/**
 	 * 创建一棵空树
 	 */
-	public ArrayTree2(){
+	public Tree2(){
 		initTree();
 	}
 
@@ -25,7 +25,7 @@ class ArrayTree2<E> implements Tree<E>{
 	 * 创建一棵空树
 	 * 然后创建根结点
 	 */
-	public ArrayTree2(E element){
+	public Tree2(E element){
 		initTree();
 		addNode(element, null);
 	}
@@ -328,7 +328,7 @@ class ArrayTree2<E> implements Tree<E>{
 
 	public static void main(String[] args)
 	{
-		ArrayTree2<String> cat = new ArrayTree2<String>("A");
+		Tree2<String> cat = new Tree2<String>("A");
 		TreeNode<String> A = cat.getRoot();
 		TreeNode<String> B = cat.addNode("B",A);
 		TreeNode<String> C = cat.addNode("C",A);

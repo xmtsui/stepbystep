@@ -13,11 +13,16 @@ import java.lang.Math;
 import java.util.ArrayDeque;
 class BinaryTree1<E> implements Tree<E>{
 
-	private int root;/*-1 if empty*/
-	private int count;
-	private E[] nodes;
-	private static final int MAX_SIZE = 30;
+	private E root;/*null if empty*/
+	private int count;/*tree实际节点数*/
+	private E[] nodes;/*tree节点数组*/
 
+	private static final int MAX_DEEP = 5;
+	private static final int MAX_SIZE = (int)(Math.pow(2, MAX_DEEP) - 1);
+
+	/**
+	 * 默认深度构造空树
+	 */
 	BinaryTree1()
 	{
 		initTree();
@@ -27,16 +32,18 @@ class BinaryTree1<E> implements Tree<E>{
 	 * 构造空树
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public void initTree()
 	{
 		nodes = (E[])new Object[MAX_SIZE];
-		root = -1;
+		root = null;
 		count = 0;
 	}
 
 	/**
 	 * 销毁树
 	 */
+	@Override
 	public void destroyTree()
 	{
 		clearTree();
@@ -46,6 +53,7 @@ class BinaryTree1<E> implements Tree<E>{
 	/**
 	 * 若树存在，则清空
 	 */
+	@Override
 	public void clearTree()
 	{
 		//foreach 不能修改值
@@ -53,22 +61,24 @@ class BinaryTree1<E> implements Tree<E>{
 		// {
 		// 	item = null;
 		// }
-
 		int size = nodes.length;
 		for(int i=0; i<size; ++i)
 		{
 			nodes[i] = null;
+			count--;
 		}
-		root = -1;
+		root = null;
 	}
 
 	/**
 	 * 判断树是否为空
 	 * @return 空的话返回true
 	 */
+	@Override
 	public boolean isTreeEmpty()
 	{
-		return root == -1;
+		return root == null;
+		// return nodes[0] == null;
 		// return count == 0;
 	}
 
@@ -80,10 +90,11 @@ class BinaryTree1<E> implements Tree<E>{
 	 * 结束是 2左移depth, 再减1
 	 * @return 空的话返回0
 	 */
+	@Override
 	public int getTreeDepth()
 	{
 		int depth = 0;
-		if(root == -1)
+		if(root == null)
 			return 0;
 		else
 			depth = 1;
@@ -95,7 +106,8 @@ class BinaryTree1<E> implements Tree<E>{
 			// System.out.println("start: " + start);
 			// System.out.println("end: " + end);
 			int depth_tmp = depth;
-			for(int i=start; i<end && i<MAX_SIZE; ++i)
+			int size = nodes.length;
+			for(int i=start; i<end && i<size; ++i)
 			{
 				if(nodes[i] != null)
 				{
@@ -114,11 +126,12 @@ class BinaryTree1<E> implements Tree<E>{
 	/**
 	 * 遍历树
 	 */
+	@Override
 	public void doTraverse()
 	{
 		System.out.println("----start trav-----");
 		System.out.print("norm trav: ");
-		if(root == -1)
+		if(root == null)
 			System.out.print("EMPTY BINARY TREE");
 		else
 		{
@@ -143,9 +156,10 @@ class BinaryTree1<E> implements Tree<E>{
 		System.out.println();
 		System.out.println("----end trav-----");
 	}
-
+	
 	private void preTrav(int node)
 	{
+		int size = nodes.length;
 		if(node<=0 || node>=MAX_SIZE)
 			return;
 		if(nodes[node-1]!=null || node<MAX_SIZE)
@@ -158,6 +172,7 @@ class BinaryTree1<E> implements Tree<E>{
 
 	private void inTrav(int node)
 	{
+		int size = nodes.length;
 		if(node<=0 || node>=MAX_SIZE)
 			return;
 		if(nodes[2*node-1]!=null)
@@ -171,6 +186,7 @@ class BinaryTree1<E> implements Tree<E>{
 
 	private void postTrav(int node)
 	{
+		int size = nodes.length;
 		if(node<=0 || node>=MAX_SIZE)
 			return;
 		if(nodes[2*node-1]!=null)
@@ -192,9 +208,8 @@ class BinaryTree1<E> implements Tree<E>{
 		int size = elements.length;
 		if(elements == null)
 			return false;
-		if(size == 0 || size >= MAX_SIZE)
+		if(size == 0 || size > MAX_SIZE)
 			return false;
-
 		for(int i=0; i<size; ++i)
 		{
 			nodes[i] = elements[i];
@@ -205,15 +220,15 @@ class BinaryTree1<E> implements Tree<E>{
 
 		//改变了nodes,重新分配了内存
 		//E[] tmp = nodes;
-		// nodes = Arrays.copyOf(elements, MAX_SIZE);
+		// nodes = Arrays.copyOf(elements, size);
 		// if(tmp == nodes)
 		// {
 		// System.out.println("yes");
 		// }
 		// nodes = elements;
 		
-		if(root == -1)
-			root = 0;
+		if(root == null)
+			root = nodes[0];
 		return true;
 	}
 
@@ -223,9 +238,9 @@ class BinaryTree1<E> implements Tree<E>{
 	 */
 	public E getRoot()
 	{
-		if(root == -1)
+		if(root == null)
 			return null;
-		return nodes[root];
+		return nodes[0];
 	}
 
 	/**
