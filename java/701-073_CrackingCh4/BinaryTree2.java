@@ -4,6 +4,8 @@
  * @author xmtusi
  * @version v1.0
  */
+import java.util.Deque;
+import java.util.LinkedList;
 class BinaryTree2<E> implements Tree<E>{
 
 	private TreeNode<E> root;
@@ -122,14 +124,17 @@ class BinaryTree2<E> implements Tree<E>{
 			System.out.println("NULL TREE");
 		}
 		else{
-			System.out.print("Pre  trav: ");
+			System.out.print("Pre   trav: ");
 			preTrav(root);
 			System.out.println();
-			System.out.print("in   trav: ");
+			System.out.print("in    trav: ");
 			inTrav(root);
 			System.out.println();
-			System.out.print("post trav: ");
+			System.out.print("post  trav: ");
 			postTrav(root);
+			System.out.println();
+			System.out.print("layer trav: ");
+			layerTrav(root);
 			System.out.println();
 		}
 	}
@@ -175,6 +180,26 @@ class BinaryTree2<E> implements Tree<E>{
 		if(node != null)
 			System.out.print(node.value);
 	}
+
+	/**
+	 * 层序遍历
+	 * @return [description]
+	 */
+	private void layerTrav(TreeNode<E> root)
+	{
+		Deque<TreeNode<E>> deque = new LinkedList<TreeNode<E>>();
+		if(root != null)
+			deque.offer(root);
+		while(!deque.isEmpty())
+		{
+			System.out.print(deque.peek().value);
+			TreeNode<E> node = deque.poll();
+			if(node.leftChild != null)
+				deque.offer(node.leftChild);
+			if(node.rightChild != null)
+				deque.offer(node.rightChild);
+		}
+	}
 	
 	/*自定义操作*/
 
@@ -213,7 +238,7 @@ class BinaryTree2<E> implements Tree<E>{
 	/**
 	 * 二叉树节点定义
 	 */
-	private static class TreeNode<E>{
+	public static class TreeNode<E>{
 		E value;
 		TreeNode<E> leftChild, rightChild;
 
