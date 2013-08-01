@@ -1,6 +1,7 @@
 /**
  * 邻接矩阵表示方法实现的图
- *
+ * Adjacency matrix
+ * 
  * BugList:
  * 1.不能动态增加删除顶点
  *

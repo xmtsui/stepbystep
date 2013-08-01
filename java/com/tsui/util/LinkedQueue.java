@@ -3,6 +3,8 @@ package com.tsui.util;
  * 链式的队列实现
  *
  * 注意：toString若没有覆盖重写，则输出对象名， 如com.tsui.util.LinkedQueue@c3bb2b8
+ * 
+ * buglist:
  * enqueue,dequeue实现从尾节点开始遍历，对应toString1()
  * offer,poll实现从头节点开始遍历，对应toString2()
  * 

@@ -1,6 +1,7 @@
 /**
  * 邻接表实现的图
- *
+ * Ajacency list
+ * 
  * BugList:
  * 1.不能动态增加删除Vertex
  * 
