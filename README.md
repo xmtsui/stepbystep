@@ -6,8 +6,11 @@ good good study
 including:
 
 1:some contests codes
+
 2:<\<Cracking the code interview>>
+
 3:my practice implementation of some data structures: 
+
 array list, linked list,
 vector, array stack,
 linked stack, 
