@@ -210,13 +210,13 @@ class BinaryTree1<E> implements Tree<E>{
 			return false;
 		if(size == 0 || size > MAX_SIZE)
 			return false;
-		for(int i=0; i<size; ++i)
-		{
-			nodes[i] = elements[i];
-		}
+		// for(int i=0; i<size; ++i)
+		// {
+		// 	nodes[i] = elements[i];
+		// }
 
-		//未改变nodes，使用初始化时的内存
-		// System.arraycopy(elements, 0, nodes, 0, size);
+		// 未改变nodes，使用初始化时的内存
+		System.arraycopy(elements, 0, nodes, 0, size);
 
 		//改变了nodes,重新分配了内存
 		//E[] tmp = nodes;
