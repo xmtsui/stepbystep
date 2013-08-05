@@ -6,22 +6,22 @@
  */
 class Hanoi_R{
 	private static int count = 1;
-	static void HanoiOper(int number, char a, char b, char c)
+	static void HanoiOper(int number, char from, char to, char tmp)
 	{
 		if(number == 1)
 		{
-			System.out.println("Step: " + count++ + ": From " + a + " to " + c);
+			System.out.println("Step: " + count++ + ": From " + from + " to " + to);
 		}
 		else
 		{
-			HanoiOper(number-1, a, c, b);
-			HanoiOper(1, a, b, c);
-			HanoiOper(number-1, b, a, c);
+			HanoiOper(number-1, from, tmp, to);
+			HanoiOper(1, from, to, tmp);
+			HanoiOper(number-1, tmp, to, from);
 		}
 	}
 
 	public static void main(String[] args)
 	{
-		HanoiOper(4, 'A','B','C');
+		HanoiOper(3, 'A','C','B');
 	}
 }
