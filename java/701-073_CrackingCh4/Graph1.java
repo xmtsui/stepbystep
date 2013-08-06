@@ -8,6 +8,8 @@
  * @author xmtsui
  * @version v1.0
  */
+import java.util.Deque;
+import java.util.LinkedList;
 class Graph1<E> implements Graph<E>{
 	private E[] vertex;
 	private int[][] adj_matrix;
@@ -39,7 +41,7 @@ class Graph1<E> implements Graph<E>{
 				else
 					adj_matrix[i][j] = INFINITY;
 			}
-	}
+		}
 
 	/**
 	 * 初始化图
@@ -54,6 +56,7 @@ class Graph1<E> implements Graph<E>{
 	/**
 	 * 清空图
 	 */
+	@Override
 	public void clearGraph(){
 		for(int i=0; i<MAX_VEX; ++i)
 		{
@@ -66,6 +69,8 @@ class Graph1<E> implements Graph<E>{
 					adj_matrix[i][j] = INFINITY;
 			}
 		}
+		vertex_num=0;
+		edge_num=0;
 	}
 	
 	/**
@@ -83,15 +88,34 @@ class Graph1<E> implements Graph<E>{
 	}
 
 	/**
+	 * 获取顶点数
+	 * @return [description]
+	 */
+	@Override
+	public int getVertexNum(){
+		return vertex_num;
+	}
+
+	/**
+	 * 获取边数
+	 * @return [description]
+	 */
+	@Override
+	public int getEdgeNum(){
+		return edge_num;
+	}
+
+	/**
 	 * 遍历
 	 */
+	@Override
 	public void doTraverse(){
-		System.out.println("一般遍历：");
+		System.out.println("一般遍历:");
 		doTraverseNorm();
-		// System.out.println("");
-		// doTraverseDFS();
-		// System.out.println("");
-		// doTraverseBFS();
+		System.out.print("DFS:\t");
+		doTraverseDFS();
+		System.out.print("BFS:\t");
+		doTraverseBFS();
 	}
 
 	/**
@@ -121,18 +145,88 @@ class Graph1<E> implements Graph<E>{
 		}
 	}
 
+	/*遍历状态*/
+	private boolean[] visited=new boolean[MAX_VEX];
+
 	/**
 	 * 深度优先遍历
 	 */
 	private void doTraverseDFS(){
-		
+		if(vertex_num==0)
+		{
+			System.out.println();
+			return;
+		}
+		// boolean[] visited = new boolean[vertex_num];
+		for(int i=0; i<vertex_num; ++i)
+		{
+			visited[i] = false;
+		}
+		for(int i=0; i<vertex_num; ++i)
+		{
+			// System.out.println(vertex[i]);
+			DFS(i);
+		}
+		System.out.println();
+	}
+
+	/**
+	 * 递归调用
+	 * @param i [description]
+	 */
+	private void DFS(int i)
+	{
+		if(!visited[i])
+			System.out.print(vertex[i]);
+		visited[i] = true;
+		for(int j=0; j<vertex_num; ++j)
+		{
+			if(adj_matrix[i][j]>0 && !visited[j])
+			{
+				DFS(j);
+			}
+		}
 	}
 
 	/**
 	 * 广度优先遍历
 	 */
 	private void doTraverseBFS(){
+		if(vertex_num == 0)
+		{
+			System.out.println();
+			return;
+		}
+		for(int i=0; i<vertex_num; ++i)
+		{
+			visited[i] = false;
+		}
+		Deque<Integer> queue = new LinkedList<Integer>();
+		for(int i=0; i<vertex_num; ++i)
+		{
+			if(!visited[i])
+			{
+				System.out.print(vertex[i]);
+				visited[i] = true;
+				queue.offer(i);
+				while(!queue.isEmpty())
+				{
+					int tmp = queue.poll();
+					for(int j=0; j<vertex_num; ++j)
+					{
+						if(adj_matrix[i][j]>0 && !visited[j])
+						{
+							if(visited[j] == false)
+								System.out.print(vertex[j]);
+							visited[j] = true;
+							queue.offer(j);
+						}
+					}
+				}
 
+			}//end of if
+		}//end of for
+		System.out.println();
 	}
 
 	/**
@@ -190,7 +284,7 @@ class Graph1<E> implements Graph<E>{
 	 */
 	public static void main(String[] args)
 	{
-		String[] vertex ={"A","B","C","D","E"};
+		String[] vertex ={"A","B","C","D","E","F","G"};
 		Graph1<String> g = new Graph1<String>(vertex.length, false);
 		g.addVertexes(vertex);
 		g.addEdge(0,4,6);
@@ -199,9 +293,13 @@ class Graph1<E> implements Graph<E>{
 		g.addEdge(2,0,2);
 		g.addEdge(2,3,5);
 		g.addEdge(3,4,1);
+		g.addEdge(2,5,3);
+		g.addEdge(5,6,3);
 		g.doTraverse();
+		System.out.println("clearing...");
 		g.clearGraph();
 		g.doTraverse();
+		System.out.println("destroying...");
 		g.destroyGraph();
 		g.doTraverse();
 	}

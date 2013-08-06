@@ -21,6 +21,18 @@ interface Graph<E>{
 	void destroyGraph();
 
 	/**
+	 * 获取顶点数
+	 * @return [description]
+	 */
+	int getVertexNum();
+
+	/**
+	 * 获取边数
+	 * @return [description]
+	 */
+	int getEdgeNum();
+	
+	/**
 	 * 遍历
 	 */
 	void doTraverse();

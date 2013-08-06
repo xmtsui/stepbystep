@@ -10,11 +10,14 @@
  */
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 class Graph2<E> implements Graph<E>{
 	private List<VertexNode<E>> adj_list;
 	private int vertex_num;
 	private int edge_num;
 	private boolean directed;
+	private boolean[] visited;/*访问状态记录*/
 
 	/**
 	 * 根据是否是有向图，初始化
@@ -55,16 +58,36 @@ class Graph2<E> implements Graph<E>{
 	}
 
 	/**
+	 * 获取顶点数
+	 * @return [description]
+	 */
+	@Override
+	public int getVertexNum(){
+		return vertex_num;
+	}
+
+	/**
+	 * 获取边数
+	 * @return [description]
+	 */
+	@Override
+	public int getEdgeNum(){
+		return edge_num;
+	}
+
+	/**
 	 * 遍历
 	 */
 	@Override
 	public void doTraverse(){
-		System.out.println("一般遍历：");
+		System.out.println("一般遍历: ");
 		doTraverseNorm();
-		// System.out.println("");
-		// doTraverseDFS();
-		// System.out.println("");
-		// doTraverseBFS();
+		System.out.print("DFS:\t ");
+		doTraverseDFS();
+		System.out.println();
+		System.out.print("BFS:\t ");
+		doTraverseBFS();
+		System.out.println();
 	}
 
 	/**
@@ -99,6 +122,89 @@ class Graph2<E> implements Graph<E>{
 	}
 
 	/**
+	 * 深度遍历
+	 */
+	private void doTraverseDFS()
+	{
+		if(vertex_num==0)
+			return;
+		for(int i=0; i<vertex_num; ++i)
+		{
+			visited[i] = false;
+		}
+		for(int i=0; i<vertex_num; ++i)
+		{
+			if(!visited[i])
+				DFS(i);
+		}
+		System.out.println();
+	}
+
+	/**
+	 * 递归
+	 * @param i [description]
+	 */
+	private void DFS(int i)
+	{
+		VertexNode v = adj_list.get(i);
+		if(v == null)
+			return;
+		if(visited[i] == false)
+			System.out.print(v.element);
+		visited[i] = true;
+		EdgeNode e = v.first_edge;
+		while(e!=null)
+		{
+			if(!visited[e.adj_vertex])
+				DFS(e.adj_vertex);
+			e=e.next_edge;
+		}
+	}
+
+	/**
+	 * 广度遍历
+	 */
+	private void doTraverseBFS()
+	{
+		if(vertex_num==0)
+			return;
+		for(int i=0; i<vertex_num; ++i)
+		{
+			visited[i]=false;
+		}
+		Deque<VertexNode<E>> queue = new LinkedList<VertexNode<E>>();
+		for(int i=0; i<vertex_num; ++i)
+		{
+			if(!visited[i])
+			{
+				VertexNode<E> v = adj_list.get(i);
+				if(v==null)
+					return;
+				visited[i] = true;
+				System.out.print(v.element);
+				queue.offer(v);
+				while(!queue.isEmpty())
+				{
+					VertexNode<E> tmp_v = queue.poll();
+					EdgeNode e = tmp_v.first_edge;
+					while(e!=null)
+					{
+						int tmp_index = e.adj_vertex;
+						tmp_v = adj_list.get(tmp_index);
+						if(!visited[tmp_index])
+						{
+							visited[tmp_index] = true;
+							System.out.print(tmp_v.element);
+							queue.offer(tmp_v);
+						}
+						e = e.next_edge;
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * 一次添加所有顶点
 	 * @param  vertex [description]
 	 * @return        [description]
@@ -112,6 +218,7 @@ class Graph2<E> implements Graph<E>{
 			adj_list.add(new VertexNode<E>(vertex[i]));
 		}
 		this.vertex_num = size;
+		visited=new boolean[size];
 		return true;
 	}
 
@@ -173,12 +280,27 @@ class Graph2<E> implements Graph<E>{
 		return true;
 	}
 
+	public VertexNode<E> getVertexNode(int i)
+	{
+		return adj_list.get(i);
+	}
+
+	public int getVertexNodeIndex(VertexNode<E> node)
+	{
+		for(int i=0; i<vertex_num; ++i)
+		{
+			if(adj_list.get(i) == node)
+				return i;
+		}
+		return -1;
+	}
+
 	/**
 	 * 顶点节点
 	 * 包含顶点信息
 	 * 邻接表的第一个节点引用
 	 */
-	private static class VertexNode<E>{
+	static class VertexNode<E>{
 		E element;
 		EdgeNode first_edge;
 		VertexNode(){}
@@ -194,7 +316,7 @@ class Graph2<E> implements Graph<E>{
 	 *  包含弧头位置(无向图叫边的另一端)，边的权重
 	 *  以及下一个邻接点引用
 	 */
-	private static class EdgeNode{
+	static class EdgeNode{
 		int adj_vertex;
 		int weight;
 		EdgeNode next_edge;
@@ -212,14 +334,17 @@ class Graph2<E> implements Graph<E>{
 	 */
 	public static void main(String[] args)
 	{
-		String[] vertex ={"A","B","C","D"};
-		Graph2<String> g = new Graph2<String>(false);
+		String[] vertex ={"A","B","C","D","E","F","G"};
+		Graph2<String> g = new Graph2<String>(true);
 		g.addVertexes(vertex);
-		g.addEdge(0,1,0);
-		g.addEdge(0,2,0);
+		g.addEdge(1,0,0);
+		g.addEdge(2,0,0);
 		g.addEdge(0,3,0);
 		g.addEdge(1,2,0);
 		g.addEdge(2,3,0);
+		g.addEdge(3,6,0);
+		g.addEdge(2,4,0);
+		g.addEdge(4,5,0);
 		g.doTraverse();
 		g.clearGraph();
 		g.doTraverse();
