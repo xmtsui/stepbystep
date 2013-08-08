@@ -52,7 +52,7 @@ int main(void)
 	printf("%s\n","search1开始");
 	time_t ts1,te1;
  	ts1=time(NULL);
- 	result=Sequential_Search(a,MAXSIZE,777);
+ 	result=Sequential_Search(a,MAXSIZE,MAXSIZE/2);
 	printf("Sequential_Search:%ld: ",result);
  	te1=time(NULL);
 	printf("%s","search1完成，总时间为：");
@@ -61,7 +61,7 @@ int main(void)
 	printf("%s\n","search2开始");
  	time_t ts2,te2;
  	ts2=time(NULL);
- 	result=Sequential_Search2(a,MAXSIZE,777);
+ 	// result=Sequential_Search2(a,MAXSIZE,MAXSIZE/2);
 	printf("Sequential_Search2:%ld: ",result);
  	te2=time(NULL);
 	printf("%s","search2完成，总时间为：");
@@ -70,7 +70,7 @@ int main(void)
  	printf("%s\n","search3开始");
  	time_t ts3,te3;
  	ts3=time(NULL);
- 	result=Sequential_Search3(a,MAXSIZE,777);
+ 	result=Sequential_Search3(a,MAXSIZE,MAXSIZE/2);
 	printf("Sequential_Search3:%ld: ",result);
  	te3=time(NULL);
 	printf("%s","search3完成，总时间为：");
