@@ -44,3 +44,4 @@ onlineclustering/WebRoot/WEB-INF/classes/
 onlineclustering/WebRoot/nutch/output/
 onlineclustering/.tomcatplugin
 contest/length
+*a.out.dSYM*

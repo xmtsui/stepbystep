@@ -122,7 +122,7 @@ class SequentialSearch{
 		int MAX=mb*10;//10mb
 		// int MAX=kb*8;//8kb，递归栈溢出
 		// int MAX=kb*4;//4kb，递归栈不溢出
-		int[] seq_big = new int[MAX];//1mb*4byte=4mb
+		int[] seq_big = new int[MAX];//10mb*4byte=40mb
 		for(int i=0; i<MAX; i++)
 		{
 			seq_big[i] = i;
