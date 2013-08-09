@@ -1,5 +1,5 @@
 /**
- * 测试
+ * 测试长度为0的数组
  * @author xmtsui
  * @version v1.0
  */

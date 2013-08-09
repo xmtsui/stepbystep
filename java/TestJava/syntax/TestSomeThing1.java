@@ -1,3 +1,8 @@
+/**
+ * static final 顺序
+ * @author xmtsui
+ * @version v1.0
+ */
 import java.util.List;
 import java.util.ArrayList;
 class TestSomeThing1{

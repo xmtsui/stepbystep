@@ -1,3 +1,9 @@
+/**
+ * 测试线程的基本操作
+ *
+ * @author xmtsui
+ * @version v1.0
+ */
 import java.util.Random;
 class TestThread extends Thread{
 	private static int i=0;

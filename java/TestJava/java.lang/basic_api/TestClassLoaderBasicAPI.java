@@ -1,3 +1,9 @@
+/**
+ * 测试ClassLoader的基本API
+ *
+ * @author xmtsui
+ * @version v1.0
+ */
 class TestClassLoaderBasicAPI{
 	public static void main(String[] args)
 	{

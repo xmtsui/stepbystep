@@ -1,3 +1,9 @@
+/**
+ * 测试Object类的基本api
+ * 
+ * @author xmtsui
+ * @version v1.0
+ */
 class TestObjectBasicAPI{
 	public static void main(String[] args)
 	{

@@ -1,3 +1,6 @@
+/**
+ * Test assertion
+ */
 class TestSomething3{
 	public static void main(String[] args)
 	{

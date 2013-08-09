@@ -1,3 +1,9 @@
+/**
+ * 测试各种生成随机数的方法
+ *
+ * @author xmtsui
+ * @version v1.0
+ */
 import java.util.Random;
 class TestRandom{
 	private static int DELAY = 10;

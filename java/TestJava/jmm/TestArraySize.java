@@ -1,6 +1,9 @@
 /**
- * mac虚拟机默认jvm 128mb
+ * 测试数组最大长度
+ *
+ * 注意：int的范围与所能表示的最大存储容量之间的关系
  * 
+ * 备注：mac虚拟机默认jvm 128mb
  * 加上JAVA_OPTS=-Xms64m -Xmx512m 
  * 在{tomcat_home}/bin/catalina.sh的前面，加set JAVA_OPTS='-Xms64 -Xmx512' 
  */

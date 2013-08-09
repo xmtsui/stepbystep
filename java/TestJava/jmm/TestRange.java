@@ -1,5 +1,5 @@
 /**
- * 
+ * 测试变量范围
  */
 class TestRange{
 	public static void main(String[] args)

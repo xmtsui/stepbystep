@@ -1,3 +1,11 @@
+/**
+ * java线程,1.5之后默认1m
+ * 
+ * 一个进程总的线程数根据系统设置有关
+ * ulimit -s
+ * @author xmtsui
+ * @version v1.0
+ */
 class TestThreadDefaultStackSize{
 	public static void main(String[] args)
 	{
