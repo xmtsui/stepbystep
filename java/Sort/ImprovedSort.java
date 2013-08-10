@@ -4,15 +4,82 @@
  * @author xmtsui
  * @version v1.0
  */
+import java.util.Arrays;
 class ImprovedSort{
-	static void ShellSort(SeqList l)
+	/**
+	 * 希尔排序
+	 * @param l [description]
+	 */
+	public static void ShellSort(SeqList l)
 	{
+		int len = l.len;
 
+		//关于increment取值，有很多办法，需要查资料学习对比
+		//第一种 
+		//int increment = len/2;
+		//第二种 Knuth序列
+		int increment=1;
+		while(increment <= len/3)
+			increment = increment*3+1;
+
+		//插入排序
+		do{
+			for(int i=increment+1; i<=len; ++i)
+			{
+				//有序增量子表中，如果前一个>后一个，则交换
+				if(l.r[i-increment] > l.r[i])
+				{
+					l.r[0] = l.r[i];
+					int j = i-increment;//从前一个开始,插入排序是j=i-1
+					while(j>=0 && l.r[j] > l.r[0])//相比插入排序，增加了j>=0的判断
+					{
+						l.r[j+increment] = l.r[j];
+						j-=increment;
+					}
+					l.r[j+increment] = l.r[0];
+				}
+			}
+			increment = (increment-1)/3;
+		} while(increment>=1);
 	}
 
-	static void HeapSort(SeqList l)
+	/**
+	 * 堆排序
+	 * @param l [description]
+	 */
+	public static void HeapSort(SeqList l)
 	{
+		int len = l.len;
+		for(int i=len/2; i>0; --i)
+			AdjustHeap(l, i, len);
 
+		for(int i=len; i>1; --i)
+		{
+			Swap(l, 1, i);
+			AdjustHeap(l, 1, i-1);
+		}
+	}
+
+	/**
+	 * 调整堆
+	 * @param  l   [description]
+	 * @param  s   [description]
+	 * @param  end [description]
+	 * @return     [description]
+	 */
+	private static void AdjustHeap(SeqList l, int s, int end)
+	{
+		int temp = l.r[s];
+		for(int i=s*2; i<=end; i*=2)
+		{
+			if(i<end && l.r[i]<l.r[i+1])//此处i<end必须有，若没有右儿子的情况，防止l.r[i+1]访问出错
+				i++;
+			if(temp>=l.r[i])//如果s值大于左右两个儿子，则退出循环
+				break;
+			l.r[s] = l.r[i];//大值向上移动
+			s = i;//记录移动后空出来的位置i
+		}
+		l.r[s] = temp;//把空出来的位置赋予之前保存的临时值（开始的s值），如果没有交换，l.r[s]=temp;
 	}
 
 	static void MergeSort(SeqList l)
@@ -25,9 +92,6 @@ class ImprovedSort{
 
 	}
 
-	private static final int KB = 1024;
-	// private static final int KB = 1024*1024;//测试内存用
-	private static final int MB = 1024*1024;
 	/**
 	 * 交换函数
 	 * @param l [description]
@@ -45,7 +109,7 @@ class ImprovedSort{
 	 * 内部封装类
 	 */
 	private static class SeqList implements Cloneable{
-		private final static int MAXSIZE=KB;
+		private final static int MAXSIZE=1024;
 		int[] r = new int[MAXSIZE+1];//r[0]为哨兵，或者临时存储，真正的存储在1~len之间
 		int len;
 
@@ -98,18 +162,7 @@ class ImprovedSort{
 	}
 
 	public static void main(String[] args)
-	{
-		//检测内存消耗
-		Runtime rt_jmm = Runtime.getRuntime();
-		long total_jmm = rt_jmm.totalMemory();
-		long max_jmm = rt_jmm.maxMemory();
-		int MB_JMM = 1024*1024;
-		System.out.println("total : " + total_jmm/MB_JMM + " mb");
-		System.out.println("max : " + max_jmm/MB_JMM + " mb");
-
-		//初始空闲内存记录
-		long free1_jmm = rt_jmm.freeMemory();
-		
+	{	
 		/*小数据*/
 		int[] d={50,10,90,30,70,40,80,60,20,33};
 		int N=d.length;
@@ -120,57 +173,14 @@ class ImprovedSort{
 		q2 = (SeqList)q0.clone();
 		q3 = (SeqList)q0.clone();
 		
-		q0.toString("希尔排序",false);
+		q0.toString("排序之前",false);
 		ShellSort(q0);
 		q0.toString("希尔排序",true);
-		q1.toString("哦堆排序",false);
 		HeapSort(q1);
 		q1.toString("哦堆排序",true);
-		q2.toString("归并排序",false);
 		MergeSort(q2);
 		q2.toString("归并排序",true);
-		q3.toString("快速排序",false);
 		QuickSort(q3);
 		q3.toString("快速排序",true);
-
-		/*大数据*/
-		int[] d1= new int[KB];//4KB
-		for(int i=0; i<KB; ++i)
-		{
-			d1[i] = (int)(100*Math.random());
-		}
-
-		SeqList l1 = new SeqList(d1, KB);
-		SeqList l2 = (SeqList)l1.clone();
-		//此处如果没有用q0，则内存被回收，输出7，加上下面的语句，则输出11
-		// System.out.println(q0.r.length+",,,,");
-		long free2_jmm = rt_jmm.freeMemory();
-		SeqList l3 = (SeqList)l1.clone();
-		SeqList l4 = (SeqList)l1.clone();
-		System.out.println("used : " + (free1_jmm-free2_jmm)/MB_JMM + " mb");
-
-		long start1 = System.currentTimeMillis();
-		ShellSort(l1);
-		long end1 = System.currentTimeMillis();
-		long time1 = end1 - start1;
-
-		long start2 = System.currentTimeMillis();
-		HeapSort(l2);
-		long end2 = System.currentTimeMillis();
-		long time2 = end2 - start2;
-
-		long start3 = System.currentTimeMillis();
-		MergeSort(l3);
-		long end3 = System.currentTimeMillis();
-		long time3 = end3 - start3;
-
-		long start4 = System.currentTimeMillis();
-		QuickSort(l4);
-		long end4 = System.currentTimeMillis();
-		long time4 = end4 - start4;
-
-		System.out.println("For big data, time1: " + time1 + 
-			"| time2: "+ time2 + "| time3: "+ time3 +
-			"| time4: "+ time4 );
 	}
 }

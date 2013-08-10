@@ -109,7 +109,7 @@ class SimpleSort {
 				min = j;
 			}
 			if(min != i)//如果没找到还小的，则不交换。所以正序的时候，一次交换都没有
-				Swap(l,i,min);
+			Swap(l,i,min);
 		}
 	}
 
@@ -140,6 +140,83 @@ class SimpleSort {
 		}
 	}
 
+	/**
+	 * 希尔排序
+	 * @param l [description]
+	 */
+	static void ShellSort(SeqList l)
+	{
+		int len = l.len;
+
+		//关于increment取值，有很多办法，需要查资料学习对比
+		//第一种 
+		//int increment = len/2;
+		//第二种 Knuth序列
+		int increment=1;
+		while(increment <= len/3)
+			increment = increment*3+1;
+
+		//插入排序
+		do{
+			for(int i=increment+1; i<=len; ++i)
+			{
+				//有序增量子表中，如果前一个>后一个，则交换
+				if(l.r[i-increment] > l.r[i])
+				{
+					l.r[0] = l.r[i];
+					int j = i-increment;//从前一个开始,插入排序是j=i-1
+					while(j>=0 && l.r[j] > l.r[0])//相比插入排序，增加了j>=0的判断
+					{
+						l.r[j+increment] = l.r[j];
+						j-=increment;
+					}
+					l.r[j+increment] = l.r[0];
+				}
+			}
+			increment = (increment-1)/3;
+		} while(increment>=1);
+	}
+
+	/**
+	 * 堆排序
+	 * @param l [description]
+	 */
+	static void HeapSort(SeqList l)
+	{
+		int len = l.len;
+		for(int i=len/2; i>0; --i)
+			AdjustHeap(l, i, len);
+
+		for(int i=len; i>1; --i)
+		{
+			Swap(l, 1, i);
+			AdjustHeap(l, 1, i-1);
+		}
+	}
+
+	/**
+	 * 调整堆
+	 * @param  l   [description]
+	 * @param  s   [description]
+	 * @param  end [description]
+	 * @return     [description]
+	 */
+	private static void AdjustHeap(SeqList l, int s, int end)
+	{
+		int temp = l.r[s];
+		for(int i=s*2; i<=end; i*=2)
+		{
+			if(i<end && l.r[i]<l.r[i+1])//此处i<end必须有，若没有右儿子的情况，防止l.r[i+1]访问出错
+				i++;
+			if(temp>=l.r[i])//如果s值大于左右两个儿子，则退出循环
+				break;
+			l.r[s] = l.r[i];//大值向上移动
+			s = i;//记录移动后空出来的位置i
+		}
+		l.r[s] = temp;//把空出来的位置赋予之前保存的临时值（开始的s值），如果没有交换，l.r[s]=temp;
+	}
+
+	/*自定义部分*/
 	private static final int KB = 1024;
 	// private static final int KB = 1024*1024;//测试内存用
 	private static final int MB = 1024*1024;
@@ -191,7 +268,7 @@ class SimpleSort {
 			// System.out.println("\n==============="+(r==o.r));
 			// 生成新的数组
 			o.r = Arrays.copyOf(r, len+1);
-			System.out.println(o.r.length+".....");
+			// System.out.println(o.r.length+".....");//测试clone复制了多长的数组
 			// System.out.println("\n==============="+(r==o.r));
 			return o;
 		}
@@ -230,28 +307,31 @@ class SimpleSort {
 		int[] d={50,10,90,30,70,40,80,60,20,33};
 		int N=d.length;
 
-		SeqList q0,q1,q2,q3,q4;
+		SeqList q0,q1,q2,q3,q4,q5,q6;
 		q0 = new SeqList(d,N);
 		q1 = (SeqList)q0.clone();//clone的时候，只clone了len长度的数组
 		q2 = (SeqList)q0.clone();
 		q3 = (SeqList)q0.clone();
 		q4 = (SeqList)q0.clone();
+		q5 = (SeqList)q0.clone();
+		q6 = (SeqList)q0.clone();
 		
-		q0.toString("交换排序",false);
+		q0.toString("排序之前",false);
 		BubbleSort0(q0);
 		q0.toString("交换排序",true);
-		q1.toString("一般冒泡",false);
 		BubbleSort1(q1);
 		q1.toString("一般冒泡",true);
-		q2.toString("改进冒泡",false);
 		BubbleSort2(q2);
 		q2.toString("改进冒泡",true);
-		q3.toString("选择排序",false);
 		SelectSort(q3);
 		q3.toString("选择排序",true);
-		q4.toString("插入排序",false);
 		InsertSort(q4);
 		q4.toString("插入排序",true);
+		ShellSort(q5);
+		q5.toString("希尔排序",true);
+		HeapSort(q6);
+		q6.toString("哦堆排序",true);
+		
 		/*大数据*/
 		int[] d1= new int[KB];//4KB
 		for(int i=0; i<KB; ++i)
@@ -267,6 +347,8 @@ class SimpleSort {
 		SeqList l3 = (SeqList)l1.clone();
 		SeqList l4 = (SeqList)l1.clone();
 		SeqList l5 = (SeqList)l1.clone();
+		SeqList l6 = (SeqList)l1.clone();
+		SeqList l7 = (SeqList)l1.clone();
 		System.out.println("used : " + (free1_jmm-free2_jmm)/MB_JMM + " mb");
 		
 		long start1 = System.currentTimeMillis();
@@ -294,9 +376,22 @@ class SimpleSort {
 		long end5 = System.currentTimeMillis();
 		long time5 = end5 - start5;
 
-		System.out.println("For big data, time1: " + time1 + 
-			"| time2: "+ time2 + "| time3: "+ time3 +
-			"| time4: "+ time4 + "| time5: "+ time5
+		long start6 = System.currentTimeMillis();
+		ShellSort(l6);
+		long end6 = System.currentTimeMillis();
+		long time6 = end6 - start6;
+
+		long start7 = System.currentTimeMillis();
+		HeapSort(l7);
+		long end7 = System.currentTimeMillis();
+		long time7 = end7 - start7;
+
+		System.out.println("冒泡1\t|冒泡2\t|冒泡3\t|选择\t|插入\t|希尔\t|堆\t");
+
+		System.out.println(time1 + 
+			"\t|"+ time2 + "\t|"+ time3 +
+			"\t|"+ time4 + "\t|"+ time5 +
+			"\t|"+ time6 + "\t|"+ time7
 			);
 	}
 }
