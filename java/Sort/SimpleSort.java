@@ -1,23 +1,25 @@
 /**
- * 简单排序算法：冒泡，选择，插入(三个都是稳定的)
+ * 简单排序算法：冒泡，选择(选择最小交换)，插入(直接插入有序)
+ * (三个都是内部排序，且稳定的)
  * 
  * 结论分析：
- * 1024之内的排序，bubble1,2比bubble0要好
+ * 冒泡：
+ * 1024之内的排序，bubble1,bubble2比bubble0要好
  * 1024-1024*5之间，三个差不多
  * 1024*5~1024*10以后，第一种要好很多
  *
- * 所有的一起比较
- * 1024*5~1024*10以后，插入最优，其次选择
+ * 所有简单排序：
+ * 1024之内,哨兵bubble，select略优，insert稍慢
+ * 1024*5~1024*10以后，插入最优，其次选择，再其次冒泡1交换（bubble1)
+ * 
+ * 总体上说选择略优于冒泡，直接插入最优
  *
- * 选择略优于冒泡，直接插入最优
+ * (关于内存，当分配不超过1m时直接使用栈内存，不在堆上分配，jvm逃逸分析)
  * @author xmtsui
  * @version v1.0
  */
 import java.util.Arrays;
-class SimpleSort {
-	private static final int KB = 1024*20;
-	private static final int MB = 1024*1024;
-	
+class SimpleSort {	
 	/**
 	 * 伪冒泡排序（交换排序）
 	 * 最好o(n^2),平均o(n^2),最坏o(n^2),空间o(1)
@@ -107,7 +109,7 @@ class SimpleSort {
 				min = j;
 			}
 			if(min != i)//如果没找到还小的，则不交换。所以正序的时候，一次交换都没有
-			Swap(l,i,min);
+				Swap(l,i,min);
 		}
 	}
 
@@ -127,7 +129,7 @@ class SimpleSort {
 			if(l.r[i-1]>l.r[i])//若前一个数比当前i数大，则将当前数插入有序子表,若正序则无插入操作
 			{
 				int j=i-1;
-				l.r[0]=l.r[i];//临时变量存储，用于临界监测
+				l.r[0]=l.r[i];//既用于临时变量存储，又用于while时候的临界监测（可不判断j是否<=0)
 				while(l.r[j]>l.r[0])//循环后移有序表中比i数大的，结束的时候，j下标在合适位置的前一个
 				{
 					l.r[j+1] = l.r[j];
@@ -138,13 +140,26 @@ class SimpleSort {
 		}
 	}
 
-	static void Swap(SeqList l, int a, int b)
+	private static final int KB = 1024;
+	// private static final int KB = 1024*1024;//测试内存用
+	private static final int MB = 1024*1024;
+
+	/**
+	 * 交换函数
+	 * @param l [description]
+	 * @param a [description]
+	 * @param b [description]
+	 */
+	private static void Swap(SeqList l, int a, int b)
 	{
 		int tmp=l.r[a];
 		l.r[a]=l.r[b];
 		l.r[b]=tmp;
 	}
 
+	/**
+	 * 内部封装类
+	 */
 	private static class SeqList implements Cloneable{
 		private final static int MAXSIZE=KB;
 		int[] r = new int[MAXSIZE+1];//r[0]为哨兵，或者临时存储，真正的存储在1~len之间
@@ -176,6 +191,7 @@ class SimpleSort {
 			// System.out.println("\n==============="+(r==o.r));
 			// 生成新的数组
 			o.r = Arrays.copyOf(r, len+1);
+			System.out.println(o.r.length+".....");
 			// System.out.println("\n==============="+(r==o.r));
 			return o;
 		}
@@ -199,12 +215,24 @@ class SimpleSort {
 
 	public static void main(String[] args)
 	{
+		//检测内存消耗
+		Runtime rt_jmm = Runtime.getRuntime();
+		long total_jmm = rt_jmm.totalMemory();
+		long max_jmm = rt_jmm.maxMemory();
+		int MB_JMM = 1024*1024;
+		System.out.println("total : " + total_jmm/MB_JMM + " mb");
+		System.out.println("max : " + max_jmm/MB_JMM + " mb");
+
+		//初始空闲内存记录
+		long free1_jmm = rt_jmm.freeMemory();
+		
+		/*小数据*/
 		int[] d={50,10,90,30,70,40,80,60,20,33};
 		int N=d.length;
 
 		SeqList q0,q1,q2,q3,q4;
 		q0 = new SeqList(d,N);
-		q1 = (SeqList)q0.clone();
+		q1 = (SeqList)q0.clone();//clone的时候，只clone了len长度的数组
 		q2 = (SeqList)q0.clone();
 		q3 = (SeqList)q0.clone();
 		q4 = (SeqList)q0.clone();
@@ -224,18 +252,23 @@ class SimpleSort {
 		q4.toString("插入排序",false);
 		InsertSort(q4);
 		q4.toString("插入排序",true);
-
+		/*大数据*/
 		int[] d1= new int[KB];//4KB
 		for(int i=0; i<KB; ++i)
 		{
 			d1[i] = (int)(100*Math.random());
 		}
+
 		SeqList l1 = new SeqList(d1, KB);
 		SeqList l2 = (SeqList)l1.clone();
+		//此处如果没有用q0，则内存被回收，输出7，加上下面的语句，则输出11
+		// System.out.println(q0.r.length+",,,,");
+		long free2_jmm = rt_jmm.freeMemory();
 		SeqList l3 = (SeqList)l1.clone();
 		SeqList l4 = (SeqList)l1.clone();
 		SeqList l5 = (SeqList)l1.clone();
-
+		System.out.println("used : " + (free1_jmm-free2_jmm)/MB_JMM + " mb");
+		
 		long start1 = System.currentTimeMillis();
 		BubbleSort0(l1);
 		long end1 = System.currentTimeMillis();

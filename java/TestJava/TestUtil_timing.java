@@ -33,5 +33,19 @@ class TestUtil_timing{
 
 		System.out.println("For big data, time1: " + time1 + "| time2: "+ time2, "| time3: "+ time3);
 
+		/*---------------------*/
+		Runtime rt_jmm = Runtime.getRuntime();
+		long total_jmm = rt_jmm.totalMemory();
+		long max_jmm = rt_jmm.maxMemory();
+		int MB_JMM = 1024*1024;
+		int KB_JMM = 1024;
+		System.out.println("total : " + total_jmm/MB_JMM + " mb");
+		System.out.println("max : " + max_jmm/MB_JMM + " mb");
+
+		
+		long free1_jmm = rt_jmm.freeMemory();
+		long free2_jmm = rt_jmm.freeMemory();
+		System.out.println("used : " + (free1_jmm-free2_jmm)/MB_JMM + " mb");
+
 	}
 }
