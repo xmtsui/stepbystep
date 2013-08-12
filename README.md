@@ -11,10 +11,3 @@ including:
 4. Search
 5. Sort
 6. Test Labs
-
-List|Stack|Queue|Tree|BinaryTree|Graph
--|-|-|-|-|-
-array|array|linked|parent(array)|array|ajacency matrix
-linked|linked||child(array)|linked|ajacency list
-vector|||child-sibling(linked)||
-

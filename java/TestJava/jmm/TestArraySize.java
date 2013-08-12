@@ -1,7 +1,10 @@
 /**
  * 测试数组最大长度
  *
- * 注意：int的范围与所能表示的最大存储容量之间的关系
+ * 注意：int的范围与所能表示的最大存储容量之间的边界值
+ * int max= 1024 * 1024 * 1024 * 2 - 1 	//2gb = 刚好等于int最大值
+ *
+ * 注意2:java -client / -server的堆内存不同
  * 
  * 备注：mac虚拟机默认jvm 128mb
  * 加上JAVA_OPTS=-Xms64m -Xmx512m 
@@ -49,7 +52,8 @@ class TestArraySize{
 		// int MAX=1024*1024*10;//20mb
 		
 		long free1 = rt.freeMemory();
-		boolean[] seq_big = new boolean[MAX];//1mb
+		boolean seq_big[] = new boolean[MAX];//1mb
+		// boolean[] seq_big = new boolean[MAX];//1mb
 		// char[] seq_big = new char[MAX];//2mb
 		// int[] seq_big = new int[MAX];//4mb
 		long free2 = rt.freeMemory();

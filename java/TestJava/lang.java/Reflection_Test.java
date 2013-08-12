@@ -1,5 +1,5 @@
 import java.util.Date;
-class TestReflection{
+class Reflection_Test{
 	public static void main(String[] args)
 	{
 		/*第一种获得Class类对象的方法：Object的getClass()方法，获得一个Class类型的实例*/

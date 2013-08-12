@@ -61,7 +61,7 @@ class ImprovedSort{
 	}
 
 	/**
-	 * 调整堆
+	 * 调整堆（大顶堆）
 	 * @param  l   [description]
 	 * @param  s   [description]
 	 * @param  end [description]
@@ -73,23 +73,190 @@ class ImprovedSort{
 		for(int i=s*2; i<=end; i*=2)
 		{
 			if(i<end && l.r[i]<l.r[i+1])//此处i<end必须有，若没有右儿子的情况，防止l.r[i+1]访问出错
-				i++;
+			i++;
 			if(temp>=l.r[i])//如果s值大于左右两个儿子，则退出循环
-				break;
+			break;
 			l.r[s] = l.r[i];//大值向上移动
 			s = i;//记录移动后空出来的位置i
 		}
 		l.r[s] = temp;//把空出来的位置赋予之前保存的临时值（开始的s值），如果没有交换，l.r[s]=temp;
 	}
 
-	static void MergeSort(SeqList l)
+	/**
+	 * 迭代归并 
+	 * @param l [description]
+	 */
+	static void MergeSort1(SeqList sl, SeqList tl, int start, int end)
 	{
-
+		SeqList tmp = new SeqList();
+		if(start == end)
+		{
+			tl.r[start] = sl.r[start];
+		}
+		else
+		{
+			int medium = (start+end)/2;
+			MergeSort1(sl, tmp, start, medium);
+			MergeSort1(sl, tmp, medium+1, end);
+			Merge(tmp, tl, start, medium, end);
+		}
 	}
 
-	static void QuickSort(SeqList l)
+	private static void Merge(SeqList sl, SeqList tl, int start, int medium, int end)
 	{
+		int i=0,j=0,k=0;
+		for(i=start, j=medium+1; start<=medium&&j<=end; i++)
+		{
+			if(sl.r[start] < sl.r[j])
+				tl.r[i] = sl.r[start++];
+			else
+				tl.r[i] = sl.r[j++];
+		}
 
+		if(start<=medium)
+		{
+			for(int z=start; z<=medium; ++z)
+				tl.r[i++] = sl.r[z];
+		}
+
+		if(j<=end)
+		{
+			for(int z=j; z<=end; ++z)
+				tl.r[i++] = sl.r[z];
+		}
+	}
+
+	/**
+	 * 非迭代归并
+	 * @param l [description]
+	 */
+	static void MergeSort2(SeqList l)
+	{
+		SeqList tmp = new SeqList();
+		int len = l.len;
+		int k=1;
+		while(k<len)
+		{
+			MergePass(l, tmp, k, len);
+			k=2*k;
+			MergePass(tmp, l, k, len);
+			k=2*k;
+		}
+	}
+
+	private static void MergePass(SeqList l, SeqList tmp, int start, int end)
+	{
+		int k=1;
+		while(k<=end-2*start+1)
+		{
+			Merge(l, tmp, k, k+start-1, k+2*start-1);
+			k=k+2*start;
+		}
+		if(k<end-start+1)
+			Merge(l,tmp,k,k+start-1,end);
+		else
+			for(int i=k; i<=end; i++)
+				tmp.r[i] = l.r[i];
+		}
+
+	/**
+	 * 快速排序
+	 * @param l [description]
+	 */
+	static void QuickSort1(SeqList l, int start, int end)
+	{
+		int pivot;
+		if(start<end)
+		{
+			pivot = Partition1(l, start, end);
+			QuickSort1(l, start, pivot-1);
+			QuickSort1(l, pivot+1, end);
+		}
+	}
+
+	private static int Partition1(SeqList l, int start, int end)
+	{
+		int pivotkey=l.r[start];
+		while(start<end)
+		{
+			while(start<end && l.r[end]>=pivotkey)
+				end--;
+			Swap(l, start, end);
+			while(start<end && l.r[start]<=pivotkey)
+				start++;
+			Swap(l, start, end);
+		}
+		return start;
+	}
+
+	/* 用于快速排序时判断是否选用插入排序阙值 */
+	private final static int MAX_LENGTH_INSERT_SORT = 7;
+	static void QuickSort2(SeqList l, int start, int end)
+	{ 
+		int pivot;
+		if((end-start)>MAX_LENGTH_INSERT_SORT)
+		{
+			while(start<end)
+			{
+				pivot=Partition2(l,start,end); /*  将l->r[start..end]一分为二，算出枢轴值pivot */
+				QuickSort2(l,start,pivot-1);		/*  对低子表递归排序 */
+				/* QuickSort2(l,pivot+1,end);		/*  对高子表递归排序 */
+				start=pivot+1;	/* 尾递归 */
+			}
+		}
+		else
+			InsertSort(l);
+	}
+
+	/* 快速排序优化算法 */
+	private static int Partition2(SeqList l,int start,int end)
+	{ 
+		int pivotkey;
+
+		int m = start + (end - start) / 2; /* 计算数组中间的元素的下标 */  
+		if (l.r[start]>l.r[end])			
+			Swap(l,start,end);	/* 交换左端与右端数据，保证左端较小 */
+		if (l.r[m]>l.r[end])
+			Swap(l,end,m);		/* 交换中间与右端数据，保证中间较小 */
+		if (l.r[m]>l.r[start])
+			Swap(l,m,start);		/* 交换中间与左端数据，保证左端较小 */
+
+		pivotkey=l.r[start]; /* 用子表的第一个记录作枢轴记录 */
+		l.r[0]=pivotkey;  /* 将枢轴关键字备份到l.r[0] */
+		while(start<end) /*  从表的两端交替地向中间扫描 */
+		{ 
+			while(start<end && l.r[end]>=pivotkey)
+				end--;
+			l.r[start]=l.r[end];
+			while(start<end && l.r[start]<=pivotkey)
+				start++;
+			l.r[end]=l.r[start];
+		}
+		l.r[start]=l.r[0];
+		return start; /* 返回枢轴所在位置 */
+	}
+
+	/**
+	 * 插入排序（插入已有序排序）
+	 * @param l [description]
+	 */
+	private static void InsertSort(SeqList l)
+	{
+		int len = l.len;
+		for(int i=2; i<=len; ++i)//从第二个开始
+		{
+			if(l.r[i-1]>l.r[i])//若前一个数比当前i数大，则将当前数插入有序子表,若正序则无插入操作
+			{
+				int j=i-1;
+				l.r[0]=l.r[i];//既用于临时变量存储，又用于while时候的临界监测（可不判断j是否<=0)
+				while(l.r[j]>l.r[0])//循环后移有序表中比i数大的，结束的时候，j下标在合适位置的前一个
+				{
+					l.r[j+1] = l.r[j];
+					j--;
+				}
+				l.r[j+1]=l.r[0];//j+1定位到合适的位置，插入
+			}
+		}
 	}
 
 	/**
@@ -113,6 +280,7 @@ class ImprovedSort{
 		int[] r = new int[MAXSIZE+1];//r[0]为哨兵，或者临时存储，真正的存储在1~len之间
 		int len;
 
+		public SeqList(){}
 		public SeqList(int[] r, int len){
 			if(len>MAXSIZE)
 			{
@@ -139,7 +307,7 @@ class ImprovedSort{
 			// System.out.println("\n==============="+(r==o.r));
 			// 生成新的数组
 			o.r = Arrays.copyOf(r, len+1);
-			System.out.println(o.r.length+".....");
+			// System.out.println(o.r.length+".....");
 			// System.out.println("\n==============="+(r==o.r));
 			return o;
 		}
@@ -167,20 +335,26 @@ class ImprovedSort{
 		int[] d={50,10,90,30,70,40,80,60,20,33};
 		int N=d.length;
 
-		SeqList q0,q1,q2,q3;
+		SeqList q0,q1,q2,q3,q4,q5;
 		q0 = new SeqList(d,N);
 		q1 = (SeqList)q0.clone();
 		q2 = (SeqList)q0.clone();
 		q3 = (SeqList)q0.clone();
+		q4 = (SeqList)q0.clone();
+		q5 = (SeqList)q0.clone();
 		
 		q0.toString("排序之前",false);
 		ShellSort(q0);
 		q0.toString("希尔排序",true);
 		HeapSort(q1);
-		q1.toString("哦堆排序",true);
-		MergeSort(q2);
-		q2.toString("归并排序",true);
-		QuickSort(q3);
-		q3.toString("快速排序",true);
+		q1.toString("大堆排序",true);
+		MergeSort1(q2,q2,1,N);
+		q2.toString("迭代归并",true);
+		MergeSort2(q3);
+		q3.toString("非迭归并",true);
+		QuickSort1(q4,1,N);
+		q4.toString("快速排序",true);
+		QuickSort2(q5,1,N);
+		q5.toString("改进快速",true);
 	}
 }
