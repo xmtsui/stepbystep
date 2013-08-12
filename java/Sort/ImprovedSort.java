@@ -86,50 +86,61 @@ class ImprovedSort{
 	 * 迭代归并 
 	 * @param l [description]
 	 */
-	static void MergeSort1(SeqList sl, SeqList tl, int start, int end)
+	static void MergeSort1(SeqList sl, int start, int end)
 	{
-		SeqList tmp = new SeqList();
+		// SeqList tmp = new SeqList();
 		if(start == end)
 		{
-			tl.r[start] = sl.r[start];
+			// tl.r[start] = sl.r[start];
+			return;
 		}
 		else
 		{
 			int medium = (start+end)/2;
-			MergeSort1(sl, tmp, start, medium);
-			MergeSort1(sl, tmp, medium+1, end);
-			Merge(tmp, tl, start, medium, end);
+			MergeSort1(sl, start, medium);
+			MergeSort1(sl, medium+1, end);
+			Merge(sl, start, medium, end);
 		}
 	}
 
-	private static void Merge(SeqList sl, SeqList tl, int start, int medium, int end)
+	private static void Merge(SeqList sl, int start, int medium, int end)
 	{
-		int i=0,j=0,k=0;
-		for(i=start, j=medium+1; start<=medium&&j<=end; i++)
+		SeqList tmp = (SeqList)sl.clone();
+		int i=0,start1=0,start2=0;
+		for(i=start, start1=start, start2=medium+1; start1<=medium&&start2<=end; i++)
 		{
-			if(sl.r[start] < sl.r[j])
-				tl.r[i] = sl.r[start++];
+			if(sl.r[start1] < sl.r[start2])
+				tmp.r[i] = sl.r[start1++];
 			else
-				tl.r[i] = sl.r[j++];
+				tmp.r[i] = sl.r[start2++];
 		}
 
-		if(start<=medium)
+		if(start1<=medium)
 		{
-			for(int z=start; z<=medium; ++z)
-				tl.r[i++] = sl.r[z];
+			for(int z=start1; z<=medium; ++z)
+				tmp.r[i++] = sl.r[z];
 		}
 
-		if(j<=end)
+		if(start2<=end)
 		{
-			for(int z=j; z<=end; ++z)
-				tl.r[i++] = sl.r[z];
+			for(int z=start2; z<=end; ++z)
+				tmp.r[i++] = sl.r[z];
+		}
+
+		int z=start;
+		while(z<=end)
+		{
+			sl.r[z] = tmp.r[z];
+			z++;
 		}
 	}
 
+	
 	/**
 	 * 非迭代归并
 	 * @param l [description]
 	 */
+	
 	static void MergeSort2(SeqList l)
 	{
 		SeqList tmp = new SeqList();
@@ -137,28 +148,27 @@ class ImprovedSort{
 		int k=1;
 		while(k<len)
 		{
-			MergePass(l, tmp, k, len);
+			MergePass(l, k, len);
 			k=2*k;
-			MergePass(tmp, l, k, len);
-			k=2*k;
+			// MergePass(l, k, len);
+			// k=2*k;
 		}
 	}
 
-	private static void MergePass(SeqList l, SeqList tmp, int start, int end)
+	private static void MergePass(SeqList l, int interval, int end)
 	{
 		int k=1;
-		while(k<=end-2*start+1)
+		while(k<=end-2*interval+1)
 		{
-			Merge(l, tmp, k, k+start-1, k+2*start-1);
-			k=k+2*start;
+			Merge(l, k, k+interval-1, k+2*interval-1);
+			k=k+2*interval;
 		}
-		if(k<end-start+1)
-			Merge(l,tmp,k,k+start-1,end);
-		else
-			for(int i=k; i<=end; i++)
-				tmp.r[i] = l.r[i];
-		}
-
+		if(k<end-interval+1)
+			Merge(l, k, k+interval-1, end);
+		// else
+			// return;
+	}
+		
 	/**
 	 * 快速排序
 	 * @param l [description]
@@ -259,6 +269,9 @@ class ImprovedSort{
 		}
 	}
 
+	/*自定义部分*/
+	private static final int KB = 1024;
+
 	/**
 	 * 交换函数
 	 * @param l [description]
@@ -276,7 +289,7 @@ class ImprovedSort{
 	 * 内部封装类
 	 */
 	private static class SeqList implements Cloneable{
-		private final static int MAXSIZE=1024;
+		private final static int MAXSIZE=KB;
 		int[] r = new int[MAXSIZE+1];//r[0]为哨兵，或者临时存储，真正的存储在1~len之间
 		int len;
 
@@ -321,7 +334,7 @@ class ImprovedSort{
 				System.out.print(method + "前：[");
 			else
 				System.out.print(method + "后：[");
-			for(int i=1; i<len-1; ++i)
+			for(int i=1; i<=len-1; ++i)
 			{
 				System.out.print(r[i] + ", ");
 			}
@@ -348,7 +361,7 @@ class ImprovedSort{
 		q0.toString("希尔排序",true);
 		HeapSort(q1);
 		q1.toString("大堆排序",true);
-		MergeSort1(q2,q2,1,N);
+		MergeSort1(q2,1,N);
 		q2.toString("迭代归并",true);
 		MergeSort2(q3);
 		q3.toString("非迭归并",true);

@@ -1,4 +1,4 @@
-/**
+  /**
  * 简单排序算法：冒泡，简单选择(选择最小交换)，插入(直接插入有序)
  * (三个都是内部排序，且稳定的)
  * 
@@ -439,7 +439,7 @@ class SimpleSort {
 				System.out.print(method + "前：[");
 			else
 				System.out.print(method + "后：[");
-			for(int i=1; i<len-1; ++i)
+			for(int i=1; i<=len-1; ++i)
 			{
 				System.out.print(r[i] + ", ");
 			}
