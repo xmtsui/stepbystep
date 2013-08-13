@@ -88,12 +88,8 @@ class ImprovedSort{
 	 */
 	static void MergeSort1(SeqList sl, int start, int end)
 	{
-		// SeqList tmp = new SeqList();
 		if(start == end)
-		{
-			// tl.r[start] = sl.r[start];
 			return;
-		}
 		else
 		{
 			int medium = (start+end)/2;
@@ -140,7 +136,6 @@ class ImprovedSort{
 	 * 非迭代归并
 	 * @param l [description]
 	 */
-	
 	static void MergeSort2(SeqList l)
 	{
 		SeqList tmp = new SeqList();
@@ -150,8 +145,6 @@ class ImprovedSort{
 		{
 			MergePass(l, k, len);
 			k=2*k;
-			// MergePass(l, k, len);
-			// k=2*k;
 		}
 	}
 
@@ -165,12 +158,12 @@ class ImprovedSort{
 		}
 		if(k<end-interval+1)
 			Merge(l, k, k+interval-1, end);
-		// else
-			// return;
+		else
+			Merge(l, end, end, end);
 	}
 		
 	/**
-	 * 快速排序
+	 * 未优化的快速排序
 	 * @param l [description]
 	 */
 	static void QuickSort1(SeqList l, int start, int end)
@@ -201,6 +194,13 @@ class ImprovedSort{
 
 	/* 用于快速排序时判断是否选用插入排序阙值 */
 	private final static int MAX_LENGTH_INSERT_SORT = 7;
+	
+	/**
+	 * 优化的快速排序
+	 * @param l     [description]
+	 * @param start [description]
+	 * @param end   [description]
+	 */
 	static void QuickSort2(SeqList l, int start, int end)
 	{ 
 		int pivot;
@@ -222,7 +222,7 @@ class ImprovedSort{
 	private static int Partition2(SeqList l,int start,int end)
 	{ 
 		int pivotkey;
-
+		
 		int m = start + (end - start) / 2; /* 计算数组中间的元素的下标 */  
 		if (l.r[start]>l.r[end])			
 			Swap(l,start,end);	/* 交换左端与右端数据，保证左端较小 */

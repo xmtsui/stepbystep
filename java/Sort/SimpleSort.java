@@ -100,16 +100,16 @@ class SimpleSort {
 	static void SelectSort(SeqList l)
 	{
 		int len = l.len;
-		for(int i=0; i<len; ++i)
+		for(int i=1; i<len; ++i)//注意本例是从1开始，不是0
 		{
 			int min = i;
 			for(int j=i+1; j<=len; ++j)
 			{
 				if(l.r[min] > l.r[j])//如果找到比当前最小值下标还小的，更新min
-				min = j;
+					min = j;
 			}
 			if(min != i)//如果没找到还小的，则不交换。所以正序的时候，一次交换都没有
-			Swap(l,i,min);
+				Swap(l,i,min);
 		}
 	}
 
@@ -372,7 +372,7 @@ class SimpleSort {
 	}
 
 	/*自定义部分*/
-	private static final int KB = 1024;
+	private static final int KB = 1024*10;
 	// private static final int KB = 1024*1024;//测试内存用
 	private static final int MB = 1024*1024;
 
@@ -493,7 +493,7 @@ class SimpleSort {
 		q5.toString("希尔排序",true);
 		HeapSort(q6);
 		q6.toString("哦堆排序",true);
-		MergeSort1(q7,q7,1,N); System.gc();
+		MergeSort1(q7,q7,1,N); //System.gc();
 		q7.toString("迭代归并",true);
 		MergeSort2(q8);
 		q8.toString("非迭归并",true);
