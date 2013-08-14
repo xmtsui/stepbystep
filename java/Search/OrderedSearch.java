@@ -2,12 +2,16 @@
  * 有序表查询
  *
  * 较完善的二分查找
+ * 插值查找
+ * 斐波那契查找
  *
  * 次数较多的时候，比如10000次，100000
  * 递归最慢,非递归与插值相近
  * 
  * 再大一点1000000，
  * 递归最慢，非递归中等，插值最快
+ *
+ * 斐波那契c没有数组重分配问题，所以效率高，java不适用
  * @author xmtsui
  * @version v1.0 2013-08-10
  */
@@ -203,7 +207,7 @@ class OrderedSearch{
 	 * @param  n 斐波那契数列的下标
 	 * @return   指定位置的值
 	 */
-	static int Fabonacci(int n)
+	private static int Fabonacci(int n)
 	{
 		if(n < 0)
 			return -1;
@@ -249,6 +253,7 @@ class OrderedSearch{
 		{
 			f[i] = Fabonacci(i);
 		}
+
 		System.out.println("---case1 fabonacci----");
 		System.out.println("插值：" + FabonacciSearch(seq, 23, f));
 
