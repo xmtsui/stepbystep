@@ -47,5 +47,12 @@ class TestUtil_timing{
 		long free2_jmm = rt_jmm.freeMemory();
 		System.out.println("used : " + (free1_jmm-free2_jmm)/MB_JMM + " mb");
 
+		/*---------------------*/
+		printf("%s\n","开始");
+		time_t ts1,te1;
+		ts1=time(NULL);
+		te1=time(NULL);
+		printf("%.20f\n",difftime(te1,ts1));
+
 	}
 }

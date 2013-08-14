@@ -12,6 +12,7 @@
  * @version v1.0 2013-08-10
  */
 import java.math.BigInteger;
+import java.util.Arrays;
 class OrderedSearch{
 	/**
 	 * 二分查找入口
@@ -150,9 +151,83 @@ class OrderedSearch{
 		return -1;
 	}
 
+	/**
+	 * 斐波那契查找
+	 * 
+	 * 因为Arrays.copyOf效率不高
+	 * @param  seq [description]
+	 * @param  key [description]
+	 * @param  f   [description]
+	 * @return     [description]
+	 */
+	private static int FabonacciSearch(int[] seq, int key, int[] f)
+	{
+		int low=0, high=seq.length-1;
+		int k=0;
+		while(high > f[k]-1)
+			k++;
+
+		int[] tmp = Arrays.copyOf(seq, f[k]-1);
+
+		for(int i=high; i<f[k]-1; ++i)
+		{
+			tmp[i] = seq[high];
+		}
+
+		while(low <= high)
+		{
+			int mid = low + f[k-1] - 1;
+			if(key < tmp[mid])
+			{
+				high = mid-1;
+				k = k-1;
+			}
+			else if(key > tmp[mid])
+			{
+				low = mid+1;
+				k = k-2;
+			}
+			else
+			{
+				if(mid <= high)
+					return mid;
+				else
+					return high;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * 非递归
+	 * @param  n 斐波那契数列的下标
+	 * @return   指定位置的值
+	 */
+	static int Fabonacci(int n)
+	{
+		if(n < 0)
+			return -1;
+		else if(n==0)
+			return 0;
+		else if(n==1)
+			return 1;
+		else
+		{
+			int[] result= new int[n+1];
+			result[0]=0;
+			result[1]=1;
+			for(int i=2; i<=n; i++)//注意此处不能写成i<n
+			{
+				result[i] = result[i-1] + result[i-2];
+			}
+			return result[n];
+		}
+	}
+
 	public static void main(String[] args)
 	{
 		int[] seq = {3,5,7,9,12,23,34,56};
+
 		System.out.println("---case1 二分----");
 		System.out.println("二分递归:" + BinarySearch(null, 1, true));
 		System.out.println("二分非递归:" + BinarySearch(null, 1, false));
@@ -168,6 +243,15 @@ class OrderedSearch{
 		System.out.println("---case1 插值----");
 		System.out.println("插值：" + InterpolationSearch(seq, 23));
 
+		int N=50;
+		int[] f = new int[50];
+		for(int i=0; i<N; i++)
+		{
+			f[i] = Fabonacci(i);
+		}
+		System.out.println("---case1 fabonacci----");
+		System.out.println("插值：" + FabonacciSearch(seq, 23, f));
+
 		int kb=1024;
 		int mb=1024*1024;
 		int MAX=kb*10;//10kb
@@ -180,35 +264,45 @@ class OrderedSearch{
 
 		System.out.println("---case5：big----");
 		long start1 = System.currentTimeMillis();
-		for(int i=0; i<1000000; i++){
+		for(int i=0; i<100000; i++){
 			// System.out.println("二分递归:" + BinarySearch(seq_big, MAX-1,true));
 			// BinarySearch(seq_big, MAX-1,true);
-			BinarySearch(seq_big, MAX/2,true);
+			BinarySearch(seq_big, MAX-MAX/2,true);
 		}	
 		long end1 = System.currentTimeMillis();
 		long time1 = end1 - start1;
 
 		long start2 = System.currentTimeMillis();
-		for(int i=0; i<1000000; i++){
+		for(int i=0; i<100000; i++){
 			// System.out.println("二分非递归:" + BinarySearch(seq_big, MAX-1,false));
 			// BinarySearch(seq_big, MAX-1,false);
-			BinarySearch(seq_big, MAX/2,false);
+			BinarySearch(seq_big, MAX-MAX/2,false);
 		}	
 		long end2 = System.currentTimeMillis();
 		long time2 = end2 - start2;
 
 		long start3 = System.currentTimeMillis();
-		for(int i=0; i<1000000; i++){
+		for(int i=0; i<100000; i++){
 			// System.out.println("插值:" + InterpolationSearch(seq_big, MAX/2));
 			// InterpolationSearch(seq_big, MAX-1);
-			InterpolationSearch(seq_big, MAX/2);
+			InterpolationSearch(seq_big, MAX-MAX/2);
 		}
 		long end3 = System.currentTimeMillis();
 		long time3 = end3 - start3;
 
+		long start4 = System.currentTimeMillis();
+		for(int i=0; i<100000; i++){
+			// System.out.println("插值:" + FabonacciSearch(seq_big, MAX/2));
+			// InterpolationSearch(seq_big, MAX-1);
+			FabonacciSearch(seq_big, MAX-MAX/2, f);
+		}
+		long end4 = System.currentTimeMillis();
+		long time4 = end4 - start4;
+
 		System.out.println("For big data, time1: " + time1 
 			+ "| time2: " + time2 
 			+ "| time3: " + time3
+			+ "| time4: " + time4
 			);
 	}
 }
