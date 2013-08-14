@@ -26,18 +26,6 @@ int Sequential_Search2(int *a,int n,int key)
 	}
 	return i;
 }
-/* 有哨兵顺序查找,从小到大 */
-int Sequential_Search3(int *a,int n,int key)
-{
-	int i;
-	a[n-1]=key;
-	i=0;
-	while(a[i]!=key)
-	{
-		i++;
-	}
-	return i;
-}
 
 int main(void)
 {    
@@ -78,14 +66,6 @@ int main(void)
 	printf("%s","search2完成，总时间为：");
  	printf("%.20f\n",difftime(te2,ts2));
 
- 	printf("%s\n","search3开始");
- 	time_t ts3,te3;
- 	ts3=time(NULL);
- 	result=Sequential_Search3(a,MAXSIZE,MAXSIZE-2);
-	printf("Sequential_Search3:%d: ",result);
- 	te3=time(NULL);
-	printf("%s","search3完成，总时间为：");
- 	printf("%.20f\n",difftime(te3,ts3));
  	free(a);
 	return 0;
 }
