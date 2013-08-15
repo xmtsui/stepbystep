@@ -11,8 +11,7 @@
 import java.util.Arrays;  
 import java.util.EnumSet;  
 import java.util.Set;  
-public class EnumSet类 {  
-  
+public class EnumSet类 {
     public static void main(String[] args) {  
         // 创建一个指定类型的空的集合  
         EnumSet<MyEnum> set = EnumSet.noneOf(MyEnum.class);  
@@ -37,7 +36,7 @@ public class EnumSet类 {
     /** 
      *显示Set里面的数据。 
      *  
-     *@paramset 
+     *@param set 
      */  
     private static void showSet(Set set) {  
         System.out.println(Arrays.toString(set.toArray()));  
