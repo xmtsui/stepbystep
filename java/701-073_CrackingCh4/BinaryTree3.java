@@ -1,6 +1,6 @@
 /**
  * 三叉链表结构实现的二叉树
- *
+ * (Unfinished，参照BinarySearchTree)
  * @author xmtsui
  * @version v1.0
  */

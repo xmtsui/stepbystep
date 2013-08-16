@@ -1,7 +1,7 @@
 import java.util.Deque;
 import java.util.LinkedList;
 class BinarySearchTree<E extends Comparable<E>> implements Tree<E>{
-	private TreeNode<E> root;
+	protected TreeNode<E> root;
 
 	public BinarySearchTree()
 	{
@@ -170,7 +170,7 @@ class BinarySearchTree<E extends Comparable<E>> implements Tree<E>{
 	}
 	
 	/**
-	 * 查找一个节点，找到后返回当前节点，没找到的话返回null
+	 * 查找一个值，找到后返回当前节点，没找到的话返回null
 	 * @param  value [description]
 	 * @return       [description]
 	 */
@@ -193,7 +193,7 @@ class BinarySearchTree<E extends Comparable<E>> implements Tree<E>{
 	}
 
 	/**
-	 * 插入一个新的节点，如果重复的话插入失败
+	 * 插入一个值，如果重复的话插入失败
 	 * @param  value [description]
 	 * @return       [description]
 	 */
@@ -237,6 +237,11 @@ class BinarySearchTree<E extends Comparable<E>> implements Tree<E>{
 		}
 	}
 
+	/**
+	 * 删除一个值
+	 * @param  value [description]
+	 * @return       [description]
+	 */
 	public boolean deleteBST(E value)
 	{
 		TreeNode<E> tmp = searchBST(value);
@@ -366,6 +371,7 @@ class BinarySearchTree<E extends Comparable<E>> implements Tree<E>{
 
 	public static void main(String[] args)
 	{
+		System.out.println("***************BSTree1***************");
 		BinarySearchTree<String> t = new BinarySearchTree<String>();
 		t.insertBST("6");
 		t.insertBST("3");
@@ -380,6 +386,7 @@ class BinarySearchTree<E extends Comparable<E>> implements Tree<E>{
 		t.doTraverse();
 
 		//非平衡二叉树
+		System.out.println("\n***************BSTree2***************");
 		BinarySearchTree<String> t1 = new BinarySearchTree<String>();
 		t1.insertBST("1");
 		t1.insertBST("2");
