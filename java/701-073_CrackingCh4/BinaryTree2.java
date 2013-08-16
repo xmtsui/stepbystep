@@ -65,11 +65,13 @@ class BinaryTree2<E> implements Tree<E>{
 	{
 		if(node != null)
 		{
-			clearTree(node.leftChild);
-			clearTree(node.rightChild);
+			TreeNode<E> leftTmp = node.leftChild;
+			TreeNode<E> rightTmp = node.rightChild;
 			node.leftChild = null;
 			node.rightChild = null;
 			node = null;
+			clearTree(leftTmp);
+			clearTree(rightTmp);
 		}
 	}
 
@@ -102,7 +104,7 @@ class BinaryTree2<E> implements Tree<E>{
 	{
 		if(node == null)
 			return 0;
-		if(node.rightChild == null && node. leftChild == null)
+		if(node.rightChild == null && node.leftChild == null)
 			return 1;
 		else
 		{
