@@ -261,6 +261,7 @@ class BinarySearchTree<E extends Comparable<E>> implements Tree<E>{
 			}
 			else if(tmp.leftChild == null)//只有右子树
 			{
+				//如果为根节点
 				if(tmp == root)
 				{
 					root = tmp.rightChild;
@@ -309,7 +310,8 @@ class BinarySearchTree<E extends Comparable<E>> implements Tree<E>{
 				boolean tmpLeft = tmp.left;
 				tmp = tmp.leftChild;
 
-				//找到要删除节点的前驱
+				//找到要删除节点的中序直接前驱
+				//因为此时要删除节点左右子树都不为空，所以直接找左子树的最右子孙
 				while(tmp.rightChild != null)
 					tmp = tmp.rightChild;
 				
