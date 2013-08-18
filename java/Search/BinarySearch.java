@@ -1,5 +1,5 @@
 /**
- * Binary search第一次实现
+ * Binary search第一次的实现
  * 本例中记录了常犯的错误
  * 
  * @author xmtsui
