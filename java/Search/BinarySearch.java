@@ -86,14 +86,14 @@ class BinarySearch
         if(low>high)
             return -1;
         //查找key,若比最小值小，或者最大值大，则查找失败，返回－1
-        if(key<seq[low]/*典型错误,应该是0*/ || key>seq[high])
+        if(key<seq[low]/*典型错误,low应该是0*/ || key>seq[high])
             return -1;
         //折半递归查找
         int medium=(low+high)/2;
         if(key>seq[medium])
             return binary_search_error2(seq, key, low+1, high);//典型错误,应该是medium+1
         else if(key<seq[medium])
-            return binary_search_error2(seq, key, low, high-1);//典型错误
+            return binary_search_error2(seq, key, low, high-1);//典型错误,同上
         else
             return medium;
     }

@@ -1,5 +1,8 @@
 /**
  * 二叉树的平衡检测
+ * 
+ * @author xmtsui
+ * @version  v1.0
  */
 //import static BinaryTree2.TreeNode;
 //this cant be used, should be full qulified name , canonical name
