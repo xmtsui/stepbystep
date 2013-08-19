@@ -7,7 +7,7 @@
  * @version v1.0
  */
 import java.math.BigInteger;
-class Factorial{
+class _3Factorial{
 	/**
 	 * 小数字
 	 * @param  n [description]

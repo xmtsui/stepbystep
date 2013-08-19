@@ -1,5 +1,11 @@
 /**
+ * queued
  * @see 1:TowersofHanoi
+ * @see 2:Fabonacci
+ * @see 3:Factorial
+ * @see 4:Bitmap大数据查找重复
+ *
+ * unqueued
  * @see 2:Threecolorflag三色旗
  * @see 3:Dynamicprogramming:背包问题
  * @see 4:求质数EratosthenesSieveMethod

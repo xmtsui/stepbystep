@@ -4,7 +4,7 @@
  * @author xmtsui
  * @version v1.0
  */
-class Hanoi_R{
+class _1Hanoi{
 	private static int count = 1;
 	static void HanoiOper(int number, char from, char to, char tmp)
 	{

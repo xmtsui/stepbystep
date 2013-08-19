@@ -5,7 +5,7 @@
  * @author xmtsui
  * @version v1.0
  */
-class Fabonacci{
+class _2Fabonacci{
 	/**
 	 * 递归
 	 * @param  n 斐波那契数列的下标
