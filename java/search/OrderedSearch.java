@@ -207,25 +207,25 @@ class OrderedSearch{
 	 * @param  n 斐波那契数列的下标
 	 * @return   指定位置的值
 	 */
-	private static int Fabonacci(int n)
+	private static int[] Fabonacci(int n)
 	{
+		int[] result= new int[n+1];
 		if(n < 0)
-			return -1;
+			result = null;
 		else if(n==0)
-			return 0;
+			result[0]=0;
 		else if(n==1)
-			return 1;
+			result[1]=1;
 		else
 		{
-			int[] result= new int[n+1];
 			result[0]=0;
 			result[1]=1;
 			for(int i=2; i<=n; i++)//注意此处不能写成i<n
 			{
 				result[i] = result[i-1] + result[i-2];
 			}
-			return result[n];
 		}
+		return result;
 	}
 
 	public static void main(String[] args)
@@ -248,10 +248,10 @@ class OrderedSearch{
 		System.out.println("插值：" + InterpolationSearch(seq, 23));
 
 		int N=50;
-		int[] f = new int[50];
-		for(int i=0; i<N; i++)
+		int[] f = Fabonacci(N);
+		for(int item:f)
 		{
-			f[i] = Fabonacci(i);
+			System.out.println("test:"+item);
 		}
 
 		System.out.println("---case1 fabonacci----");

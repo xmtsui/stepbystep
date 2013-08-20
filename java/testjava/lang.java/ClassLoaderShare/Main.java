@@ -9,9 +9,9 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		//注意最后的斜杠
 		String urlA = "file:/Users/saixiaomin/Documents/git_workspace/"+
-		"stepbystep/java/TestJava/java.lang/ClassLoader1/A/";
+		"stepbystep/java/testjava/lang.java/ClassLoaderShare/A/";
 		String urlB = "file:/Users/saixiaomin/Documents/git_workspace/"+
-		"stepbystep/java/TestJava/java.lang/ClassLoader1/B/";
+		"stepbystep/java/testjava/lang.java/ClassLoaderShare/B/";
 		
 		/*case 1*/
 		ClassLoader syscl = ClassLoader.getSystemClassLoader();

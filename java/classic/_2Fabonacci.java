@@ -1,13 +1,20 @@
 /**
  * Fabonacci problem solved
- * 递归与非递归
+ * 
+ * 递归优点：实现简单,缺点耗费栈空间，慢
+ * 
+ * 非递归优点：速度快
+ * 使用辅助内存的话，适于求整个序列（较慢）
+ * 不用辅助内存，适于求序列的某一个值（较快）
  *
  * @author xmtsui
  * @version v1.0
  */
+import java.math.BigInteger;
 class _2Fabonacci{
 	/**
-	 * 递归
+	 * 求斐波那契数列的第n项
+	 * 递归实现
 	 * @param  n 斐波那契数列的下标
 	 * @return   指定位置的值
 	 */
@@ -24,29 +31,86 @@ class _2Fabonacci{
 	}
 
 	/**
-	 * 非递归
+	 * 求斐波那契数列的第n项
+	 * 非递归实现
+	 * 
+	 * 该实现空间耗费为n,
+	 * 可以求整个数列，适合给斐波那契查找
 	 * @param  n 斐波那契数列的下标
 	 * @return   指定位置的值
 	 */
-	static int Fabonacci2(int n)
+	static BigInteger Fabonacci2(int n)
 	{
 		if(n < 0)
-			return -1;
-		else if(n==0)
-			return 0;
-		else if(n==1)
-			return 1;
+			return BigInteger.valueOf(-1);
+		else if(n==0 || n==1)
+			return BigInteger.valueOf(n);
 		else
 		{
-			int[] result= new int[n+1];
+			BigInteger[] result= new BigInteger[n+1];
+			result[0]=BigInteger.valueOf(0);
+			result[1]=BigInteger.valueOf(1);
+			for(int i=2; i<=n; i++)//注意此处不能写成i<n
+			{
+				result[i] = result[i-1].add(result[i-2]);
+			}
+			return result[n];
+		}
+	}
+
+	/**
+	 * 求斐波那契数列的第n项
+	 * 非递归实现
+	 *
+	 * 该实现空间耗费为o(1)
+	 * @param  n
+	 * @return
+	 */
+	static BigInteger Fabonacci3(int n)
+	{
+		if(n<0)
+			return BigInteger.valueOf(-1);
+		else if(n == 0 || n == 1)
+			return BigInteger.valueOf(n);
+		else
+		{
+			BigInteger res=BigInteger.valueOf(0);
+			BigInteger a=BigInteger.valueOf(0);
+			BigInteger b=BigInteger.valueOf(1);
+			for(int i=2; i<=n; ++i)
+			{
+				res = a.add(b);
+				a = b;
+				b = res;
+			}
+			return res;
+		}
+	}
+
+	/**
+	 * 求斐波那契数列
+	 * @param  n 斐波那契数列的下标
+	 * @return   数列
+	 */
+	private static int[] Fabonacci4(int n)
+	{
+		int[] result= new int[n+1];
+		if(n < 0)
+			result = null;
+		else if(n==0)
+			result[0]=0;
+		else if(n==1)
+			result[1]=1;
+		else
+		{
 			result[0]=0;
 			result[1]=1;
 			for(int i=2; i<=n; i++)//注意此处不能写成i<n
 			{
 				result[i] = result[i-1] + result[i-2];
 			}
-			return result[n];
 		}
+		return result;
 	}
 
 	public static void main(String[] args)
@@ -56,24 +120,40 @@ class _2Fabonacci{
 		long start1 = System.currentTimeMillis();
 		for(int i=-1; i<N; i++)
 		{
-			System.out.print(Fabonacci1(i)+"|");
-			// Fabonacci1(i);
+			// System.out.print(Fabonacci1(N)+"|");
+			Fabonacci1(N);
 		}
 		long end1 = System.currentTimeMillis();
 		long time1 = end1 - start1;
-
 		System.out.println();
 
 		long start2 = System.currentTimeMillis();
-		for(int i=-1; i<N; i++)
+		for(int i=-1; i<N*30; i++)
 		{
-			System.out.print(Fabonacci2(i)+"|");
-			// Fabonacci2(i);
+			// System.out.print(Fabonacci2(N)+"|");
+			Fabonacci2(N);
 		}
 		long end2 = System.currentTimeMillis();
 		long time2 = end2 - start2;
-
 		System.out.println();
-		System.out.println("For big data, time1: " + time1 + "| time2: "+ time2);
+
+		long start3 = System.currentTimeMillis();
+		for(int i=-1; i<N*30; i++)
+		{
+			// System.out.print(Fabonacci3(N)+"|");
+			Fabonacci3(N);
+		}
+		long end3 = System.currentTimeMillis();
+		long time3 = end3 - start3;
+		System.out.println();
+
+		System.out.println("For big data, time1: " + time1 
+			+ "| time2: "+ time2
+			+ "| time3: "+ time3);
+
+		int[] test = Fabonacci4(N);
+		for(int item:test)
+			System.out.print(item+"|");
+		System.out.println();
 	}
 }

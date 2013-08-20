@@ -28,8 +28,8 @@ public class ClassIdentity {
 		//若类定义在其他目录，则系统类加载器找不到，就只能是用我们自己定义的cl去加载，
 		//这样就能使用不同的类加载器加载同一个类。
 		//有一点要注意的：eclipse中运行无法看到实验结果，估计跟eclipse的类加载机制有关
-		String classDataRootPath = "/Users/saixiaomin/ws/step/java/"+
-		"TestJava/java.lang/ClassLoaderTestClassIdentity/bin";
+		String classDataRootPath = "/Users/saixiaomin/ws/step/" +
+		"java/testjava/lang.java/ClassLoaderTestClassIdentity/bin";
 		FileSystemClassLoader fscl1 = new FileSystemClassLoader(classDataRootPath);
 		System.out.println("initial fscl1: " + fscl1);
 		FileSystemClassLoader fscl2 = new FileSystemClassLoader(classDataRootPath);
