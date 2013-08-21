@@ -4,7 +4,7 @@
  */
 import java.util.*;
 public class HeapOOME {
-
+	private int z;
 	static class OOMObject {
 	}
 
