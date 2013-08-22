@@ -18,6 +18,8 @@
      * one should use {@code t1 - t0 < 0}, not {@code t1 < t0},
      * because of the possibility of numerical overflow.
  */
+import java.util.Properties;
+import java.util.Enumeration;
 class SystemBasicAPI_Test{
 	static void test() {
 		System.out.println("currentTimeMillis: "+System.currentTimeMillis());
@@ -47,5 +49,11 @@ class SystemBasicAPI_Test{
 		// System.out.println(System.currentTimeMillis()+"ms");
 		// System.out.println(System.nanoTime()+"ns");
 		test();
+
+		Properties prop = System.getProperties();
+		Enumeration enumra = prop.propertyNames();
+		while(enumra.hasMoreElements())
+			System.out.println(enumra.nextElement());
+		System.out.println(prop.getProperty("user.dir"));
 	}
 }

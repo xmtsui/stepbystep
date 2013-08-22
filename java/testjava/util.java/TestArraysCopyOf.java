@@ -10,9 +10,9 @@ class TestArraysCopyOf{
 	{
 		String[] vertex ={"A","B","C","D","E","F","G","H"};
 		int size = vertex.length;
-		String[] newv = new String[size];
-		// String[] newv = Arrays.copyOf(vertex,0);
-		System.arraycopy(vertex, 0, newv, 0, size);
+		// String[] newv = new String[size];
+		// String[] newv = Arrays.copyOf(vertex,size+1);
+		// System.arraycopy(vertex, 0, newv, 0, size);
 	
 		/*
 		int[] vertex,vertex1;
