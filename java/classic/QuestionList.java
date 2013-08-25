@@ -3,10 +3,11 @@
  * @see 1:TowersofHanoi（递归）
  * @see 2:Fabonacci(迭代，递归)
  * @see 3:Factorial（迭代，递归）
- * @see 5:八皇后问题
+ * @see 4:Bitmap大数据查找重复
+ * @see 5:不用＋－＊／实现加法
  *
  * unqueued
- * @see 4:Bitmap大数据查找重复
+ * @see 5:八皇后问题
  * @see 2:Threecolorflag三色旗
  * @see 3:Dynamicprogramming:背包问题
  * @see 4:求质数EratosthenesSieveMethod
