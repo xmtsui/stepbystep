@@ -37,5 +37,54 @@ class TestEnum{
 		System.out.println("abbreviation=" + s_1.getAbbreviation());
 		if(s_1 == Size_1.EXTRA_LARGE)
 			System.out.println("Good!");
+
+		String SYSPROP_BING3_API = "bing3.key";
+		String appid = System.getProperty(SYSPROP_BING3_API);
+		System.out.println(appid);
 	}
+
+	/**
+	 * The data to include in the response.
+	 */
+	public enum RequestType
+	{
+		/** Page, documents and clusters */
+		FULL(true),
+
+		/** Only page */
+		PAGE(false),
+
+		/** Only documents */
+		DOCUMENTS(true),
+
+		/** Only clusters */
+		CLUSTERS(true),
+
+		/** Documents and clusters in Carrot2 standard format */
+		CARROT2(true),
+
+		/** Documents in Carrot2 standard format */
+		CARROT2DOCUMENTS(true),
+
+		/** Error page */
+		ERROR(false),
+
+		/** Information about document sources */
+		SOURCES(false),
+
+		/** Information about attributes of a document source */
+		ATTRIBUTES(false),
+
+		/** Simple statistics page */
+		STATS(false);
+
+		/** True when Carrot2 processing is required */
+		public final boolean requiresProcessing;
+
+		private RequestType(boolean requiresProcessing)
+		{
+			this.requiresProcessing = requiresProcessing;
+		}
+	}
+
 }

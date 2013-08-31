@@ -9,7 +9,7 @@ public class SinglyLinkedList<E> extends AbstractSequentialList<E> implements Li
 	//元素个数
 	private transient int size = 0;
 	//头结点
-	private transient Node<E> head;
+	public transient Node<E> head;
 
 	public SinglyLinkedList(){
 		

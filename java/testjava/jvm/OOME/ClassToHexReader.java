@@ -49,13 +49,13 @@ class ClassToHexReader{
 				//打印读取到的一个字节
 				writer.printf(" %02x", tmp);
 				//如果不是可显示字符
-				if(tmp<64||tmp>126)//1～127
+				if(tmp<32||tmp>126)//1～127
 					tmpchar[columns]='.';
 				else
 					tmpchar[columns]=(char)tmp;
 				columns++;
 				
-				//最后一列特殊处理
+				//最后一列特殊处理,打印可显示字符
 				if(columns==16)
 				{
 					columns=0;

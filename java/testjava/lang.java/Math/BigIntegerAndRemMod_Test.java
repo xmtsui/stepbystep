@@ -17,7 +17,7 @@ class BigIntegerAndRemMod_Test{
 		//大端模式
 		//0111 1111 0000 0001
 		byte[] by = {127,1};
-		BigInteger bigint1 = new BigInteger(1, by);
+		BigInteger bigint1 = new BigInteger(-1, by);
 		System.out.println(bigint1);
 
 		System.out.println("********case 2********");
