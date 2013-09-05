@@ -1,10 +1,11 @@
 /**
  * 有关范型程序设计的测试
  *
+ * 范型方法定义和使用
  * @author xmtsui
  * @version v1.0 2013-08-04 
  */
-class TestGeneric{
+class TestGenericMethod{
 	public static void main(String[] args)
 	{
 		TestGeneric test = new TestGeneric();

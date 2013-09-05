@@ -34,5 +34,6 @@ class D {
    // class GetCallerClass_Test.java
 		System.out.println(sun.reflect.Reflection.getCallerClass(6));
    // null
+		System.out.println(sun.reflect.Reflection.getCallerClass(7));
 	}
 }
