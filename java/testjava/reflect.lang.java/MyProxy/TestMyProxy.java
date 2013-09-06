@@ -32,12 +32,12 @@ public class TestMyProxy
       System.out.println("=============Start============");
 
       try{
-         /*初始化类加载器，父加载器空*/
          ClassLoader boot_cl = Object.class.getClassLoader();
          ClassLoader app_cl = TraceHandler.class.getClassLoader();
-         // MyClassLoader my_cl = new MyClassLoader(new URL[]{new URL("file:/Users/saixiaomin/ws/step/java/testjava/reflect.lang.java/MyProxy/")}, null);
+         /*初始化类加载器，父加载器空*/
+         MyClassLoader my_cl = new MyClassLoader(new URL[]{new URL("file:/Users/saixiaomin/ws/step/java/testjava/reflect.lang.java/MyProxy/")}, null);
          /*初始化类加载器，父加载器为系统类加载器*/
-         MyClassLoader my_cl = new MyClassLoader(new URL[]{new URL("file:/Users/saixiaomin/ws/step/java/testjava/reflect.lang.java")}, app_cl);
+         // MyClassLoader my_cl = new MyClassLoader(new URL[]{new URL("file:/Users/saixiaomin/ws/step/java/testjava/reflect.lang.java")}, app_cl);
          
          /*声明一个Class对象引用MyProxy_ClassRef*/
          Class MyProxy_ClassRef = my_cl.loadClass("MyProxy");
@@ -97,6 +97,9 @@ public class TestMyProxy
          Class ret = findLoadedClass(name);
          try{
             if (ret == null) {
+               //loadClass找不到之后会调用此方法findClass，此处会循环,栈溢出
+               //所以也有代理机制
+               // ret = super.loadClass(name);
                ret = super.findClass(name);
             }
          }catch (ClassNotFoundException e)
