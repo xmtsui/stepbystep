@@ -1,3 +1,6 @@
+/**
+ * Object o = 0 自动转型为Integer
+ */
 class IntAutoWrap {
 	public static void main(String[] args)
 	{
