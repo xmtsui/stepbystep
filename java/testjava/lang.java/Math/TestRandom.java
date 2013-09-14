@@ -7,7 +7,7 @@
 import java.util.Random;
 class TestRandom{
 	private static int DELAY = 10;
-	public static void main(String[] args)
+	public static void main(String[] args) throws InterruptedException
 	{
 		// Random r1 = new Random();
 		/*使用种子数构造，种子数只是随机算法的起源数字，和生成的随机数字的区间无关。*/
@@ -39,6 +39,7 @@ class TestRandom{
 
 		//强制类型转化
 		int toAccount = (int) (10 * Math.random());
+		System.out.println(toAccount);
 		double amount = 10.0 * Math.random();
 		Thread.sleep((int) (DELAY * Math.random()));
 	}//end of main

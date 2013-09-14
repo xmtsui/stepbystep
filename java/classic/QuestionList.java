@@ -5,6 +5,8 @@
  * @see 3:Factorial（迭代，递归）
  * @see 4:Bitmap大数据查找重复
  * @see 5:不用＋－＊／实现加法
+ * @see 6:BloomFilter
+ * @see 7:TopKBig from 1 million number
  *
  * unqueued
  * @see 5:八皇后问题

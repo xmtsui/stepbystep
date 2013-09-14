@@ -53,7 +53,10 @@ class ScalaInt{
 }
 
 def getPersonInfo(primaryKey : Int) = {
-	("tsui", "uestc", "tsui.uestc@gmail.com")
+	primaryKey match{
+		case 0 => ("tsui", "uestc", "tsui.uestc@gmail.com")
+		case 1 => ("wendy", "uestc", "wendy.uestc@gmail.com")
+	}
 }
 
 val (name, school, email) = getPersonInfo(1)
