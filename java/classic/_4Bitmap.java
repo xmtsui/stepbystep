@@ -9,6 +9,7 @@
  *int[] a = new int[100000000];
  *boolean[] a = new boolean[100000000];
  *这样类似的语句是否可以通过编译并且执行。
+ *
  *再仔细思考下，就会发现，int型的字段太过于占空间，我们只需要知道这个号码存在与否，
  *所以最简单的0和1就够用了，能表示0和1的最小存储单位是什么呢？是内存中的一位。OK，这就是bitmap的思想。
  *将西安市的电话号码去掉开头的8，就可以将其映射到一个1到10000000的数组中。
@@ -22,6 +23,9 @@
  *大家用的时候要当心。
  *另外BitSet是非线程安全的，需要外部同步。
  *下面的简单代码给出了BitSet的例子：
+ *
+ *另外一个例子http://luozhong915127.iteye.com/blog/1460411
+ *bit map查找重复数据
  */
 class _4Bitmap{
 	public static void main(String[] args)
@@ -33,5 +37,46 @@ class _4Bitmap{
 		//输出指定位的值
 		System.out.println(bitSet.get(9999));
 		System.out.println(bitSet.get(9998));
+
+		Runtime rt_jmm = Runtime.getRuntime();
+		long total_jmm = rt_jmm.totalMemory();
+		long max_jmm = rt_jmm.maxMemory();
+		int MB_JMM = 1024*1024;
+		int KB_JMM = 1024;
+		System.out.println("total : " + total_jmm/MB_JMM + " mb");
+		System.out.println("max : " + max_jmm/MB_JMM + " mb");
+
+		long free1_jmm = rt_jmm.freeMemory();
+
+		int[] nums = new int[KB_JMM];
+		for(int i=KB_JMM-1; i>=0; --i)
+		{
+			int rand = (int)(1000*Math.random());
+			nums[i] = rand;
+			// nums[i] = i;
+		}
+
+		java.util.BitSet bits = new java.util.BitSet();
+		for(int i=0; i<KB_JMM; ++i)
+		{
+			if(!bits.get(nums[i]))
+				bits.set(nums[i], true);
+			else
+				System.out.print("the same"+ i);
+		}
+
+		int flag=0;
+		for(int i=0; i<KB_JMM; ++i)
+		{
+			if(bits.get(i))
+			{
+				flag++;
+				System.out.print(i + " ");
+			}
+		}
+		System.out.println(flag);
+
+		long free2_jmm = rt_jmm.freeMemory();
+		System.out.println("used : " + (free1_jmm-free2_jmm)/MB_JMM + " mb");
 	}
 }

@@ -31,7 +31,7 @@ class TestUtil_timing{
 		long end3 = System.currentTimeMillis();
 		long time3 = end3 - start3;
 
-		System.out.println("For big data, time1: " + time1 + "| time2: "+ time2, "| time3: "+ time3);
+		System.out.println("For big data, time1: " + time1 + "\t| time2: "+ time2 + "\t| time3: "+ time3);
 
 		/*---------------------*/
 		Runtime rt_jmm = Runtime.getRuntime();

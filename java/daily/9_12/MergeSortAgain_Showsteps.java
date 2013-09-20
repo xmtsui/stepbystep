@@ -1,4 +1,4 @@
-class MergeSortAgain{
+class MergeSortAgain_Showsteps{
 	private static int index=0;
 	public static void doSort(int[] a)
 	{

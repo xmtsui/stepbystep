@@ -71,9 +71,10 @@ class _6SimpleBloomFilter
 		System.out.println(filter.bits.size());//物理
 		System.out.println(filter.bits.length());//逻辑
 		System.out.println(filter.contains(value));
-		filter.add(value);
 		for(int i=0; i<1000; i++)
 			filter.add(value+"_"+i);
+		filter.add(value);
+
 		long start1 = System.currentTimeMillis();
 		for(int i=0; i<10000; i++)
 			// System.out.println(filter.contains(value));
@@ -102,6 +103,7 @@ class _6SimpleBloomFilter
 		}
 	} 
 
+	//添加的时候要使用每一个hash函数计算一遍，设置bitset的位
 	public void add(String value)
 	{ 
 		for(SimpleHash f : func)
@@ -110,6 +112,7 @@ class _6SimpleBloomFilter
 		}
 	} 
 
+	//判断相等的时候同
 	public boolean contains(String value)
 	{ 
 		if(value ==null)
