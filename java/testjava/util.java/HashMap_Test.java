@@ -5,6 +5,31 @@ class HashMap_Test{
 		System.out.println(hash(1));
 		System.out.println(hash(8));
 		System.out.println(hash(1024));
+
+
+		Map<String,String> valueMap = new HashMap<String,String>
+		for(String valName :valueMap.keySet())  
+		{  
+			String key =valName;  
+			Object value = valueMap.get(valName);        
+		}  
+
+		Set<Map.Entry<String, String>> keyEntrySet = valueMap.entrySet();  
+		for(Map.Entry<String, String> entry:keyEntrySet)  
+		{  
+			String key = entry.getKey();  
+			Object value = entry.getValue();  
+
+		}
+
+		Map<String,String> questionsMap= new HashMap<String,String>
+		Iterator<Entry<String,String>> questions = questionsMap.entrySet().iterator();
+		while (questions.hasNext()) {
+			Entry<String, String> question = questions.next();
+			question.getValue()
+			question.getKey()
+
+		}
 	}
 
 	static int hash(int h) {
@@ -16,6 +41,7 @@ class HashMap_Test{
 	}
 
 	static int indexFor(int h, int length) {
-        return h & (length-1);
-    }
+		return h & (length-1);
+	}
 }
+
