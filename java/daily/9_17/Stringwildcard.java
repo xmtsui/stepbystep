@@ -1,3 +1,7 @@
+/**
+ * unfinished
+ * 匹配* 0
+ */
 import java.util.Scanner;
 class Stringwildcard{
 	public static void main(String[] args)

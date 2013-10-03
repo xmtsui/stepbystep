@@ -32,11 +32,19 @@ class ReverseAString{
 		if(tmp==null)
 			return;
 		int len = tmp.length;
-		for(int i=0, j=len-1; i<j; ++i, --j)
+		// for(int i=0, j=len-1; i<j; ++i, --j)
+		// {
+		// 	tmp[i] ^= tmp[j];
+		// 	tmp[j] ^= tmp[i];
+		// 	tmp[i] ^= tmp[j];
+		// }
+		for(int i=0; i<len/2; ++i)
 		{
-			tmp[i] ^= tmp[j];
-			tmp[j] ^= tmp[i];
-			tmp[i] ^= tmp[j];
+			if(i==len-i-1)
+				continue;
+			tmp[i] ^= tmp[len-i-1];
+			tmp[len-i-1] ^= tmp[i];
+			tmp[i] ^= tmp[len-i-1];
 		}
 	}
 
