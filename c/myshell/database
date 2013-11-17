@@ -1,0 +1,21 @@
+mysql> show tables
+    -> ;
++----------------------+
+| Tables_in_mt_sh_user |
++----------------------+
+| userinf              | 
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> describe userinf
+    -> ;
++--------+----------+------+-----+---------+----------------+
+| Field  | Type     | Null | Key | Default | Extra          |
++--------+----------+------+-----+---------+----------------+
+| id     | int(3)   | NO   | PRI | NULL    | auto_increment | 
+| name   | char(10) | YES  |     | NULL    |                | 
+| passwd | char(6)  | YES  |     | NULL    |                | 
+| type   | int(1)   | YES  |     | NULL    |                | 
++--------+----------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+i  

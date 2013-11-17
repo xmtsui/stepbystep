@@ -1,0 +1,35 @@
+#ifndef _MT_LS_H
+#define _MT_LS_H
+#endif
+
+#include <sys/types.h>
+#include <dirent.h>
+#include <stdio.h>
+
+void mt_ls(char *dirname,char *buf_cnv[])
+{
+	DIR *dir_ptr;
+	int i;
+        struct dirent *direntp;
+        if((dir_ptr = opendir(dirname)) == NULL)
+                fprintf(stderr,"Can not open");
+        else
+        {
+		while((direntp = readdir(dir_ptr)) != NULL)
+		{
+			if(direntp->d_name[0] == '.')
+				i++; 
+			else
+			{	
+			if(direntp->d_type == DT_DIR) 
+			printf("\033[0;34m%s\033[0m  ",direntp->d_name);
+			else if(direntp->d_type == DT_REG)
+			printf("%s  ",direntp->d_name);
+			else
+			printf("\033[0;34m%s\033[0m  ",direntp->d_name);	
+			}
+		}
+		 closedir(dir_ptr);
+        }
+	printf("\n");
+}
