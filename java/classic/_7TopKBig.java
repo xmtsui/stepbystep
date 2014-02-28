@@ -24,7 +24,7 @@ class _7TopKBig{
 		int[] a = new int[mb];//4mb
 		for(int i=0; i<mb; ++i)
 		{
-			int seed = (int) 
+			//int seed = (int); 
 			int r = (int) (1000000 * Math.random());
 			a[i] = r;
 		}
