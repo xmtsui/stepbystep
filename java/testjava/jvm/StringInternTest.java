@@ -33,6 +33,7 @@ class StringInternTest{
 		System.out.println("s_zh_3.()==s_zh_4.(): " + (s_zh_3.intern()==s_zh_4.intern()));
 		System.out.println("s_zh_4.()==s_zh_5.(): " + (s_zh_4.intern()==s_zh_5.intern()));
 
+		System.out.println("=================");
 		String ss_zh_1 = "计算机软件";
 		String ss_zh_2 = new StringBuilder("计算机软件").toString();
 		System.out.println("ss_zh_1 == ss_zh_2: " + (ss_zh_1 == ss_zh_2));

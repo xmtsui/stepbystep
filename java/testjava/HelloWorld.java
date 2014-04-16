@@ -1,5 +1,3 @@
-
-
 class HelloWorld implements HelloInterface{
 	public int x = 0;
 

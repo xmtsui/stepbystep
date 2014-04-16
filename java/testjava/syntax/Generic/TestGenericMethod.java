@@ -8,11 +8,14 @@
 class TestGenericMethod{
 	public static void main(String[] args)
 	{
-		TestGeneric test = new TestGeneric();
+		TestGenericMethod test = new TestGenericMethod();
 		test.<String,String,String>getName("--a1","++b2","==c2");
 		
 		Generic<String,String,String> g = new Generic<String,String,String>();
 		System.out.println(g.getName("--a","++b","==c"));
+
+		Rule rule = getValue("tsui");
+		rule.say();
 
 	}
 		
@@ -21,6 +24,24 @@ class TestGenericMethod{
 	{
 		System.out.println(a + " " + b + " " + c);
 		return a;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getValue(String key)
+	{
+		return (T) new Rule(key);
+	}
+
+	public static class Rule {
+		public String s;
+		public Rule(String key)
+		{
+			s = key;
+		}
+		public void say()
+		{
+			System.out.println("Hello " + s);
+		}
 	}
 
 	/*范型类*/
