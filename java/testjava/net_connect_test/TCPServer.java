@@ -1,13 +1,11 @@
-import java.io.BufferedReader;  
-import java.io.IOException;  
-import java.io.InputStreamReader;  
 import java.net.ServerSocket;  
 import java.net.Socket;
+import java.io.IOException;
 class TCPServer{
 	private Socket socket;
 	private ServerSocket server;
 
-	public TCPServer() throws java.lang.InterruptedException, IOException {
+	public TCPServer() throws InterruptedException, IOException {
 		server = new ServerSocket(8888);
 		while(true)
 		{
@@ -22,9 +20,6 @@ class TCPServer{
 			long end2 = System.currentTimeMillis();
 			long time2 = end2 - start2;
 			System.out.println( "consume: " + time2);
-			BufferedReader br = new BufferedReader(
-				new InputStreamReader(socket.getInputStream()));
-			System.out.println("Your input is : " + br.readLine()); 
 		}
 	}
 

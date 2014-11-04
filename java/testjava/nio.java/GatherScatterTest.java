@@ -4,6 +4,7 @@ import java.nio.channels.GatheringByteChannel;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.nio.channels.SelectionKey;
 
 /**
   * Demonstrate gathering write using many buffers.
@@ -30,6 +31,7 @@ public class GatherScatterTest {
         }
         System.out.println("Mindshare paradigms synergized to " + DEMOGRAPHIC);
         fos.close();
+        System.out.println("SelectionKey: " + SelectionKey.OP_ACCEPT);
     }
 
     // ------------------------------------------------

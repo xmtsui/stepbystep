@@ -8,7 +8,7 @@ class TCPClient{
 	private Socket client;  
 	private PrintWriter pw;
 
-	public TCPClient() throws UnknownHostException, IOException {  
+	public TCPClient() throws /*UnknownHostException,*/ IOException {  
 		client = new Socket("localhost",8888);  
 		System.out.println(client.getChannel());
 		pw = new PrintWriter(client.getOutputStream());  
