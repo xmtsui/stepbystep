@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Created-By: 1.7.0_25 (Oracle Corporation)
+Main-Class: com.tsui.HttpclientTest
+Class-Path: lib/commons-codec-1.9.jar
+  lib/commons-httpclient-3.0.jar
+  lib/commons-logging-1.1.1.jar
