@@ -6,7 +6,6 @@
 *.exe
 *.o
 *.so
-*.out
 
 # Packages #
 ############
@@ -16,7 +15,7 @@
 *.dmg
 *.gz
 *.iso
-#*.jar
+*.jar
 *.rar
 *.tar
 *.zip
@@ -24,24 +23,42 @@
 # Logs and databases #
 ######################
 *.log
-#*.sql
-*.sqlite
 
 # OS generated files #
 ######################
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-Icon?
+.DS_Store*
 ehthumbs.db
+Icon?
 Thumbs.db
 
-#Customerized #
-###############
-onlineclustering/WebRoot/WEB-INF/classes/
-onlineclustering/WebRoot/nutch/output/
-onlineclustering/.tomcatplugin
-contest/length
-*a.out.dSYM*
+# Editor Files #
+################
+*~
+*.swp
+
+# Gradle Files #
+################
+.gradle
+.m2
+
+# Build output directies
+target/
+build/
+
+# IntelliJ specific files/directories
+out
+.idea
+*.ipr
+*.iws
+*.iml
+atlassian-ide-plugin.xml
+
+# Eclipse specific files/directories
+.classpath
+.project
+.settings
+.metadata
+bin/
+
+# NetBeans specific files/directories
+.nbattrs
