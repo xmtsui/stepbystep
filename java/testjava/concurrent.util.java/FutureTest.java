@@ -68,7 +68,7 @@ class FutureTest{
 
 	private static void processResult(FutureTask future) {
 		try{
-			System.out.println("callable end, result: " + future.get());
+			System.out.println("callable end, result: " + future.get()); 
 		} catch (InterruptedException e) {
 			System.err.println("Callable end, InterruptedException! type: [" + e.getClass().getName() + "], message: [" + e.getMessage() + "], case: [" + e.getCause().getClass().getName() + "].");
 		} catch (ExecutionException e) {
